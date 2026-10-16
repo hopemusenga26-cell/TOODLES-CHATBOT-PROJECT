@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+
+# Secrets
+.env
+
+# Copyrighted books and everything derived from their full text.
+# Share these only through the project's approved private storage.
+data/books/*
+!data/books/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+data/index/*
+!data/index/.gitkeep
+data/chats/
+
+# Large model files
+artifacts/*.safetensors
+artifacts/*.bin
+artifacts/checkpoints/
+
+# Evaluation review sheets quote book passages; share them privately.
+evaluation/answers_for_review*.json

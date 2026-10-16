@@ -1,0 +1,12 @@
+# Tested with Python 3.13.14 on Windows 11 (CPU only).
+pymupdf==1.28.2
+numpy==2.5.4
+pyyaml==6.0.3
+torch==2.14.1
+transformers==5.20.0
+sentence-transformers==6.1.0
+huggingface-hub==1.33.0
+faiss-cpu==1.15.1
+streamlit==1.66.0
+psutil==7.2.2
+pytest==9.1.1
