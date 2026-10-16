@@ -1,0 +1,197 @@
+{
+  "group_id": "G000",
+  "subject": "Machine Learning",
+  "created_at": "2026-10-16T15:20:25+00:00",
+  "split": "test",
+  "conditions": {
+    "embedding_model": "BAAI/bge-small-en-v1.5",
+    "embedding_revision": "5c38ec7c405ec4b44b94cc5a9bb96e735b38267a",
+    "generation_backend": "hf",
+    "generation_model": "Qwen/Qwen2.5-1.5B-Instruct",
+    "generation_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "generation_settings": {
+      "dtype": "bfloat16",
+      "max_new_tokens": 200,
+      "max_passages": 3,
+      "min_support": 0.4
+    },
+    "top_k": 5,
+    "min_score": 0.67,
+    "chunking": {
+      "chunk_size_words": 220,
+      "overlap_words": 40,
+      "min_chunk_words": 20,
+      "boilerplate_page_share": 0.2
+    }
+  },
+  "document_processing": {
+    "books_in_manifest": 15,
+    "books_processed": 15,
+    "books_needing_ocr": [],
+    "books_skipped": [],
+    "total_pages": 8340,
+    "pages_with_text": 8218,
+    "failed_pages": {},
+    "ocr_available": false,
+    "metadata_complete_books": 14
+  },
+  "metrics": {
+    "questions": 33,
+    "answerable": 28,
+    "no_answer": 5,
+    "by_type": {
+      "citation_check": 2,
+      "cross_book": 4,
+      "factual": 14,
+      "no_answer": 5,
+      "numerical": 4,
+      "reasoning": 4
+    },
+    "retrieval_recall_at_k": 0.4821,
+    "retrieval_hit_rate_at_k": 0.5357,
+    "citation_traceability": 1.0,
+    "cited_pages_match_expected_auto": 0.4792,
+    "abstention_on_no_answer": 0.6,
+    "false_abstention_on_answerable": 0.1429,
+    "answer_correctness": null,
+    "answers_human_reviewed": 0,
+    "groundedness": null,
+    "latency_mean_s": 52.472,
+    "latency_p95_s": 81.473
+  },
+  "targets": {
+    "retrieval_recall_at_k": {
+      "target": 0.8,
+      "actual": 0.4821,
+      "met": false
+    },
+    "answer_correctness": {
+      "target": 0.8,
+      "actual": null,
+      "met": null
+    },
+    "citation_traceability": {
+      "target": 1.0,
+      "actual": 1.0,
+      "met": true
+    }
+  },
+  "efficiency": {
+    "latency_mean_s": 52.472,
+    "latency_p95_s": 81.473,
+    "peak_ram_mb": 3924.7,
+    "index_size_mb": 59.46
+  },
+  "question_file_warnings": [],
+  "failures": [
+    {
+      "id": "Q005",
+      "type": "factual",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q012",
+      "type": "factual",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q015",
+      "type": "factual",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q019",
+      "type": "factual",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q021",
+      "type": "reasoning",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q024",
+      "type": "reasoning",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q025",
+      "type": "numerical",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q025",
+      "type": "numerical",
+      "issue": "abstained on an answerable question"
+    },
+    {
+      "id": "Q029",
+      "type": "numerical",
+      "issue": "abstained on an answerable question"
+    },
+    {
+      "id": "Q030",
+      "type": "cross_book",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q031",
+      "type": "cross_book",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q032",
+      "type": "cross_book",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q034",
+      "type": "cross_book",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q035",
+      "type": "no_answer",
+      "issue": "answered a no-answer question"
+    },
+    {
+      "id": "Q038",
+      "type": "no_answer",
+      "issue": "answered a no-answer question"
+    },
+    {
+      "id": "Q041",
+      "type": "citation_check",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q041",
+      "type": "citation_check",
+      "issue": "abstained on an answerable question"
+    },
+    {
+      "id": "Q042",
+      "type": "citation_check",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q042",
+      "type": "citation_check",
+      "issue": "abstained on an answerable question"
+    }
+  ],
+  "error_analysis": "v2 held-out test run, 33 questions (28 answerable, 5 not in the books), Hugging Face Qwen2.5-1.5B (bfloat16). The same questions were also run with the quote-only baseline and the Ollama fast mode. Changes since v1 (chosen on the validation split, which grew from 10 to 22 questions): bge-small-en-v1.5 embeddings (256 tokens) instead of all-MiniLM-L6-v2; removal of paragraphs repeated on 20%+ of a book's pages (copyright notices, running headers, page numbers); hybrid BM25 + vector search; evidence threshold 0.67 (was 0.30, recalibrated for the new embedding model); grounding cutoff 0.4 (was 0.5); quote fallback instead of refusing when the model's wording cannot be verified.\n\n1. Retrieval: hit rate 53.6% (unchanged from v1), recall@5 48.2% (v1 46.4%); target 80%. Validation was 80% on 20 answerable questions, so these changes did not carry over to the test split. As in v1, many misses retrieve valid pages that are not listed in expected_evidence (several books cover the same topic), and cross-book questions (Q030-Q034) still retrieve mostly one book. A cross-encoder reranker and a per-book cap were tried on validation and made results worse (75% and 70%), so they are off.\n\n2. Abstention: 3 of 5 no-answer questions refused (v1: 5 of 5). Q035 (deploying on AWS SageMaker) was answered from D2L's appendix on renting AWS EC2 machines: the words match, so the grounding check passes a misleading answer. Q038 (new features in Python 3.13) received an unrelated quote from the quote fallback, which only needs one shared keyword. Wrongly refused answerable questions fell from 21.4% to 14.3% (Ollama mode 7.1%); the remaining ones are mostly calculations (Q025 R-squared, Q029 correlation), where the model reports insufficient evidence because the computed value does not appear in the passage.\n\n3. Citations: 100% resolve to stored passages; cited pages match the expected pages 47.9% of the time (v1 31.8%).\n\n4. Speed: mean 52.5 s, p95 81.5 s per answer in bfloat16 (v1 float32: 48.6 s); peak RAM 3.9 GB (v1 6.8 GB). The Ollama mode answered the same questions in 7.6 s on average (p95 11.2 s) with comparable metrics.\n\n5. Answer model choice (validation): qwen2.5:3b in Ollama was slower (11.8 s) and wrongly refused 25% of answerable questions against 0% for qwen2.5:1.5b, so the 1.5B model is kept.\n\nNot changed after seeing these test results, to keep the test split held out. Candidate fixes to check on the validation split first: require the quote fallback to share several question keywords with the quoted sentence; number-aware grounding that accepts values computed from numbers in the passage; one retrieval per book named in cross-book questions; and complete expected_evidence lists for topics covered in several books.",
+  "limitations": "Retrieval is below the 80% target on the test split, and page-exact evidence matching undercounts valid pages from other books. The lexical grounding check compares words, not meaning: it can pass an on-topic but misleading answer (Q035) and reject computed numbers. The quote fallback can quote loosely related text. The 1.5B models rarely carry out calculations. Hugging Face answers take about 50-80 s on this CPU-only laptop; the Ollama mode takes about 7 s but uses a 4-bit quantized copy of the model. Evaluation questions and reference answers are drafts and still need subject-expert review. Books 014 and 015 are commercial and their permission is not confirmed. Passages never cross page boundaries; equations and tables lose layout.",
+  "version": "v2",
+  "compared_runs": {
+    "v1_test (Hugging Face, all-MiniLM-L6-v2, float32)": "evaluation/report_v1_test.json",
+    "v2_test quote-only baseline": "evaluation/report_test_v2_extractive.json",
+    "v2_test Ollama qwen2.5:1.5b (fast demo mode)": "evaluation/report_test_v2_ollama.json",
+    "v2_test Hugging Face (this report)": "evaluation/report.json",
+    "validation runs used to choose v2 settings": [
+      "evaluation/report_val_baseline.json",
+      "evaluation/report_val_ollama15.json",
+      "evaluation/report_val_ollama3.json"
+    ]
+  }
+}

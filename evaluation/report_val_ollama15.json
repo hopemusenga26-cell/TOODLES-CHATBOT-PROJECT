@@ -1,0 +1,110 @@
+{
+  "group_id": "G000",
+  "subject": "Machine Learning",
+  "created_at": "2026-10-16T14:41:34+00:00",
+  "split": "validation",
+  "conditions": {
+    "embedding_model": "BAAI/bge-small-en-v1.5",
+    "embedding_revision": "5c38ec7c405ec4b44b94cc5a9bb96e735b38267a",
+    "generation_backend": "ollama",
+    "generation_model": "qwen2.5:1.5b",
+    "generation_revision": null,
+    "generation_settings": {
+      "dtype": "bfloat16",
+      "max_new_tokens": 200,
+      "max_passages": 3,
+      "min_support": 0.4
+    },
+    "top_k": 5,
+    "min_score": 0.67,
+    "chunking": {
+      "chunk_size_words": 220,
+      "overlap_words": 40,
+      "min_chunk_words": 20,
+      "boilerplate_page_share": 0.2
+    }
+  },
+  "document_processing": {
+    "books_in_manifest": 15,
+    "books_processed": 15,
+    "books_needing_ocr": [],
+    "books_skipped": [],
+    "total_pages": 8340,
+    "pages_with_text": 8218,
+    "failed_pages": {},
+    "ocr_available": false,
+    "metadata_complete_books": 14
+  },
+  "metrics": {
+    "questions": 22,
+    "answerable": 20,
+    "no_answer": 2,
+    "by_type": {
+      "citation_check": 1,
+      "cross_book": 1,
+      "factual": 13,
+      "no_answer": 2,
+      "numerical": 2,
+      "reasoning": 3
+    },
+    "retrieval_recall_at_k": 0.6667,
+    "retrieval_hit_rate_at_k": 0.8,
+    "citation_traceability": 1.0,
+    "cited_pages_match_expected_auto": 0.6167,
+    "abstention_on_no_answer": 1.0,
+    "false_abstention_on_answerable": 0.0,
+    "answer_correctness": null,
+    "answers_human_reviewed": 0,
+    "groundedness": null,
+    "latency_mean_s": 7.284,
+    "latency_p95_s": 9.61
+  },
+  "targets": {
+    "retrieval_recall_at_k": {
+      "target": 0.8,
+      "actual": 0.6667,
+      "met": false
+    },
+    "answer_correctness": {
+      "target": 0.8,
+      "actual": null,
+      "met": null
+    },
+    "citation_traceability": {
+      "target": 1.0,
+      "actual": 1.0,
+      "met": true
+    }
+  },
+  "efficiency": {
+    "latency_mean_s": 7.284,
+    "latency_p95_s": 9.61,
+    "peak_ram_mb": 776.8,
+    "index_size_mb": 59.46
+  },
+  "question_file_warnings": [],
+  "failures": [
+    {
+      "id": "Q007",
+      "type": "factual",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q010",
+      "type": "factual",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q033",
+      "type": "cross_book",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q051",
+      "type": "numerical",
+      "issue": "relevant page not retrieved"
+    }
+  ],
+  "error_analysis": "",
+  "limitations": ""
+}

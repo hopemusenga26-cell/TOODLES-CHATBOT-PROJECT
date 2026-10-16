@@ -1,0 +1,159 @@
+{
+  "group_id": "G000",
+  "subject": "Machine Learning",
+  "created_at": "2026-10-16T11:39:43+00:00",
+  "split": "test",
+  "conditions": {
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "embedding_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "generation_backend": "extractive",
+    "generation_model": null,
+    "generation_revision": null,
+    "generation_settings": null,
+    "top_k": 5,
+    "min_score": 0.3,
+    "chunking": {
+      "chunk_size_words": 220,
+      "overlap_words": 40,
+      "min_chunk_words": 20
+    }
+  },
+  "document_processing": {
+    "books_in_manifest": 15,
+    "books_processed": 15,
+    "books_needing_ocr": [],
+    "books_skipped": [],
+    "total_pages": 8340,
+    "pages_with_text": 8218,
+    "failed_pages": {},
+    "ocr_available": false,
+    "metadata_complete_books": 14
+  },
+  "metrics": {
+    "questions": 33,
+    "answerable": 28,
+    "no_answer": 5,
+    "by_type": {
+      "citation_check": 2,
+      "cross_book": 4,
+      "factual": 14,
+      "no_answer": 5,
+      "numerical": 4,
+      "reasoning": 4
+    },
+    "retrieval_recall_at_k": 0.4643,
+    "retrieval_hit_rate_at_k": 0.5357,
+    "citation_traceability": 1.0,
+    "cited_pages_match_expected_auto": 0.1548,
+    "abstention_on_no_answer": 0.6,
+    "false_abstention_on_answerable": 0.0,
+    "answer_correctness": null,
+    "answers_human_reviewed": 0,
+    "groundedness": null,
+    "latency_mean_s": 0.015,
+    "latency_p95_s": 0.02
+  },
+  "targets": {
+    "retrieval_recall_at_k": {
+      "target": 0.8,
+      "actual": 0.4643,
+      "met": false
+    },
+    "answer_correctness": {
+      "target": 0.8,
+      "actual": null,
+      "met": null
+    },
+    "citation_traceability": {
+      "target": 1.0,
+      "actual": 1.0,
+      "met": true
+    }
+  },
+  "efficiency": {
+    "latency_mean_s": 0.015,
+    "latency_p95_s": 0.02,
+    "peak_ram_mb": 659.4,
+    "index_size_mb": 60.57
+  },
+  "question_file_warnings": [],
+  "failures": [
+    {
+      "id": "Q005",
+      "type": "factual",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q011",
+      "type": "factual",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q012",
+      "type": "factual",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q015",
+      "type": "factual",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q019",
+      "type": "factual",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q021",
+      "type": "reasoning",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q024",
+      "type": "reasoning",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q030",
+      "type": "cross_book",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q031",
+      "type": "cross_book",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q032",
+      "type": "cross_book",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q034",
+      "type": "cross_book",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q035",
+      "type": "no_answer",
+      "issue": "answered a no-answer question"
+    },
+    {
+      "id": "Q038",
+      "type": "no_answer",
+      "issue": "answered a no-answer question"
+    },
+    {
+      "id": "Q041",
+      "type": "citation_check",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q042",
+      "type": "citation_check",
+      "issue": "relevant page not retrieved"
+    }
+  ],
+  "error_analysis": "",
+  "limitations": ""
+}
