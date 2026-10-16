@@ -1,0 +1,943 @@
+[
+  {
+    "id": "Q001",
+    "question": "What are the main steps in using the Scikit-Learn Estimator API?",
+    "reference_answer": "Choose a class of model by importing the estimator class; choose hyperparameters by instantiating the class; arrange the data into a features matrix and target vector; fit the model by calling its fit method; apply the model to new data (predict for supervised learning, transform or predict for unsupervised learning).",
+    "type": "factual",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_001",
+        "page": 225
+      },
+      {
+        "book_id": "G000_BOOK_001",
+        "page": 226
+      }
+    ],
+    "answerable": true,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q002",
+    "question": "What is a holdout set and why is it used in model validation?",
+    "reference_answer": "A holdout set is a subset of the data held back from training and then used to check the model's performance. Because the model has not seen it, it behaves like unknown data and gives a more reasonable estimate of performance. It can be created with Scikit-Learn's train_test_split.",
+    "type": "factual",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_001",
+        "page": 233
+      }
+    ],
+    "answerable": true,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q003",
+    "question": "What does the R-squared statistic measure in linear regression?",
+    "reference_answer": "R2 is the proportion of the variability in Y that can be explained using X. It is computed as (TSS - RSS)/TSS = 1 - RSS/TSS, always lies between 0 and 1, and is independent of the scale of Y. Values near 1 mean the regression explains most of the variability.",
+    "type": "factual",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_002",
+        "page": 88
+      }
+    ],
+    "answerable": true,
+    "split": "validation",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q004",
+    "question": "What is collinearity in regression?",
+    "reference_answer": "Collinearity refers to the situation in which two or more predictor variables are closely related to one another, for example credit rating and credit limit in the Credit data set.",
+    "type": "factual",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_002",
+        "page": 115
+      }
+    ],
+    "answerable": true,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q005",
+    "question": "What function does logistic regression use to model the probability of the response?",
+    "reference_answer": "The logistic function p(X) = e^(b0 + b1 X) / (1 + e^(b0 + b1 X)). It always gives values between 0 and 1, produces an S-shaped curve, and the model is fitted by maximum likelihood.",
+    "type": "factual",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_002",
+        "page": 148
+      },
+      {
+        "book_id": "G000_BOOK_002",
+        "page": 149
+      }
+    ],
+    "answerable": true,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q006",
+    "question": "What is the main disadvantage of ridge regression compared with the lasso?",
+    "reference_answer": "Ridge regression includes all p predictors in the final model: its penalty shrinks all coefficients towards zero but does not set any exactly to zero (unless lambda is infinite). The lasso can set some coefficients exactly to zero, so it performs variable selection.",
+    "type": "factual",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_002",
+        "page": 252
+      },
+      {
+        "book_id": "G000_BOOK_002",
+        "page": 253
+      }
+    ],
+    "answerable": true,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q007",
+    "question": "How does ridge regression shrink the regression coefficients?",
+    "reference_answer": "Ridge regression shrinks the coefficients by imposing a penalty on their size: the ridge coefficients minimise a penalised residual sum of squares.",
+    "type": "factual",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_003",
+        "page": 80
+      }
+    ],
+    "answerable": true,
+    "split": "validation",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q008",
+    "question": "What does the residual standard deviation sigma of a regression model tell us?",
+    "reference_answer": "Sigma summarises the scale of the residuals r_i = y_i - X_i beta-hat. For example, sigma-hat = 18 in the children's test score example means the linear model can predict scores to an accuracy of about 18 points.",
+    "type": "factual",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_004",
+        "page": 182
+      }
+    ],
+    "answerable": true,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q009",
+    "question": "What is the least squares problem?",
+    "reference_answer": "For an over-determined system Ax = b with a tall matrix A, which usually has no exact solution, we choose x to minimise the sum of squares of the residuals, ||Ax - b||^2. That quantity is the objective function of the least squares problem.",
+    "type": "factual",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_005",
+        "page": 235
+      },
+      {
+        "book_id": "G000_BOOK_005",
+        "page": 236
+      }
+    ],
+    "answerable": true,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q010",
+    "question": "What is gradient descent?",
+    "reference_answer": "Gradient descent is a first-order optimisation algorithm: to find a local minimum of a differentiable function, it repeatedly takes steps proportional to the negative of the gradient of the function at the current point.",
+    "type": "factual",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_006",
+        "page": 234
+      }
+    ],
+    "answerable": true,
+    "split": "validation",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q011",
+    "question": "What is the definition of a convex function?",
+    "reference_answer": "A function f is convex if its domain is a convex set and for all x, y in the domain and 0 <= theta <= 1, f(theta x + (1 - theta) y) <= theta f(x) + (1 - theta) f(y). Geometrically, the chord between (x, f(x)) and (y, f(y)) lies above the graph of f.",
+    "type": "factual",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_007",
+        "page": 81
+      }
+    ],
+    "answerable": true,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q012",
+    "question": "How does the perceptron algorithm update its weights?",
+    "reference_answer": "It processes one example at a time and computes the activation a = sum of w_d x_d + b. If y*a <= 0 (a mistake), it updates w_d <- w_d + y x_d for all d and b <- b + y; otherwise it leaves the parameters unchanged, so it is error driven.",
+    "type": "factual",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_008",
+        "page": 43
+      }
+    ],
+    "answerable": true,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q013",
+    "question": "What is over-fitting in polynomial curve fitting, and how does more training data affect it?",
+    "reference_answer": "With a high-order polynomial (M = 9) the fitted curve passes through every training point (training error zero) but oscillates wildly and gives a poor representation of the underlying function sin(2 pi x); this is over-fitting. Increasing the size of the data set reduces the over-fitting problem.",
+    "type": "factual",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_009",
+        "page": 26
+      },
+      {
+        "book_id": "G000_BOOK_009",
+        "page": 29
+      }
+    ],
+    "answerable": true,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q014",
+    "question": "What do statisticians and machine learning practitioners call the parameters w and b of a linear model?",
+    "reference_answer": "For f(x) = b + w^T x, statisticians call w the regression coefficients (usually written beta) and b the intercept; in machine learning, w are called the weights and b the bias.",
+    "type": "factual",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_010",
+        "page": 38
+      }
+    ],
+    "answerable": true,
+    "split": "validation",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q015",
+    "question": "What is minibatch stochastic gradient descent?",
+    "reference_answer": "Instead of computing the gradient over the whole dataset (which is slow), the parameters are initialised and then updated repeatedly using random minibatches of examples, moving in the direction of the negative gradient averaged over the minibatch. The minibatch size and learning rate are hyperparameters.",
+    "type": "factual",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_012",
+        "page": 126
+      },
+      {
+        "book_id": "G000_BOOK_012",
+        "page": 127
+      }
+    ],
+    "answerable": true,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q016",
+    "question": "What happens in the high-dimensional linear regression example when it is trained without weight decay?",
+    "reference_answer": "With lambda = 0 (weight decay disabled) the model overfits badly: the training error decreases but the validation error does not.",
+    "type": "factual",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_012",
+        "page": 162
+      }
+    ],
+    "answerable": true,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q017",
+    "question": "How is Pearson's correlation defined, and what values can it take?",
+    "reference_answer": "Pearson's correlation is rho = Cov(X, Y) / (S_X S_Y), the covariance divided by the product of the standard deviations. It is dimensionless and always lies between -1 and +1.",
+    "type": "factual",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_013",
+        "page": 119
+      }
+    ],
+    "answerable": true,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q018",
+    "question": "How do you split data into training and test sets with scikit-learn?",
+    "reference_answer": "Use train_test_split from sklearn.model_selection, e.g. features_train, features_test, target_train, target_test = train_test_split(features, target, test_size=0.1, random_state=1).",
+    "type": "factual",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_014",
+        "page": 196
+      },
+      {
+        "book_id": "G000_BOOK_001",
+        "page": 233
+      }
+    ],
+    "answerable": true,
+    "split": "validation",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q019",
+    "question": "What are the six steps in Mastering Machine Learning with Python in Six Steps?",
+    "reference_answer": "Step 1: Getting started in Python; Step 2: Introduction to machine learning; Step 3: Fundamentals of machine learning; Step 4: Model diagnosis and tuning; Step 5: Text mining and recommender systems; Step 6: Deep and reinforcement learning.",
+    "type": "factual",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_015",
+        "page": 4
+      }
+    ],
+    "answerable": true,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q020",
+    "question": "Why does increasing a model's flexibility not always reduce its test error?",
+    "reference_answer": "As flexibility increases, variance increases and bias decreases. The expected test MSE depends on both, so it first falls while bias drops quickly and then rises once variance dominates. Good test performance needs both low variance and low bias: the bias-variance trade-off.",
+    "type": "reasoning",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_002",
+        "page": 43
+      },
+      {
+        "book_id": "G000_BOOK_002",
+        "page": 44
+      }
+    ],
+    "answerable": true,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q021",
+    "question": "Why is evaluating a model on the same data it was trained on a poor way to validate it?",
+    "reference_answer": "The naive approach applies the model to the training data and compares predictions to known values, which fails because the model has already seen that data and its score is misleadingly optimistic. Holding back a holdout set that the model has not seen gives a more reasonable estimate of performance on unknown data.",
+    "type": "reasoning",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_001",
+        "page": 232
+      },
+      {
+        "book_id": "G000_BOOK_001",
+        "page": 233
+      }
+    ],
+    "answerable": true,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q022",
+    "question": "Why can the lasso perform variable selection while ridge regression cannot?",
+    "reference_answer": "The ridge penalty shrinks coefficients towards zero but never exactly to zero, so all predictors stay in the model. The lasso's absolute-value (l1) penalty constrains coefficients to a diamond-shaped region, and when lambda is large enough it forces some coefficients exactly to zero, giving a sparser model.",
+    "type": "reasoning",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_002",
+        "page": 252
+      },
+      {
+        "book_id": "G000_BOOK_002",
+        "page": 253
+      },
+      {
+        "book_id": "G000_BOOK_002",
+        "page": 254
+      }
+    ],
+    "answerable": true,
+    "split": "validation",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q023",
+    "question": "Why does collinearity make regression coefficient estimates unreliable?",
+    "reference_answer": "With collinear predictors many combinations of coefficient values give a similar RSS, so the estimates are uncertain: their standard errors grow (12-fold for limit in the Credit example), the t-statistics fall, and the power to detect a non-zero coefficient is reduced.",
+    "type": "reasoning",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_002",
+        "page": 116
+      },
+      {
+        "book_id": "G000_BOOK_002",
+        "page": 117
+      }
+    ],
+    "answerable": true,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q024",
+    "question": "Why is logistic regression preferred over linear regression for predicting a probability?",
+    "reference_answer": "Linear regression can predict probabilities below 0 or above 1. The logistic function always gives values between 0 and 1 and an S-shaped curve, so predictions are sensible for every value of X and the range of probabilities is captured better.",
+    "type": "reasoning",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_002",
+        "page": 148
+      },
+      {
+        "book_id": "G000_BOOK_002",
+        "page": 149
+      }
+    ],
+    "answerable": true,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q025",
+    "question": "If the total sum of squares is 200 and the residual sum of squares is 50, what is the R-squared value?",
+    "reference_answer": "R2 = 1 - RSS/TSS = 1 - 50/200 = 0.75.",
+    "type": "numerical",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_002",
+        "page": 88
+      }
+    ],
+    "answerable": true,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q026",
+    "question": "What is the least squares solution of 2x1 = 1, -x1 + x2 = 0, 2x2 = -1, and what is the resulting sum of squared residuals?",
+    "reference_answer": "x-hat = (1/3, -1/3); the residuals are (-1/3, -2/3, 1/3), so ||A x-hat - b||^2 = 2/3.",
+    "type": "numerical",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_005",
+        "page": 237
+      }
+    ],
+    "answerable": true,
+    "split": "validation",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q027",
+    "question": "A perceptron has weights w = (1, -1) and bias b = 0. It sees the example x = (2, 3) with label y = +1. Does it update, and what are the new weights and bias?",
+    "reference_answer": "Activation a = 1*2 + (-1)*3 + 0 = -1, so y*a = -1 <= 0 and it updates: w = (1 + 2, -1 + 3) = (3, 2) and b = 0 + 1 = 1.",
+    "type": "numerical",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_008",
+        "page": 43
+      }
+    ],
+    "answerable": true,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q028",
+    "question": "A regression model of children's test scores has a residual standard deviation of 18. Roughly how accurately can it predict a score?",
+    "reference_answer": "To within about 18 points.",
+    "type": "numerical",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_004",
+        "page": 182
+      }
+    ],
+    "answerable": true,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q029",
+    "question": "Two variables have covariance 6 and standard deviations 2 and 5. What is their Pearson correlation?",
+    "reference_answer": "rho = Cov / (S_X S_Y) = 6 / (2 * 5) = 0.6.",
+    "type": "numerical",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_013",
+        "page": 119
+      }
+    ],
+    "answerable": true,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q030",
+    "question": "How do An Introduction to Statistical Learning and The Elements of Statistical Learning describe k-fold cross-validation?",
+    "reference_answer": "ISLP: randomly divide the observations into k folds of about equal size; treat each fold in turn as the validation set, fit on the other k - 1 folds, compute the MSE, and average the k estimates. ESL: divide the training data randomly into ten equal parts, fit on nine-tenths, compute prediction error on the remaining tenth, and repeat for each tenth.",
+    "type": "cross_book",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_002",
+        "page": 214
+      },
+      {
+        "book_id": "G000_BOOK_003",
+        "page": 80
+      }
+    ],
+    "answerable": true,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q031",
+    "question": "How do ISLP and ESL each describe ridge regression?",
+    "reference_answer": "ESL: ridge regression shrinks the coefficients by imposing a penalty on their size, minimising a penalised residual sum of squares. ISLP: the penalty shrinks all coefficients towards zero but none exactly to zero, so all predictors remain, which is its main disadvantage compared with the lasso.",
+    "type": "cross_book",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_003",
+        "page": 80
+      },
+      {
+        "book_id": "G000_BOOK_002",
+        "page": 252
+      }
+    ],
+    "answerable": true,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q032",
+    "question": "How do the Python Data Science Handbook and the Machine Learning with Python Cookbook split data for evaluation?",
+    "reference_answer": "Both use scikit-learn's train_test_split. The Handbook splits the data 50/50 into a training set and a holdout set (train_size=0.5); the Cookbook creates training and test sets with test_size=0.1 and random_state=1.",
+    "type": "cross_book",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_001",
+        "page": 233
+      },
+      {
+        "book_id": "G000_BOOK_014",
+        "page": 196
+      }
+    ],
+    "answerable": true,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q033",
+    "question": "What is gradient descent according to Mathematics for Machine Learning, and how does Dive into Deep Learning make it practical for large datasets?",
+    "reference_answer": "MML: a first-order method that takes steps proportional to the negative gradient to find a local minimum. D2L: computing the full-dataset gradient is slow, so minibatch stochastic gradient descent updates the parameters using random minibatches instead.",
+    "type": "cross_book",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_006",
+        "page": 234
+      },
+      {
+        "book_id": "G000_BOOK_012",
+        "page": 126
+      }
+    ],
+    "answerable": true,
+    "split": "validation",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q034",
+    "question": "What do Bishop's Pattern Recognition and Machine Learning and Dive into Deep Learning say about overfitting and how to reduce it?",
+    "reference_answer": "Bishop: a high-order polynomial fits the training points exactly but oscillates wildly (over-fitting), and more training data reduces the problem. D2L: without weight decay the model overfits (training error falls, validation error does not); using weight decay (L2 regularisation) addresses it.",
+    "type": "cross_book",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_009",
+        "page": 26
+      },
+      {
+        "book_id": "G000_BOOK_009",
+        "page": 29
+      },
+      {
+        "book_id": "G000_BOOK_012",
+        "page": 162
+      }
+    ],
+    "answerable": true,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q035",
+    "question": "How do I deploy a trained model as an endpoint on AWS SageMaker?",
+    "reference_answer": "",
+    "type": "no_answer",
+    "expected_evidence": [],
+    "answerable": false,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q036",
+    "question": "What is the recommended adult dose of ibuprofen?",
+    "reference_answer": "",
+    "type": "no_answer",
+    "expected_evidence": [],
+    "answerable": false,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q037",
+    "question": "Who won the 2022 FIFA World Cup final?",
+    "reference_answer": "",
+    "type": "no_answer",
+    "expected_evidence": [],
+    "answerable": false,
+    "split": "validation",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q038",
+    "question": "What new features were added in Python 3.13?",
+    "reference_answer": "",
+    "type": "no_answer",
+    "expected_evidence": [],
+    "answerable": false,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q039",
+    "question": "How do I configure a Kubernetes Horizontal Pod Autoscaler?",
+    "reference_answer": "",
+    "type": "no_answer",
+    "expected_evidence": [],
+    "answerable": false,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q040",
+    "question": "What is the capital city of Uganda?",
+    "reference_answer": "",
+    "type": "no_answer",
+    "expected_evidence": [],
+    "answerable": false,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q041",
+    "question": "Which algorithm in A Course in Machine Learning is described as error driven, and what does that mean?",
+    "reference_answer": "The perceptron. Error driven means that as long as it predicts correctly it does not update its parameters; it only updates (w_d += y x_d, b += y) when it makes a mistake.",
+    "type": "citation_check",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_008",
+        "page": 43
+      }
+    ],
+    "answerable": true,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q042",
+    "question": "Which book defines the logistic function as p(X) = e^(b0 + b1 X) / (1 + e^(b0 + b1 X))?",
+    "reference_answer": "An Introduction to Statistical Learning with Applications in Python (Section 4.3, Logistic Regression).",
+    "type": "citation_check",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_002",
+        "page": 148
+      }
+    ],
+    "answerable": true,
+    "split": "test",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q043",
+    "question": "Which section of Regression and Other Stories covers residual standard deviation and explained variance?",
+    "reference_answer": "Section 11.6, 'Residual standard deviation sigma and explained variance R2' (page 168 of the printed book).",
+    "type": "citation_check",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_004",
+        "page": 182
+      }
+    ],
+    "answerable": true,
+    "split": "validation",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q044",
+    "question": "What is leave-one-out cross-validation (LOOCV)?",
+    "reference_answer": "A single observation is used as the validation set and the remaining n - 1 observations are used to fit the model; this is repeated n times, once for each observation, and the n test errors are averaged. It is a refinement of the validation set approach.",
+    "type": "factual",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_002",
+        "page": 212
+      },
+      {
+        "book_id": "G000_BOOK_002",
+        "page": 213
+      },
+      {
+        "book_id": "G000_BOOK_002",
+        "page": 214
+      }
+    ],
+    "answerable": true,
+    "split": "validation",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q045",
+    "question": "What is the bootstrap used for in statistical learning?",
+    "reference_answer": "The bootstrap is a widely applicable tool for quantifying the uncertainty of an estimator or learning method, for example estimating the standard errors of regression coefficients, by repeatedly resampling the data with replacement.",
+    "type": "factual",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_002",
+        "page": 220
+      },
+      {
+        "book_id": "G000_BOOK_002",
+        "page": 222
+      }
+    ],
+    "answerable": true,
+    "split": "validation",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q046",
+    "question": "How does Spearman's rank correlation differ from Pearson's correlation?",
+    "reference_answer": "Spearman's correlation computes Pearson's correlation on the ranks of the values. Pearson's works well for linear relationships and roughly normal variables but is not robust to outliers; Spearman's mitigates the effect of outliers and skewed distributions.",
+    "type": "factual",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_013",
+        "page": 121
+      }
+    ],
+    "answerable": true,
+    "split": "validation",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q047",
+    "question": "Why is dropout used when training neural networks?",
+    "reference_answer": "Dropout injects noise during training by dropping out nodes, which mitigates overfitting (capacity control) and breaks up co-adaptation between units; it is typically disabled at test time.",
+    "type": "factual",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_012",
+        "page": 63
+      },
+      {
+        "book_id": "G000_BOOK_012",
+        "page": 235
+      },
+      {
+        "book_id": "G000_BOOK_012",
+        "page": 236
+      }
+    ],
+    "answerable": true,
+    "split": "validation",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q048",
+    "question": "How is minimizing the sum-of-squares error related to maximum likelihood?",
+    "reference_answer": "If the targets are assumed to have Gaussian noise around the model's prediction, maximizing the likelihood with respect to the weights is equivalent to minimizing the sum-of-squares error function.",
+    "type": "reasoning",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_009",
+        "page": 49
+      }
+    ],
+    "answerable": true,
+    "split": "validation",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q049",
+    "question": "How do you standardize a feature to mean 0 and standard deviation 1 in scikit-learn?",
+    "reference_answer": "Use scikit-learn's StandardScaler: create scaler = preprocessing.StandardScaler() and call scaler.fit_transform(x).",
+    "type": "factual",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_014",
+        "page": 78
+      }
+    ],
+    "answerable": true,
+    "split": "validation",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q050",
+    "question": "What is a confusion matrix?",
+    "reference_answer": "A table describing the performance of a classification model, with counts of true negatives, false positives (Type I errors), false negatives (Type II errors) and true positives.",
+    "type": "factual",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_015",
+        "page": 182
+      }
+    ],
+    "answerable": true,
+    "split": "validation",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q051",
+    "question": "A classifier has 40 true positives, 50 true negatives, 5 false positives and 5 false negatives. What is its accuracy?",
+    "reference_answer": "Accuracy = (TP + TN) / (TP + TN + FP + FN) = (40 + 50) / 100 = 0.90.",
+    "type": "numerical",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_015",
+        "page": 183
+      }
+    ],
+    "answerable": true,
+    "split": "validation",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q052",
+    "question": "What is the softmax function, and what are its inputs called?",
+    "reference_answer": "Softmax converts a vector of unnormalized log-probabilities a into probabilities: softmax(a)_c = e^(a_c) / sum over c' of e^(a_c'), which sum to 1. Its inputs a = f(x; theta) are called logits.",
+    "type": "factual",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_010",
+        "page": 37
+      }
+    ],
+    "answerable": true,
+    "split": "validation",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q053",
+    "question": "What are an eigenvalue and an eigenvector of a square matrix?",
+    "reference_answer": "For a square matrix A, lambda is an eigenvalue and the non-zero vector x is a corresponding eigenvector if A x = lambda x (the eigenvalue equation).",
+    "type": "factual",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_006",
+        "page": 111
+      }
+    ],
+    "answerable": true,
+    "split": "validation",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q054",
+    "question": "How does a decision tree decide which feature to ask about first?",
+    "reference_answer": "It looks at how useful each feature is for guessing the label (for example from histograms of labels per feature value) and puts the most useful feature at the root; the data are then split and the process repeats on each part (divide and conquer).",
+    "type": "reasoning",
+    "expected_evidence": [
+      {
+        "book_id": "G000_BOOK_008",
+        "page": 12
+      }
+    ],
+    "answerable": true,
+    "split": "validation",
+    "review_status": "draft",
+    "reviewer": ""
+  },
+  {
+    "id": "Q055",
+    "question": "How do I set up two-factor authentication on a Gmail account?",
+    "reference_answer": "",
+    "type": "no_answer",
+    "expected_evidence": [],
+    "answerable": false,
+    "split": "validation",
+    "review_status": "draft",
+    "reviewer": ""
+  }
+]
