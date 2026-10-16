@@ -1,0 +1,20 @@
+[theme]
+base = "light"
+primaryColor = "#FFC21A"
+backgroundColor = "#F3F5F7"
+secondaryBackgroundColor = "#E4E9EE"
+textColor = "#1F2A44"
+font = "sans serif"
+
+[browser]
+gatherUsageStats = false
+
+[server]
+# The watcher scans every imported module for code changes. With Transformers loaded it trips
+# over optional extras (e.g. torchvision) and floods the console, so it is turned off.
+fileWatcherType = "none"
+headless = true
+
+[client]
+# Hide the Deploy button and developer menu; the app is used locally.
+toolbarMode = "minimal"
