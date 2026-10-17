@@ -260,6 +260,14 @@ answer and the passages it cited. Reviewers record their verdicts in `evaluation
 { "Q001": {"correct": true, "grounded": true, "citations_support": true, "reviewer": "name", "notes": ""} }
 ```
 
+To review in Excel instead of editing JSON, export a sheet, fill in the yellow columns
+(Yes/No drop-downs; a "How to review" tab explains each one), then import it:
+
+```
+python -m src.review_sheet export evaluation/answers_for_review_test_v2_ollama.json
+python -m src.review_sheet import evaluation/human_review.xlsx
+```
+
 The next run includes them as answer correctness and groundedness. Write the error analysis
 and limitations into `error_analysis` and `limitations` in `evaluation/report.json`; re-runs keep them.
 
