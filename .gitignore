@@ -24,3 +24,4 @@ artifacts/checkpoints/
 
 # Evaluation review sheets quote book passages; share them privately.
 evaluation/answers_for_review*.json
+evaluation/human_review.xlsx
