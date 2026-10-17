@@ -129,7 +129,7 @@ To run without internet once everything is downloaded, set `HF_HUB_OFFLINE=1`.
 - **Conversation:** your questions appear as bubbles on the right; answers appear as text with
   numbered citations, citation chips with the book and page, and a "Show passages" panel with the
   exact text used. The message box stays at the bottom.
-- **Mode menu** beside the message box: Toodles Instant, Toodles Fast (default) or Toodles Slow,
+- **Mode menu** beside the message box: Toodles Instant or Toodles Ultra (default),
   and how many passages to search.
 - **Thumbs up/down** under each answer is saved with the chat and can help with human review.
 
@@ -166,27 +166,28 @@ and the answer model and pinned revision.
 If the embedding model changes, rebuild the index (`python -m src.build_index`). The
 app refuses to search an index that was built with a different model.
 
-There are three answer backends, chosen with `generation.backend` or the **Answer writer** switch
-in the app, where they are named by speed:
+There are three answer backends, chosen with `generation.backend`. The app offers two of them:
 
 | In the app | Backend | Time per answer |
 |---|---|---|
 | **Toodles Instant** | `extractive` | under 1 s |
-| **Toodles Fast** | `ollama` | about 7 s |
-| **Toodles Slow** | `hf` | about 50 s |
+| **Toodles Ultra** (default, official) | `ollama` | about 5 s |
+| not in the app (reference only) | `hf` | about 60 s |
 
 - `extractive` answers by quoting the best-matching passage sentences, with no language
   model. It is fast, runs on any laptop, and is the baseline for comparison.
-- `hf` (default) has a local Hugging Face chat model write the answer from the retrieved
+- `hf` has a local Hugging Face chat model write the answer from the retrieved
   passages. `Qwen2.5-0.5B-Instruct` was tested and is too small for this task: it replied
   with bare citation numbers. `Qwen2.5-1.5B-Instruct` writes usable answers.
-- `ollama` (optional, for fast demos) sends the same prompt to the same Qwen2.5 1.5B model in a
+- `ollama` (Toodles Ultra, the default and the official evaluation backend) sends the same prompt to the same Qwen2.5 1.5B model in a
   compressed 4-bit format (`qwen2.5:1.5b`, Q4_K_M, 0.92 GB, digest `65ec0654…`) served by
   [Ollama](https://ollama.com). Measured on the target laptop: 6–10 s per answer instead of
   44–70 s, about 1.4 GB of memory. The model is preloaded when this mode is chosen and kept in
   memory for 30 minutes. To set it up, install Ollama, then run `ollama pull qwen2.5:1.5b` once.
-  The same citation and grounding checks apply. The official evaluation uses `hf`, because the
-  assignment asks for Hugging Face Transformers with a pinned revision.
+  The same citation and grounding checks apply. On the held-out test set it matched the `hf`
+  copy on retrieval and citations, refused fewer answerable questions, and was about 12 times
+  faster, so `hf` was removed from the app. It stays in the code, pinned to its exact revision,
+  as the Transformers reference run (`evaluation/report_test_v2_hf.json`).
 - If the model's wording can't be verified against the passages but relevant passages were found,
   `hf` and `ollama` fall back to quoting the books' best sentences ("The books say: …") instead of
   refusing (`fallback_to_quotes`).
@@ -264,11 +265,14 @@ To review in Excel instead of editing JSON, export a sheet, fill in the yellow c
 (Yes/No drop-downs; a "How to review" tab explains each one), then import it:
 
 ```
-python -m src.review_sheet export evaluation/answers_for_review_test_v2_ollama.json
+python -m src.review_sheet export evaluation/answers_for_review.json
 python -m src.review_sheet import evaluation/human_review.xlsx
 ```
 
-The next run includes them as answer correctness and groundedness. Write the error analysis
+The next run includes them as answer correctness and groundedness.
+`python -m src.finish` (or double-click `finish_project.bat`) then runs every final step in order:
+import the sheet, check the books, run the tests, evaluate Toodles Ultra (about 6 minutes),
+and fill the correctness row of the results table below. Write the error analysis
 and limitations into `error_analysis` and `limitations` in `evaluation/report.json`; re-runs keep them.
 
 ## Evaluation results
@@ -280,25 +284,25 @@ They are drafts written from specific book pages and still need subject-expert r
 
 Final run on the 33 held-out test questions (v2), with the v1 run for comparison:
 
-| Measure (automatic) | v1 (Hugging Face) | Quote-only | **Ollama 1.5B** | Hugging Face 1.5B (v2) | Target |
+| Measure (automatic) | v1 (Hugging Face) | Toodles Instant | **Toodles Ultra** | Transformers 1.5B (removed) | Target |
 |---|---|---|---|---|---|
 | Right page in top 5 (hit rate) | 53.6% | 53.6% | **53.6%** | 53.6% | 80% |
 | Recall@5 | 46.4% | 48.2% | **48.2%** | 48.2% | 80% |
 | Citations resolve to a stored passage | 100% | 100% | **100%** | 100% | 100% |
-| Cited pages match the expected pages | 31.8% | 18.8% | **48.1%** | 47.9% | report |
+| Cited pages match the expected pages | 31.8% | 18.8% | **48.0%** | 47.9% | report |
 | Not-in-the-books questions refused | 100% | 60% | **60%** | 60% | report |
-| Answerable questions wrongly refused | 21.4% | 0% | **7.1%** | 14.3% | report |
-| Mean / p95 answer time | 48.6 / 89.3 s | 0.03 s | **7.6 / 11.2 s** | 52.5 / 81.5 s | report |
+| Answerable questions wrongly refused | 21.4% | 0% | **10.7%** | 14.3% | report |
+| Mean / p95 answer time | 48.6 / 89.3 s | 0.03 s | **5.0 / 9.4 s** | 60.5 / 101.2 s | report |
 | Answer correctness (human review) | pending | pending | **pending** | pending | 80% |
 
-Conditions: Intel i5-1135G7, 16 GB RAM, CPU only, plugged in. v2 Hugging Face ran in bfloat16
-(peak RAM 3.9 GB; index 59.5 MB). Reports: `evaluation/report.json` (v2, with error analysis
-and limitations), `report_test_v2_ollama.json`, `report_test_v2_extractive.json`,
+Conditions: Intel i5-1135G7, 16 GB RAM, CPU only, plugged in. The Transformers copy ran in
+bfloat16 (peak RAM 3.9 GB; index 59.5 MB). Reports: `evaluation/report.json` (v2, Toodles Ultra,
+with error analysis and limitations), `report_test_v2_hf.json`, `report_test_v2_extractive.json`,
 `report_v1_test.json`, and the validation runs `report_val_*.json`.
 
 **Main findings.** Every displayed citation is traceable in all modes. The v2 changes cut wrong
-refusals (21% to 7% in Ollama mode), made citations land on the expected pages more often
-(32% to 48%), and the Ollama mode is about 7 times faster. Two regressions: 2 of 5 off-topic
+refusals (21% to 11% with Toodles Ultra), made citations land on the expected pages more often
+(32% to 48%), and Toodles Ultra is about 12 times faster than the Transformers copy. Two regressions: 2 of 5 off-topic
 questions were answered (one misleading answer about AWS, one loose quote from the fallback),
 and test-set retrieval did not improve (53.6%) even though validation reached 80%. These were
 recorded, not tuned against the test set; candidate fixes are listed in the report.
@@ -307,7 +311,7 @@ recorded, not tuned against the test set; candidate fixes are listed in the repo
 
 - Hybrid search (meaning plus exact keywords) over 15 books, 21,630 passages
 - Page-level citations that are checked against the stored passages before they are shown
-- Answers stream word by word; a fast Ollama mode gives answers in about 7 seconds
+- Answers stream word by word; Toodles Ultra gives answers in about 5 seconds
 - Quotes the books instead of refusing when the model's wording can't be verified
 - Refuses to answer when retrieval finds no relevant passage, the model reports insufficient
   evidence, or the model gives no checkable citation
@@ -325,8 +329,8 @@ recorded, not tuned against the test set; candidate fixes are listed in the repo
 - The extractive backend quotes sentences rather than explaining, so it cannot combine
   information or work through calculations.
 - On a CPU-only laptop (Intel i5-1135G7) the Hugging Face 1.5B model takes about 30 to 45 seconds
-  per answer in float32 (50 to 70 seconds in bfloat16, which needs less RAM); the Ollama mode takes
-  about 7 seconds. Running on battery roughly halves CPU speed.
+  per answer in float32 (50 to 70 seconds in bfloat16, which needs less RAM); Toodles Ultra takes
+  about 5 seconds. Running on battery roughly halves CPU speed.
 - The grounding check compares words, not meaning: a sentence that reuses the passage's words
   but changes their meaning can pass, and a correct paraphrase with different wording can be
   removed. Human review of answers is still needed.
