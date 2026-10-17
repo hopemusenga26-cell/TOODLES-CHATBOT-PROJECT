@@ -164,7 +164,14 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--backend", choices=["hf", "ollama", "extractive"], help="override generation.backend")
     parser.add_argument("--name", help="save as evaluation/report_<name>.json instead of the main report")
     parser.add_argument("--ollama-model", help="override generation.ollama_model, e.g. qwen2.5:3b")
+    parser.add_argument("--summary", nargs="+", metavar="REPORT", help="print key results of saved reports and stop")
     args = parser.parse_args(argv)
+    if args.summary:
+        for path in args.summary:
+            m = read_json(resolve(path), default={}).get("metrics", {})
+            print(f"  {path}: hit rate {m.get('retrieval_hit_rate_at_k')}, correctness {m.get('answer_correctness')}, "
+                  f"groundedness {m.get('groundedness')}, answers reviewed {m.get('answers_human_reviewed')}")
+        return 0
 
     cfg = load_config()
     if args.backend:
