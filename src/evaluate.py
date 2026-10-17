@@ -249,6 +249,9 @@ def main(argv: list[str] | None = None) -> int:
     previous = read_json(report_path, default={})
     report["error_analysis"] = previous.get("error_analysis", "")
     report["limitations"] = previous.get("limitations", "")
+    # Notes the group added by hand (e.g. version, compared runs) are kept too.
+    for key, value in previous.items():
+        report.setdefault(key, value)
     write_json(report, report_path)
     write_json(records, sheet_path)
 
