@@ -27,11 +27,14 @@ from src.config import load_config, read_json, resolve  # noqa: E402
 from src.logo import mark_svg  # noqa: E402
 from src.theme import build_css  # noqa: E402
 
-# Answer modes, fastest first: (label, what it does and typical time per answer on this laptop)
+# Answer modes: (label, what it does and typical time per answer on this laptop). The full
+# Transformers model ("hf") is left out of the menu: in testing it was as accurate as Ultra but
+# about 12 times slower. It is still used for the reference evaluation.
 MODES = {
-    "extractive": ("Toodles Instant", "Quotes the books directly, no model. Under 1 second."),
-    "ollama": ("Toodles Fast", "Writes answers with a compressed model. About 7 seconds."),
-    "hf": ("Toodles Slow", "Writes answers with the full model. About 50 seconds."),
+    "extractive": ("Toodles Instant", "Shows the matching book passages word for word. Instant, but you "
+                                      "read and piece together the answer yourself."),
+    "ollama": ("Toodles Ultra", "Writes a short answer in its own words, with page citations. About 5 "
+                                "seconds. Recommended."),
 }
 SUGGESTIONS = [
     "What is linear regression?",
@@ -99,7 +102,7 @@ def show_answer(turn: dict, index: int) -> None:
                 st.markdown(render_source(n, p), unsafe_allow_html=True)
     row = st.container(horizontal=True, vertical_alignment="center", gap="small")
     with row:
-        label = MODES.get(turn.get("mode"), ("",))[0]
+        label = MODES.get(turn.get("mode"), ("Toodles",))[0]
         state = "nomatch" if response["insufficient_evidence"] else "answered"
         st.markdown(f'{mark_svg(22, state)} <span class="turn-meta">{label}, {turn.get("seconds", 0):.1f} s</span>',
                     unsafe_allow_html=True)

@@ -65,7 +65,7 @@ generation:
   # "extractive" quotes the best passage sentences (no language model; fast fallback and baseline).
   # Qwen2.5-0.5B-Instruct (revision 7ae557604adf67be50417f59c2c2f167def9a775) was tested and is
   # too small: it returns bare citation numbers.
-  backend: hf
+  backend: ollama              # Toodles Ultra; v2 evaluation showed hf is as accurate but ~12x slower
   model_name: Qwen/Qwen2.5-1.5B-Instruct                   # Apache-2.0, about 3 GB
   revision: 989aa7980e4cf806f80c7fef2b1adb7bc71aa306
   max_new_tokens: 200
@@ -83,6 +83,6 @@ generation:
 app:
   name: TOODLES          # chatbot name: page heading and browser tab
   theme: dark              # starting look: dark or light (switch in the sidebar)
-  # Answer writer selected when the chat page opens: "ollama" (Toodles Fast), "hf" (Toodles Slow)
-  # or "extractive" (Toodles Instant). Evaluations still use generation.backend unless told otherwise.
+  # Answer writer selected when the chat page opens: "ollama" (Toodles Ultra) or "extractive"
+  # (Toodles Instant). "hf" is no longer offered in the app. Evaluations still use generation.backend unless told otherwise.
   default_answer_writer: ollama
