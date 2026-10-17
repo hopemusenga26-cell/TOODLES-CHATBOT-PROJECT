@@ -91,10 +91,9 @@ section[data-testid="stSidebar"] .stButton button p { overflow: hidden; text-ove
 
 /* Empty chat */
 .greet { text-align: center; margin: 13vh 0 1.7rem; }
-.greet h1 { font: 600 2.6rem/1.1 'Space Grotesk', sans-serif; letter-spacing: -.02em; color: var(--text); margin: 0;
-            display: inline-flex; align-items: center; gap: 1rem; }
+.greet-mark { display: flex; justify-content: center; margin-bottom: 1rem; }
+.greet h1 { font: 600 2.6rem/1.1 'Space Grotesk', sans-serif; letter-spacing: -.02em; color: var(--text); margin: 0; }
 .greet p { color: var(--muted); margin: .8rem 0 0; }
-.greet h1 .tm-tile { margin-right: 1rem; }
 
 /* Conversation */
 .chat-title { text-align: center; color: var(--muted); font: 500 .85rem 'Space Grotesk', sans-serif; margin: -.75rem 0 1rem; }

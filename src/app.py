@@ -275,7 +275,7 @@ def main() -> None:
 
     if not chat["turns"]:
         count = f"{meta['books']} data science and machine learning books"
-        st.markdown(f'<div class="greet"><h1>{mark_svg(60)}{greeting()}</h1>'
+        st.markdown(f'<div class="greet"><div class="greet-mark">{mark_svg(66)}</div><h1>{greeting()}</h1>'
                     f'<p>{html.escape(name)} AI answers from {count}, with the page to prove it.</p></div>',
                     unsafe_allow_html=True)
         question = composer(name)
