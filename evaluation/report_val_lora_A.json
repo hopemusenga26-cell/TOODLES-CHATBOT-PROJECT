@@ -1,0 +1,171 @@
+{
+  "group_id": "G000",
+  "subject": "Machine Learning",
+  "created_at": "2026-10-18T09:54:40+00:00",
+  "split": "validation",
+  "conditions": {
+    "embedding_model": "BAAI/bge-small-en-v1.5",
+    "embedding_revision": "5c38ec7c405ec4b44b94cc5a9bb96e735b38267a",
+    "generation_backend": "hf",
+    "generation_model": "Qwen/Qwen2.5-0.5B-Instruct",
+    "generation_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "generation_adapter": "artifacts/lora/lora_A",
+    "generation_settings": {
+      "dtype": "float32",
+      "max_new_tokens": 200,
+      "max_passages": 3,
+      "min_support": 0.4
+    },
+    "top_k": 5,
+    "min_score": 0.67,
+    "chunking": {
+      "chunk_size_words": 220,
+      "overlap_words": 40,
+      "min_chunk_words": 20,
+      "boilerplate_page_share": 0.2
+    }
+  },
+  "document_processing": {
+    "books_in_manifest": 15,
+    "books_processed": 15,
+    "books_needing_ocr": [],
+    "books_skipped": [],
+    "total_pages": 8340,
+    "pages_with_text": 8218,
+    "failed_pages": {},
+    "ocr_available": false,
+    "metadata_complete_books": 15,
+    "permission_confirmed_books": 13,
+    "coordinator_approved_books": 0
+  },
+  "metrics": {
+    "questions": 22,
+    "answerable": 20,
+    "no_answer": 2,
+    "by_type": {
+      "citation_check": 1,
+      "cross_book": 1,
+      "factual": 13,
+      "no_answer": 2,
+      "numerical": 2,
+      "reasoning": 3
+    },
+    "retrieval_recall_at_k": 0.6667,
+    "retrieval_hit_rate_at_k": 0.8,
+    "retrieval_hit_rate_at_k_pm1_page": 0.85,
+    "citation_traceability": 1.0,
+    "cited_pages_match_expected_auto": 0.4706,
+    "abstention_on_no_answer": 1.0,
+    "false_abstention_on_answerable": 0.15,
+    "quote_fallback_rate": 0.0,
+    "answer_f1_auto": 0.3397,
+    "answer_similarity_auto": 0.8337,
+    "answers_scored_auto": 17,
+    "answer_correctness": null,
+    "answers_human_reviewed": 0,
+    "groundedness": null,
+    "latency_mean_s": 10.224,
+    "latency_p95_s": 14.717,
+    "by_type_results": {
+      "citation_check": {
+        "questions": 1,
+        "hit_rate_at_k": 1.0,
+        "answered": 1.0,
+        "answer_f1_auto": 0.5185
+      },
+      "cross_book": {
+        "questions": 1,
+        "hit_rate_at_k": 0.0,
+        "answered": 0.0,
+        "answer_f1_auto": null
+      },
+      "factual": {
+        "questions": 13,
+        "hit_rate_at_k": 0.8462,
+        "answered": 0.9231,
+        "answer_f1_auto": 0.3655
+      },
+      "no_answer": {
+        "questions": 2,
+        "hit_rate_at_k": null,
+        "answered": 0.0,
+        "answer_f1_auto": null
+      },
+      "numerical": {
+        "questions": 2,
+        "hit_rate_at_k": 0.5,
+        "answered": 0.5,
+        "answer_f1_auto": 0.069
+      },
+      "reasoning": {
+        "questions": 3,
+        "hit_rate_at_k": 1.0,
+        "answered": 1.0,
+        "answer_f1_auto": 0.2671
+      }
+    }
+  },
+  "targets": {
+    "retrieval_recall_at_k": {
+      "target": 0.8,
+      "actual": 0.6667,
+      "met": false
+    },
+    "answer_correctness": {
+      "target": 0.8,
+      "actual": null,
+      "met": null
+    },
+    "citation_traceability": {
+      "target": 1.0,
+      "actual": 1.0,
+      "met": true
+    }
+  },
+  "efficiency": {
+    "latency_mean_s": 10.224,
+    "latency_p95_s": 14.717,
+    "peak_ram_mb": 2863.8,
+    "index_size_mb": 59.46
+  },
+  "question_file_warnings": [],
+  "failures": [
+    {
+      "id": "Q007",
+      "type": "factual",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q010",
+      "type": "factual",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q014",
+      "type": "factual",
+      "issue": "abstained on an answerable question"
+    },
+    {
+      "id": "Q026",
+      "type": "numerical",
+      "issue": "abstained on an answerable question"
+    },
+    {
+      "id": "Q033",
+      "type": "cross_book",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q033",
+      "type": "cross_book",
+      "issue": "abstained on an answerable question"
+    },
+    {
+      "id": "Q051",
+      "type": "numerical",
+      "issue": "relevant page not retrieved"
+    }
+  ],
+  "error_analysis": "",
+  "limitations": ""
+}

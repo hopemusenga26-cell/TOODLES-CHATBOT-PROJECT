@@ -1,7 +1,7 @@
 {
   "group_id": "G000",
   "subject": "Machine Learning",
-  "created_at": "2026-10-16T14:33:31+00:00",
+  "created_at": "2026-10-18T05:27:07+00:00",
   "split": "validation",
   "conditions": {
     "embedding_model": "BAAI/bge-small-en-v1.5",
@@ -9,6 +9,7 @@
     "generation_backend": "extractive",
     "generation_model": null,
     "generation_revision": null,
+    "generation_adapter": null,
     "generation_settings": null,
     "top_k": 5,
     "min_score": 0.67,
@@ -28,7 +29,9 @@
     "pages_with_text": 8218,
     "failed_pages": {},
     "ocr_available": false,
-    "metadata_complete_books": 14
+    "metadata_complete_books": 15,
+    "permission_confirmed_books": 13,
+    "coordinator_approved_books": 0
   },
   "metrics": {
     "questions": 22,
@@ -44,15 +47,58 @@
     },
     "retrieval_recall_at_k": 0.6667,
     "retrieval_hit_rate_at_k": 0.8,
+    "retrieval_hit_rate_at_k_pm1_page": 0.85,
     "citation_traceability": 1.0,
-    "cited_pages_match_expected_auto": 0.3583,
+    "cited_pages_match_expected_auto": 0.325,
     "abstention_on_no_answer": 1.0,
     "false_abstention_on_answerable": 0.0,
+    "quote_fallback_rate": 0.0,
+    "answer_f1_auto": 0.2134,
+    "answer_similarity_auto": 0.7924,
+    "answers_scored_auto": 20,
     "answer_correctness": null,
     "answers_human_reviewed": 0,
     "groundedness": null,
-    "latency_mean_s": 0.027,
-    "latency_p95_s": 0.03
+    "latency_mean_s": 0.039,
+    "latency_p95_s": 0.044,
+    "by_type_results": {
+      "citation_check": {
+        "questions": 1,
+        "hit_rate_at_k": 1.0,
+        "answered": 1.0,
+        "answer_f1_auto": 0.2353
+      },
+      "cross_book": {
+        "questions": 1,
+        "hit_rate_at_k": 0.0,
+        "answered": 1.0,
+        "answer_f1_auto": 0.1636
+      },
+      "factual": {
+        "questions": 13,
+        "hit_rate_at_k": 0.8462,
+        "answered": 1.0,
+        "answer_f1_auto": 0.228
+      },
+      "no_answer": {
+        "questions": 2,
+        "hit_rate_at_k": null,
+        "answered": 0.0,
+        "answer_f1_auto": null
+      },
+      "numerical": {
+        "questions": 2,
+        "hit_rate_at_k": 0.5,
+        "answered": 1.0,
+        "answer_f1_auto": 0.1333
+      },
+      "reasoning": {
+        "questions": 3,
+        "hit_rate_at_k": 1.0,
+        "answered": 1.0,
+        "answer_f1_auto": 0.2127
+      }
+    }
   },
   "targets": {
     "retrieval_recall_at_k": {
@@ -72,9 +118,9 @@
     }
   },
   "efficiency": {
-    "latency_mean_s": 0.027,
-    "latency_p95_s": 0.03,
-    "peak_ram_mb": 698.7,
+    "latency_mean_s": 0.039,
+    "latency_p95_s": 0.044,
+    "peak_ram_mb": 782.6,
     "index_size_mb": 59.46
   },
   "question_file_warnings": [],
@@ -85,13 +131,13 @@
       "issue": "relevant page not retrieved"
     },
     {
-      "id": "Q018",
+      "id": "Q010",
       "type": "factual",
       "issue": "relevant page not retrieved"
     },
     {
-      "id": "Q050",
-      "type": "factual",
+      "id": "Q033",
+      "type": "cross_book",
       "issue": "relevant page not retrieved"
     },
     {

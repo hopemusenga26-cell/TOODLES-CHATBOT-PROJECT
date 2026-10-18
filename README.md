@@ -12,6 +12,24 @@ The chatbot answers questions using only the group's books. It finds the most
 relevant passages, writes an answer from them, and cites the exact book and page
 for every claim. If the books don't contain the answer, it says so.
 
+## Tasks and deliverables
+
+| Task or deliverable | Where it is | Status |
+|---|---|---|
+| 1. Select at least 15 books; record title, author, edition and licensing | [`data/book_manifest.json`](data/book_manifest.json), [`docs/book_record.md`](docs/book_record.md) (and `.csv`) | 15 books recorded; coordinator approval **pending**; permission for 014 and 015 **not confirmed** |
+| 2. Knowledge base: text extraction (OCR when needed), passages with book, page and source details | `src/ingest.py`, `src/chunk.py`, `data/processed/ingest_report.json` | Done: 8,340 pages, 0 failed, 21,630 passages |
+| 3. Transformer fundamentals | [`docs/transformer_fundamentals.md`](docs/transformer_fundamentals.md), `src/fundamentals.py` | Done, with experiments on our own models |
+| 4. Pretrained models (embedding and generative) | [`docs/models.md`](docs/models.md) | Selected; coordinator approval **pending** |
+| 5. Common framework (Python, Transformers, Sentence Transformers, FAISS, PyTorch, PEFT) | [`requirements.txt`](requirements.txt) | Done (all pinned) |
+| 6. Build and test: retrieval, correct answers, correct citations, declining | `src/`, `tests/` (60 automated tests), [`docs/evaluation_report.md`](docs/evaluation_report.md) | Done; human review of answer correctness **pending** |
+| 7. Optional: fine-tuning, LoRA and adapter merging | [`docs/lora_experiment.md`](docs/lora_experiment.md), `src/lora_data.py`, `src/lora.py`, `artifacts/lora/` | Done: two adapters trained, checked and merged; merging lost accuracy, so nothing is adopted |
+| D1. Models and their roles | [`docs/models.md`](docs/models.md) | |
+| D2. Embedding and retrieval pipeline | `src/embeddings.py`, `src/build_index.py`, `src/keyword_search.py`, `src/retrieve.py` | |
+| D3. Chatbot answering from retrieved passages with citations | `src/generate.py`, `src/citations.py`, `src/app.py`, `start_chatbot.bat` | |
+| D4. Models and versions, configuration, prompts, retrieval settings, dependencies, limitations | [`docs/technical_documentation.md`](docs/technical_documentation.md), [`config/config.yaml`](config/config.yaml) | |
+| D5. Book record | [`docs/book_record.md`](docs/book_record.md) | |
+| D6. Test dataset and evaluation report | [`data/evaluation_questions.json`](data/evaluation_questions.json), [`evaluation/report.json`](evaluation/report.json), [`docs/evaluation_report.md`](docs/evaluation_report.md) | |
+
 ## Books
 
 | # | Title | Author(s) | Year | Permission |
@@ -32,7 +50,10 @@ for every claim. If the books don't contain the answer, it says so.
 | 014 | Machine Learning with Python Cookbook | Chris Albon | 2018 | ⚠️ not confirmed |
 | 015 | Mastering Machine Learning with Python in Six Steps | Manohar Swamynathan | 2017 | ⚠️ not confirmed |
 
-Full bibliographic details, licences and processing status are in `data/book_manifest.json`.
+Full bibliographic details (edition, publisher, ISBN), licences, page and passage counts,
+processing status and coordinator approval are in the book record,
+[`docs/book_record.md`](docs/book_record.md), generated from `data/book_manifest.json` with
+`python -m src.manifest record`.
 Books 014 and 015 are commercial titles: the group must confirm a purchase or library licence
 before submission, or replace them with free books.
 
@@ -62,6 +83,9 @@ question ───────────────────────�
 | 7. Citations and abstention | `src/citations.py`, `src/generate.py` | |
 | 8. Evaluation | `src/evaluate.py` | `evaluation/report.json` |
 | Interface | `src/app.py` | Streamlit chat page |
+| Transformer fundamentals (task 3) | `src/fundamentals.py` | `docs/fundamentals_results.json` |
+| LoRA training data (optional) | `src/lora_data.py` | `data/processed/lora_train.jsonl` |
+| LoRA train, check, merge (optional) | `src/lora.py` | `artifacts/lora/` |
 
 ## Setup
 
@@ -113,6 +137,16 @@ To run without internet once everything is downloaded, set `HF_HUB_OFFLINE=1`.
    pytest
    python -m src.evaluate --split validation
    python -m src.evaluate --split test       # only for the final evaluation
+   ```
+5. **Optional extras:**
+   ```bash
+   python -m src.manifest record             # book record: docs/book_record.md and .csv
+   python -m src.fundamentals                # Transformer fundamentals experiments (about 1 minute)
+   python -m src.lora_data                   # LoRA training split (about 75 minutes with Ollama)
+   python -m src.lora train --group A --name lora_A
+   python -m src.lora check artifacts/lora/lora_A artifacts/lora/lora_B
+   python -m src.lora merge artifacts/lora/lora_A artifacts/lora/lora_B --name merged_AB
+   python -m src.evaluate --split validation --backend hf --lora-base --dtype float32 --adapter artifacts/lora/lora_A --name val_lora_A
    ```
 
 ## The chat page
@@ -171,7 +205,7 @@ There are three answer backends, chosen with `generation.backend`. The app offer
 | In the app | Backend | Time per answer |
 |---|---|---|
 | **Toodles Instant** | `extractive` | under 1 s |
-| **Toodles Ultra** (default, official) | `ollama` | about 5 s |
+| **Toodles Ultra** (default, official) | `ollama` | about 6 s |
 | not in the app (reference only) | `hf` | about 60 s |
 
 - `extractive` answers by quoting the best-matching passage sentences, with no language
@@ -184,9 +218,17 @@ There are three answer backends, chosen with `generation.backend`. The app offer
   [Ollama](https://ollama.com). Measured on the target laptop: 6–10 s per answer instead of
   44–70 s, about 1.4 GB of memory. The model is preloaded when this mode is chosen and kept in
   memory for 30 minutes. To set it up, install Ollama, then run `ollama pull qwen2.5:1.5b` once.
+  On a laptop with a small NVIDIA GPU, `ollama_num_ctx: 2048` and `ollama_num_gpu: 99` put the
+  whole model on the GPU (GeForce MX450, 2 GB: about 1.1 GB used; check with `ollama ps`). On the
+  22 validation questions this cut the mean answer time from 7.3 s to about 6.4 s, with the same
+  retrieval and refusal results (`evaluation/report_val_ollama15_gpu.json`). GPU arithmetic makes
+  a few answers come out worded differently from run to run, so the share of cited pages that
+  match the expected pages varied between 57.5% and 65% across two runs. Remove `ollama_num_gpu`
+  on a laptop without an NVIDIA GPU.
   The same citation and grounding checks apply. On the held-out test set it matched the `hf`
   copy on retrieval and citations, refused fewer answerable questions, and was about 12 times
-  faster, so `hf` was removed from the app. It stays in the code, pinned to its exact revision,
+  faster on the CPU (5.0 s vs 60.5 s per answer; about 9 times on the GPU, 6.5 s), so `hf` was
+  removed from the app. It stays in the code, pinned to its exact revision,
   as the Transformers reference run (`evaluation/report_test_v2_hf.json`).
 - If the model's wording can't be verified against the passages but relevant passages were found,
   `hf` and `ollama` fall back to quoting the books' best sentences ("The books say: …") instead of
@@ -282,46 +324,71 @@ and limitations into `error_analysis` and `limitations` in `evaluation/report.js
 citation-check questions.
 They are drafts written from specific book pages and still need subject-expert review.
 
-Final run on the 33 held-out test questions (v2), with the v1 run for comparison:
+Final run on the 33 held-out test questions (v2.1: the v2 system with Toodles Ultra on the GPU,
+re-run on 2026-10-18 with the added automatic measures), with earlier runs for comparison. The
+full analysis is in [`docs/evaluation_report.md`](docs/evaluation_report.md).
 
 | Measure (automatic) | v1 (Hugging Face) | Toodles Instant | **Toodles Ultra** | Transformers 1.5B (removed) | Target |
 |---|---|---|---|---|---|
 | Right page in top 5 (hit rate) | 53.6% | 53.6% | **53.6%** | 53.6% | 80% |
+| Right page ±1 page in top 5 | – | 60.7% | **60.7%** | – | report |
 | Recall@5 | 46.4% | 48.2% | **48.2%** | 48.2% | 80% |
 | Citations resolve to a stored passage | 100% | 100% | **100%** | 100% | 100% |
-| Cited pages match the expected pages | 31.8% | 18.8% | **48.0%** | 47.9% | report |
+| Cited pages match the expected pages | 31.8% | 18.8% | **48.1%** | 47.9% | report |
 | Not-in-the-books questions refused | 100% | 60% | **60%** | 60% | report |
-| Answerable questions wrongly refused | 21.4% | 0% | **10.7%** | 14.3% | report |
-| Mean / p95 answer time | 48.6 / 89.3 s | 0.03 s | **5.0 / 9.4 s** | 60.5 / 101.2 s | report |
+| Answerable questions wrongly refused | 21.4% | 0% | **7.1%** | 14.3% | report |
+| Answer word-overlap F1 with reference (auto) | – | 0.181 | **0.296** | – | report |
+| Answer meaning similarity with reference (auto) | – | 0.758 | **0.822** | – | report |
+| Mean / p95 answer time | 48.6 / 89.3 s | 0.03 s | **6.5 / 9.9 s** | 60.5 / 101.2 s | report |
 | Answer correctness (human review) | pending | pending | **pending** | pending | 80% |
 
-Conditions: Intel i5-1135G7, 16 GB RAM, CPU only, plugged in. The Transformers copy ran in
-bfloat16 (peak RAM 3.9 GB; index 59.5 MB). Reports: `evaluation/report.json` (v2, Toodles Ultra,
-with error analysis and limitations), `report_test_v2_hf.json`, `report_test_v2_extractive.json`,
-`report_v1_test.json`, and the validation runs `report_val_*.json`.
+Conditions: Intel i5-1135G7, 16 GB RAM, plugged in; Toodles Ultra on the GeForce MX450 GPU, the
+other modes on the CPU. The Transformers copy ran in bfloat16 (peak RAM 3.9 GB; index 59.5 MB).
+Reports: `evaluation/report.json` (v2.1, Toodles Ultra, with error analysis and limitations),
+`report_test_v2_hf.json`, `report_test_v2_extractive.json`, `report_v1_test.json`, and the
+validation runs `report_val_*.json`. The automatic answer scores estimate how close answers
+are to the reference answers; they do not replace the human review.
 
-**Main findings.** Every displayed citation is traceable in all modes. The v2 changes cut wrong
-refusals (21% to 11% with Toodles Ultra), made citations land on the expected pages more often
-(32% to 48%), and Toodles Ultra is about 12 times faster than the Transformers copy. Two regressions: 2 of 5 off-topic
-questions were answered (one misleading answer about AWS, one loose quote from the fallback),
-and test-set retrieval did not improve (53.6%) even though validation reached 80%. These were
-recorded, not tuned against the test set; candidate fixes are listed in the report.
+**Main findings.**
+
+- Every displayed citation is traceable in all modes.
+- Compared with v1, wrong refusals fell from 21% to 7%, and citations land on the expected
+  pages more often (32% to 48%).
+- Toodles Ultra is about 9 times faster than the Transformers copy.
+- The one change from the CPU run of v2 is Q042, now answered by the quote fallback (with a
+  formula from another book) instead of refused.
+- 2 of 5 off-topic questions are answered: one misleading answer about AWS, one loose quote
+  from the fallback.
+- Test-set retrieval is 53.6%, even though validation reached 80%. Questions that name a book
+  pull in its title and preface pages, and cross-book questions miss one book's page.
+- These problems were recorded, not tuned against the test set. Candidate fixes are in the
+  evaluation report.
 
 ## Features
 
 - Hybrid search (meaning plus exact keywords) over 15 books, 21,630 passages
 - Page-level citations that are checked against the stored passages before they are shown
-- Answers stream word by word; Toodles Ultra gives answers in about 5 seconds
+- Answers stream word by word; Toodles Ultra gives answers in about 6 seconds
 - Quotes the books instead of refusing when the model's wording can't be verified
 - Refuses to answer when retrieval finds no relevant passage, the model reports insufficient
   evidence, or the model gives no checkable citation
 - Detects scanned books and runs OCR when Tesseract is installed
 - Ingestion report of empty, OCR'd and failed pages per book
 - Runs fully offline on a CPU-only laptop once the models are downloaded
+- Book record generated from the manifest (editions, licences, page and passage counts, approval status)
+- Evaluation by question type, with automatic answer scores against the reference answers
+- Optional LoRA tooling: training data built from the books with leakage checks, CPU training,
+  adapter compatibility checks and exact adapter merging
 
 ## Known limitations
 
 - A passage never spans two pages, so an explanation split across a page break is retrieved as two passages.
+- 51% of passages are longer than the 256-token limit used when embedding them, so their last
+  sentences count only for keyword search, not for meaning-based search
+  (`docs/transformer_fundamentals.md`).
+- Title, contents and preface pages are indexed, so questions that name a book can retrieve them
+  instead of the pages that answer the question.
+- Answers on the GPU can be worded slightly differently from run to run.
 - Repeated headers and notices are only removed when they appear on at least 20% of a book's pages;
   headers that change every chapter can still appear inside passages.
 - Equations, tables and figures are extracted as plain text and may lose their layout.
@@ -330,7 +397,7 @@ recorded, not tuned against the test set; candidate fixes are listed in the repo
   information or work through calculations.
 - On a CPU-only laptop (Intel i5-1135G7) the Hugging Face 1.5B model takes about 30 to 45 seconds
   per answer in float32 (50 to 70 seconds in bfloat16, which needs less RAM); Toodles Ultra takes
-  about 5 seconds. Running on battery roughly halves CPU speed.
+  about 6 seconds. Running on battery roughly halves CPU speed.
 - The grounding check compares words, not meaning: a sentence that reuses the passage's words
   but changes their meaning can pass, and a correct paraphrase with different wording can be
   removed. Human review of answers is still needed.
