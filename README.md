@@ -21,7 +21,7 @@ for every claim. If the books don't contain the answer, it says so.
 | 3. Transformer fundamentals | [`docs/transformer_fundamentals.md`](docs/transformer_fundamentals.md), `src/fundamentals.py` | Done, with experiments on our own models |
 | 4. Pretrained models (embedding and generative) | [`docs/models.md`](docs/models.md) | Selected; coordinator approval **pending** |
 | 5. Common framework (Python, Transformers, Sentence Transformers, FAISS, PyTorch, PEFT) | [`requirements.txt`](requirements.txt) | Done (all pinned) |
-| 6. Build and test: retrieval, correct answers, correct citations, declining | `src/`, `tests/` (60 automated tests), [`docs/evaluation_report.md`](docs/evaluation_report.md) | Done; human review of answer correctness **pending** |
+| 6. Build and test: retrieval, correct answers, correct citations, declining | `src/`, `tests/` (65 automated tests), [`docs/evaluation_report.md`](docs/evaluation_report.md) | Done; human review of answer correctness **pending** |
 | 7. Optional: fine-tuning, LoRA and adapter merging | [`docs/lora_experiment.md`](docs/lora_experiment.md), `src/lora_data.py`, `src/lora.py`, `artifacts/lora/` | Done: two adapters trained, checked and merged; merging lost accuracy, so nothing is adopted |
 | D1. Models and their roles | [`docs/models.md`](docs/models.md) | |
 | D2. Embedding and retrieval pipeline | `src/embeddings.py`, `src/build_index.py`, `src/keyword_search.py`, `src/retrieve.py` | |

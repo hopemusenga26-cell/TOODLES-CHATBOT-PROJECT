@@ -13,10 +13,23 @@ DEFAULT_CONFIG = ROOT / "config" / "config.yaml"
 
 
 def load_config(path: str | Path | None = None) -> dict[str, Any]:
-    """Load config/config.yaml, or the file named by the CHATBOT_CONFIG environment variable."""
-    path = path or os.environ.get("CHATBOT_CONFIG") or DEFAULT_CONFIG
+    """Load config/config.yaml, or the file named by the CHATBOT_CONFIG environment variable.
+
+    A file with `extends: <other file>` starts from that file (relative to its own folder)
+    and overrides only the settings it lists, so a second chatbot needs only its differences.
+    """
+    path = resolve(path or os.environ.get("CHATBOT_CONFIG") or DEFAULT_CONFIG)
     with open(path, encoding="utf-8") as f:
-        return yaml.safe_load(f)
+        cfg = yaml.safe_load(f) or {}
+    base = cfg.pop("extends", None)
+    return _merge(load_config(path.parent / base), cfg) if base else cfg
+
+
+def _merge(base: dict, override: dict) -> dict:
+    out = dict(base)
+    for key, value in override.items():
+        out[key] = _merge(out[key], value) if isinstance(value, dict) and isinstance(out.get(key), dict) else value
+    return out
 
 
 def resolve(rel_path: str | Path) -> Path:

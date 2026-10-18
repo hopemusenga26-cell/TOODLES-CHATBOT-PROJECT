@@ -35,7 +35,8 @@ the retriever refuses to use an index built with a different model.
 ## 2. Configuration
 
 All settings live in `config/config.yaml`. To try other settings without editing it, point the
-`CHATBOT_CONFIG` environment variable at another YAML file.
+`CHATBOT_CONFIG` environment variable at another YAML file. A file that starts with
+`extends: config.yaml` keeps every setting from that file and overrides only the ones it lists.
 
 ### Group and paths
 
