@@ -17,9 +17,10 @@ data/index/*
 !data/index/.gitkeep
 data/chats/
 
-# Large model files
-artifacts/*.safetensors
-artifacts/*.bin
+# Large model files. LoRA adapters are trained on book passages: share their weights
+# privately; their adapter_config.json and training_record.json are committed.
+artifacts/**/*.safetensors
+artifacts/**/*.bin
 artifacts/checkpoints/
 
 # Evaluation review sheets quote book passages; share them privately.

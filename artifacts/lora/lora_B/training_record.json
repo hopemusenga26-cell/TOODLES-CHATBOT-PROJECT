@@ -1,0 +1,315 @@
+{
+  "name": "lora_B",
+  "created_at": "2026-10-18T09:44:15+00:00",
+  "purpose": "Teach the small base model the chatbot's answer format: short answers from the numbered passages with [n] citations, or INSUFFICIENT_EVIDENCE when the passages do not cover the question.",
+  "base_model": {
+    "name": "Qwen/Qwen2.5-0.5B-Instruct",
+    "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "architecture": "Qwen2ForCausalLM",
+    "layers": 24,
+    "hidden_size": 896,
+    "attention_heads": 14,
+    "key_value_heads": 2,
+    "vocab_size": 151936,
+    "parameters": 494032768,
+    "tokenizer_sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+    "licence": "Apache-2.0"
+  },
+  "prompt_version": "v2",
+  "lora": {
+    "r": 8,
+    "alpha": 16,
+    "dropout": 0.05,
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ]
+  },
+  "trainable_parameters": 4399104,
+  "training": {
+    "group": "B",
+    "data_file": "data/processed/lora_train.jsonl",
+    "data_sha256": "da5a5b53b8b8978b4a405621a5e9d0122e80ea5f9a24e77ca18613a4e90c4014",
+    "examples_used": 114,
+    "held_out_examples": 10,
+    "skipped_too_long": 1,
+    "by_kind": {
+      "answer": 85,
+      "insufficient": 29
+    },
+    "epochs": 2,
+    "gradient_accumulation": 4,
+    "optimizer_updates": 58,
+    "learning_rate": 0.0002,
+    "schedule": "linear warm-up over 3 updates, then cosine decay",
+    "max_length": 1536,
+    "loss": "cross-entropy on answer tokens only",
+    "precision": "float32",
+    "seed": 42,
+    "device": "cpu",
+    "minutes": 136.7,
+    "peak_ram_mb": 3049.4
+  },
+  "history": {
+    "dev_loss": [
+      {
+        "epoch": 0,
+        "loss": 0.6172
+      },
+      {
+        "epoch": 1,
+        "loss": 0.4186
+      },
+      {
+        "epoch": 2,
+        "loss": 0.4123
+      }
+    ],
+    "train_loss": [
+      {
+        "update": 1,
+        "loss": 0.3425
+      },
+      {
+        "update": 2,
+        "loss": 0.1927
+      },
+      {
+        "update": 3,
+        "loss": 0.4867
+      },
+      {
+        "update": 4,
+        "loss": 0.5643
+      },
+      {
+        "update": 5,
+        "loss": 0.2669
+      },
+      {
+        "update": 6,
+        "loss": 0.4432
+      },
+      {
+        "update": 7,
+        "loss": 0.3934
+      },
+      {
+        "update": 8,
+        "loss": 0.3675
+      },
+      {
+        "update": 9,
+        "loss": 0.2879
+      },
+      {
+        "update": 10,
+        "loss": 0.5808
+      },
+      {
+        "update": 11,
+        "loss": 0.5482
+      },
+      {
+        "update": 12,
+        "loss": 0.5069
+      },
+      {
+        "update": 13,
+        "loss": 0.5604
+      },
+      {
+        "update": 14,
+        "loss": 0.5244
+      },
+      {
+        "update": 15,
+        "loss": 0.518
+      },
+      {
+        "update": 16,
+        "loss": 0.6608
+      },
+      {
+        "update": 17,
+        "loss": 0.2287
+      },
+      {
+        "update": 18,
+        "loss": 0.2202
+      },
+      {
+        "update": 19,
+        "loss": 0.2187
+      },
+      {
+        "update": 20,
+        "loss": 0.2714
+      },
+      {
+        "update": 21,
+        "loss": 0.5604
+      },
+      {
+        "update": 22,
+        "loss": 0.3423
+      },
+      {
+        "update": 23,
+        "loss": 0.386
+      },
+      {
+        "update": 24,
+        "loss": 0.2605
+      },
+      {
+        "update": 25,
+        "loss": 0.3113
+      },
+      {
+        "update": 26,
+        "loss": 0.365
+      },
+      {
+        "update": 27,
+        "loss": 0.3887
+      },
+      {
+        "update": 28,
+        "loss": 0.4999
+      },
+      {
+        "update": 29,
+        "loss": 1.0423
+      },
+      {
+        "update": 30,
+        "loss": 0.2398
+      },
+      {
+        "update": 31,
+        "loss": 0.2493
+      },
+      {
+        "update": 32,
+        "loss": 0.168
+      },
+      {
+        "update": 33,
+        "loss": 0.2897
+      },
+      {
+        "update": 34,
+        "loss": 0.3043
+      },
+      {
+        "update": 35,
+        "loss": 0.1534
+      },
+      {
+        "update": 36,
+        "loss": 0.3147
+      },
+      {
+        "update": 37,
+        "loss": 0.2316
+      },
+      {
+        "update": 38,
+        "loss": 0.2489
+      },
+      {
+        "update": 39,
+        "loss": 0.247
+      },
+      {
+        "update": 40,
+        "loss": 0.3212
+      },
+      {
+        "update": 41,
+        "loss": 0.3363
+      },
+      {
+        "update": 42,
+        "loss": 0.1169
+      },
+      {
+        "update": 43,
+        "loss": 0.1061
+      },
+      {
+        "update": 44,
+        "loss": 0.2791
+      },
+      {
+        "update": 45,
+        "loss": 0.1496
+      },
+      {
+        "update": 46,
+        "loss": 0.1699
+      },
+      {
+        "update": 47,
+        "loss": 0.0276
+      },
+      {
+        "update": 48,
+        "loss": 0.2174
+      },
+      {
+        "update": 49,
+        "loss": 0.191
+      },
+      {
+        "update": 50,
+        "loss": 0.0434
+      },
+      {
+        "update": 51,
+        "loss": 0.2177
+      },
+      {
+        "update": 52,
+        "loss": 0.1861
+      },
+      {
+        "update": 53,
+        "loss": 0.2876
+      },
+      {
+        "update": 54,
+        "loss": 0.3687
+      },
+      {
+        "update": 55,
+        "loss": 0.1881
+      },
+      {
+        "update": 56,
+        "loss": 0.2669
+      },
+      {
+        "update": 57,
+        "loss": 0.3991
+      },
+      {
+        "update": 58,
+        "loss": 0.5781
+      }
+    ]
+  },
+  "software": {
+    "python": "3.13.14",
+    "torch": "2.14.1+cpu",
+    "transformers": "5.20.0",
+    "peft": "0.21.2"
+  },
+  "licence_and_sharing": "Base model Apache-2.0. The adapter was trained on passages from the group's books; share it only through the project's private storage, like the index."
+}

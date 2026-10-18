@@ -131,18 +131,27 @@ class HFGenerator:
     """A local chat model loaded with Hugging Face Transformers at a pinned revision."""
 
     def __init__(self, model_name: str, revision: str | None = None, max_new_tokens: int = 300,
-                 device: str = "cpu", dtype: str = "float32"):
+                 device: str = "cpu", dtype: str = "float32", adapter: str | None = None):
         import torch
         from transformers import AutoModelForCausalLM, AutoTokenizer
 
         if revision and revision.startswith("REPLACE"):
             raise ValueError("Set generation.revision in config/config.yaml to a pinned commit hash.")
         self.torch = torch
-        self.model_name, self.revision = model_name, revision
+        self.model_name, self.revision, self.adapter = model_name, revision, adapter
         self.max_new_tokens, self.device = max_new_tokens, device
+        if adapter:
+            from src.lora import check_adapter_base
+
+            check_adapter_base(adapter, model_name, revision)
         self.tokenizer = AutoTokenizer.from_pretrained(model_name, revision=revision)
         # bfloat16 halves memory use; float32 is faster on CPUs without native bfloat16 support.
         self.model = AutoModelForCausalLM.from_pretrained(model_name, revision=revision, dtype=getattr(torch, dtype))
+        if adapter:
+            # A LoRA adapter from src.lora, folded into the weights so answers are as fast as the base model.
+            from peft import PeftModel
+
+            self.model = PeftModel.from_pretrained(self.model, adapter).merge_and_unload()
         self.model.to(device).eval()
 
     def __call__(self, system: str, user: str, on_text=None) -> str:
@@ -177,13 +186,19 @@ class OllamaGenerator:
     """A chat model served by a local Ollama install (https://ollama.com)."""
 
     def __init__(self, model: str, url: str = "http://localhost:11434", max_new_tokens: int = 300,
-                 timeout: float = 300, keep_alive: str = "30m"):
+                 timeout: float = 300, keep_alive: str = "30m", num_ctx: int | None = None,
+                 num_gpu: int | None = None):
         self.model_name, self.url = model, url.rstrip("/")
         self.max_new_tokens, self.timeout, self.keep_alive = max_new_tokens, timeout, keep_alive
+        # A smaller context window needs less memory, so the whole model fits on a small GPU;
+        # num_gpu is how many layers go to the GPU. Warm-up and answers must use the same
+        # values, or Ollama reloads the model.
+        self.load_options = {k: v for k, v in (("num_ctx", num_ctx), ("num_gpu", num_gpu)) if v is not None}
 
     def warm_up(self) -> None:
         """Load the model into Ollama's memory now, so the first real answer is not slow."""
-        self._post("/api/generate", {"model": self.model_name, "keep_alive": self.keep_alive})
+        self._post("/api/generate", {"model": self.model_name, "keep_alive": self.keep_alive,
+                                     "options": self.load_options})
 
     def __call__(self, system: str, user: str, on_text=None) -> str:
         """Return the model's reply; if `on_text` is given, call it with the text so far as it is written."""
@@ -192,7 +207,7 @@ class OllamaGenerator:
             "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
             "stream": on_text is not None,
             "keep_alive": self.keep_alive,
-            "options": {"temperature": 0, "num_predict": self.max_new_tokens},
+            "options": {"temperature": 0, "num_predict": self.max_new_tokens, **self.load_options},
         }
         if on_text is None:
             return self._post("/api/chat", payload)["message"]["content"].strip()
@@ -241,10 +256,11 @@ class Answerer:
         g = self.gen_cfg
         if self._generator is None and self.backend == "hf":
             self._generator = HFGenerator(g["model_name"], g.get("revision"), g.get("max_new_tokens", 300),
-                                          g.get("device", "cpu"), g.get("dtype", "float32"))
+                                          g.get("device", "cpu"), g.get("dtype", "float32"), g.get("adapter"))
         elif self._generator is None and self.backend == "ollama":
             self._generator = OllamaGenerator(g["ollama_model"], g.get("ollama_url", "http://localhost:11434"),
-                                              g.get("max_new_tokens", 300), keep_alive=g.get("ollama_keep_alive", "30m"))
+                                              g.get("max_new_tokens", 300), keep_alive=g.get("ollama_keep_alive", "30m"),
+                                              num_ctx=g.get("ollama_num_ctx"), num_gpu=g.get("ollama_num_gpu"))
         return self._generator
 
     def run(self, question: str, top_k: int | None = None, on_draft=None) -> tuple[dict, list[dict]]:

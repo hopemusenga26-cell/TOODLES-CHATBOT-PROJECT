@@ -1,0 +1,41 @@
+{
+  "output": "data/processed/lora_train.jsonl",
+  "sha256": "da5a5b53b8b8978b4a405621a5e9d0122e80ea5f9a24e77ca18613a4e90c4014",
+  "seed": 42,
+  "teacher_model": "qwen2.5:1.5b",
+  "rules": {
+    "eval_page_margin": 2,
+    "eval_leak_cosine": 0.85,
+    "duplicate_cosine": 0.92,
+    "negative_share": 0.25,
+    "negative_max_cosine": 0.64,
+    "min_kept_share": 0.8,
+    "group_A_books": [
+      "BOOK_001",
+      "BOOK_002",
+      "BOOK_003",
+      "BOOK_004",
+      "BOOK_005",
+      "BOOK_006",
+      "BOOK_007"
+    ]
+  },
+  "filtering": {
+    "sampled": 520,
+    "bad_question": 111,
+    "eval_leak": 4,
+    "duplicate": 0,
+    "source_not_retrieved": 100,
+    "teacher_refused": 5,
+    "not_grounded": 39,
+    "fragmented": 21
+  },
+  "examples": 240,
+  "by_group_and_kind": {
+    "A/answer": 86,
+    "A/insufficient": 29,
+    "B/answer": 94,
+    "B/insufficient": 31
+  },
+  "minutes": 37.3
+}

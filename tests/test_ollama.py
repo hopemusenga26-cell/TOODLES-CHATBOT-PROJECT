@@ -55,7 +55,17 @@ def test_ollama_generator_sends_chat_request(fake_ollama):
 def test_ollama_warm_up_loads_the_model(fake_ollama):
     url, requests = fake_ollama
     OllamaGenerator("qwen2.5:1.5b", url, keep_alive="10m").warm_up()
-    assert requests == [("/api/generate", {"model": "qwen2.5:1.5b", "keep_alive": "10m"})]
+    assert requests == [("/api/generate", {"model": "qwen2.5:1.5b", "keep_alive": "10m", "options": {}})]
+
+
+def test_ollama_loads_and_answers_with_the_same_gpu_settings(fake_ollama):
+    url, requests = fake_ollama
+    generator = OllamaGenerator("qwen2.5:1.5b", url, max_new_tokens=50, num_ctx=2048, num_gpu=99)
+    generator.warm_up()
+    generator("system", "user")
+    load, answer = requests[0][1]["options"], requests[1][1]["options"]
+    assert load == {"num_ctx": 2048, "num_gpu": 99}
+    assert answer == {"temperature": 0, "num_predict": 50, "num_ctx": 2048, "num_gpu": 99}
 
 
 def test_ollama_backend_answers_with_checked_citations(fake_ollama, retriever, cfg):

@@ -79,6 +79,26 @@ generation:
   ollama_model: qwen2.5:1.5b    # Q4_K_M, 0.92 GB, digest 65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b
   ollama_url: http://localhost:11434
   ollama_keep_alive: 30m       # keep the model loaded between questions (Ollama's default is 5m)
+  ollama_num_ctx: 2048         # prompts use at most ~1,500 tokens; 2048 instead of 4096 lets the model fit the 2 GB GPU
+  ollama_num_gpu: 99           # all layers on the GPU (GeForce MX450, 2 GB: uses ~1.1 GB); remove to let Ollama decide
+  adapter: null                # optional LoRA adapter folder for the hf backend (see the lora section)
+
+lora:
+  # Optional fine-tuning experiment (task 7): src/lora_data.py builds the training split,
+  # src/lora.py trains, checks and merges adapters. See docs/lora_experiment.md.
+  base_model: Qwen/Qwen2.5-0.5B-Instruct                   # Apache-2.0; small enough to train on a CPU laptop
+  base_revision: 7ae557604adf67be50417f59c2c2f167def9a775
+  r: 8
+  alpha: 16
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+  learning_rate: 2.0e-4
+  epochs: 2
+  grad_accum: 4                # optimizer update every 4 examples
+  max_length: 1536             # tokens; longer examples are skipped
+  dev_share: 0.08              # share of the training data held out to track overfitting
+  seed: 42
+  output_dir: artifacts/lora
 
 app:
   name: TOODLES          # chatbot name: page heading and browser tab
