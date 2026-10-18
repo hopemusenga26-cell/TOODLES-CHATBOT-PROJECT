@@ -2,7 +2,9 @@
 
 Layout: a sidebar with new chat, recent chats and book details; an empty chat opens on a
 greeting with the message box and suggested questions in the middle; once a conversation
-starts, messages fill a centred column and the message box is pinned to the bottom.
+starts, messages fill a centred column and the message box is pinned to the bottom. Beside the
+message box, a book menu picks where answers come from (all books, or one of them) and the mode
+menu picks how they are written.
 
 Usage:
     streamlit run src/app.py
@@ -81,6 +83,14 @@ def render_source(n: int, p: dict) -> str:
     )
 
 
+def book_label(book_id: str | None) -> str:
+    """Name of a book in the book menu and beside answers; None means all the books."""
+    books = st.session_state.books
+    if book_id is None:
+        return f"All {len(books)} books"
+    return books.get(book_id, book_id).split(":")[0]
+
+
 def show_user(question: str) -> None:
     st.markdown(f'<div class="user-row"><div class="user-bubble">{html.escape(question)}</div></div>',
                 unsafe_allow_html=True)
@@ -91,7 +101,11 @@ def show_answer(turn: dict, index: int) -> None:
         st.error(turn["error"])
         return
     response, cited = turn["response"], turn.get("cited", [])
-    if response["insufficient_evidence"]:
+    if response["insufficient_evidence"] and turn.get("book"):
+        st.markdown(f'<div class="notice"><b>Not in {html.escape(book_label(turn["book"]))}.</b> This book '
+                    "doesn't contain enough evidence to answer this. Pick another book, or all books, from the "
+                    "book menu next to the message box.</div>", unsafe_allow_html=True)
+    elif response["insufficient_evidence"]:
         st.markdown('<div class="notice"><b>Not in the books.</b> The books don\'t contain enough evidence '
                     "to answer this. Try rephrasing, or ask about a topic they cover.</div>", unsafe_allow_html=True)
     else:
@@ -103,9 +117,10 @@ def show_answer(turn: dict, index: int) -> None:
     row = st.container(horizontal=True, vertical_alignment="center", gap="small")
     with row:
         label = MODES.get(turn.get("mode"), ("Toodles",))[0]
+        source = f"searched {html.escape(book_label(turn['book']))}, " if turn.get("book") else ""
         state = "nomatch" if response["insufficient_evidence"] else "answered"
-        st.markdown(f'{mark_svg(22, state)} <span class="turn-meta">{label}, {turn.get("seconds", 0):.1f} s</span>',
-                    unsafe_allow_html=True)
+        st.markdown(f'{mark_svg(22, state)} <span class="turn-meta">{label}, {source}{turn.get("seconds", 0):.1f} s'
+                    '</span>', unsafe_allow_html=True)
         key = f"fb_{st.session_state.chat['id']}_{index}"
         st.session_state.setdefault(key, turn.get("feedback"))
         st.feedback("thumbs", key=key, on_change=save_feedback, args=(index, key))
@@ -145,7 +160,7 @@ def submit(question: str) -> None:
     if not chat["turns"]:
         chat["title"] = title_from(question)
     chat["turns"].append({"question": question, "mode": st.session_state.mode, "top_k": st.session_state.top_k,
-                          "pending": True})
+                          "book": st.session_state.book, "pending": True})
 
 
 def pick_suggestion() -> None:
@@ -202,7 +217,8 @@ def answer_pending(turn: dict) -> None:
     thinking("TOODLES is thinking…")
     start = time.perf_counter()
     try:
-        response, cited = answerer.run(turn["question"], turn["top_k"], on_draft=show_draft)
+        books = [turn["book"]] if turn.get("book") else None
+        response, cited = answerer.run(turn["question"], turn["top_k"], on_draft=show_draft, books=books)
     except RuntimeError as e:  # e.g. Ollama not installed or not running
         turn["error"] = f"{e} Or pick another mode from the menu next to the message box."
         return
@@ -216,14 +232,18 @@ def answer_pending(turn: dict) -> None:
 # ---------- page ----------
 
 def composer(name: str):
-    """Message box with the answer-mode menu beside it; returns the submitted text, if any."""
+    """Message box with the book and answer-mode menus beside it; returns the submitted text, if any."""
+    state = st.session_state
     row = st.container(horizontal=True, vertical_alignment="bottom", gap="small")
     with row:
         question = st.chat_input(f"Ask {name}…", key="composer")
-        with st.popover(MODES[st.session_state.mode][0]):
-            # Values are passed in and stored explicitly: keyed widgets lose their value when the
-            # message box moves from the middle of the page to the bottom.
-            state = st.session_state
+        # Values are passed in and stored explicitly: keyed widgets lose their value when the
+        # message box moves from the middle of the page to the bottom.
+        options = [None, *state.books]
+        state.book = st.selectbox("Answer from", options, index=options.index(state.book), format_func=book_label,
+                                  label_visibility="collapsed", width=200,
+                                  help="Where answers come from: all the books, or only the one you pick.")
+        with st.popover(MODES[state.mode][0]):
             state.mode = st.radio("Answer mode", list(MODES), index=list(MODES).index(state.mode),
                                   format_func=lambda m: MODES[m][0], captions=[c for _, c in MODES.values()])
             state.top_k = st.slider("Passages to search", 1, 10, value=state.top_k)
@@ -247,6 +267,9 @@ def main() -> None:
     default_mode = cfg.get("app", {}).get("default_answer_writer", cfg["generation"]["backend"])
     state.setdefault("mode", default_mode if default_mode in MODES else "extractive")
     state.setdefault("top_k", cfg["retrieval"]["top_k"])
+    state.setdefault("books", {b["book_id"]: b.get("title") or b["book_id"]
+                               for b in read_json(resolve(cfg["paths"]["manifest"]), default=[])})
+    state.setdefault("book", None)
     state.setdefault("dark", cfg.get("app", {}).get("theme", "dark") == "dark")
     st.markdown(build_css("dark" if state.dark else "light"), unsafe_allow_html=True)
     chat = state.chat

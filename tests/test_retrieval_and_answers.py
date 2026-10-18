@@ -133,3 +133,10 @@ def test_evaluation_metrics(answerer):
     assert metrics["citation_traceability"] == 1.0
     assert metrics["abstention_on_no_answer"] == 1.0
     assert len(records) == 2
+
+
+def test_answers_can_be_limited_to_one_book(answerer):
+    response, cited = answerer.run("What is a cache hit?", books=["G000_BOOK_001"])
+    assert not response["insufficient_evidence"] and all(p["book_id"] == "G000_BOOK_001" for p in cited)
+    response, cited = answerer.run("What is a cache hit?", books=["G000_BOOK_999"])
+    assert response["insufficient_evidence"] and cited == []

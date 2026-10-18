@@ -263,13 +263,15 @@ class Answerer:
                                               num_ctx=g.get("ollama_num_ctx"), num_gpu=g.get("ollama_num_gpu"))
         return self._generator
 
-    def run(self, question: str, top_k: int | None = None, on_draft=None) -> tuple[dict, list[dict]]:
+    def run(self, question: str, top_k: int | None = None, on_draft=None,
+            books: list[str] | None = None) -> tuple[dict, list[dict]]:
         """Return (common response, cited passages in citation order).
 
         `on_draft`, if given, receives the model's unchecked text as it is written, so an interface can
-        show progress; the returned response is the checked answer that replaces it.
+        show progress; the returned response is the checked answer that replaces it. `books`, if given,
+        limits the search to those book IDs.
         """
-        hits = self.retriever.search(question, top_k or self.top_k)
+        hits = self.retriever.search(question, top_k or self.top_k, books=books)
         evidence = [h for h in hits if h["score"] >= self.min_score]
         if not evidence:
             return insufficient_response(), []

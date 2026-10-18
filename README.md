@@ -21,7 +21,7 @@ for every claim. If the books don't contain the answer, it says so.
 | 3. Transformer fundamentals | [`docs/transformer_fundamentals.md`](docs/transformer_fundamentals.md), `src/fundamentals.py` | Done, with experiments on our own models |
 | 4. Pretrained models (embedding and generative) | [`docs/models.md`](docs/models.md) | Selected; coordinator approval **pending** |
 | 5. Common framework (Python, Transformers, Sentence Transformers, FAISS, PyTorch, PEFT) | [`requirements.txt`](requirements.txt) | Done (all pinned) |
-| 6. Build and test: retrieval, correct answers, correct citations, declining | `src/`, `tests/` (65 automated tests), [`docs/evaluation_report.md`](docs/evaluation_report.md) | Done; human review of answer correctness **pending** |
+| 6. Build and test: retrieval, correct answers, correct citations, declining | `src/`, `tests/` (67 automated tests), [`docs/evaluation_report.md`](docs/evaluation_report.md) | Done; human review of answer correctness **pending** |
 | 7. Optional: fine-tuning, LoRA and adapter merging | [`docs/lora_experiment.md`](docs/lora_experiment.md), `src/lora_data.py`, `src/lora.py`, `artifacts/lora/` | Done: two adapters trained, checked and merged; merging lost accuracy, so nothing is adopted |
 | D1. Models and their roles | [`docs/models.md`](docs/models.md) | |
 | D2. Embedding and retrieval pipeline | `src/embeddings.py`, `src/build_index.py`, `src/keyword_search.py`, `src/retrieve.py` | |
@@ -164,6 +164,10 @@ To run without internet once everything is downloaded, set `HF_HUB_OFFLINE=1`.
 - **Conversation:** your questions appear as bubbles on the right; answers appear as text with
   numbered citations, citation chips with the book and page, and a "Show passages" panel with the
   exact text used. The message box stays at the bottom.
+- **Book menu** beside the message box: where answers come from, either all 15 books (default)
+  or just one of them. With one book picked, only that book is searched and the line under each
+  answer names it; if that book doesn't cover the question, TOODLES says so and suggests picking
+  another book. You can type in the menu to find a book by name.
 - **Mode menu** beside the message box: Toodles Instant or Toodles Ultra (default),
   and how many passages to search.
 - **Thumbs up/down** under each answer is saved with the chat and can help with human review.

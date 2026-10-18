@@ -77,6 +77,21 @@ section[data-testid="stSidebar"] { background: var(--glass); backdrop-filter: bl
 [data-testid="stChatInput"] textarea::placeholder { color: var(--muted); }
 [data-testid="stChatInput"]:focus-within { border-color: var(--accent); }
 [data-testid="stChatInputSubmitButton"] { background: var(--accent) !important; border-radius: 12px; }
+
+/* Book menu beside the message box: a clay control whose open list is glass, like the mode menu */
+[data-testid="stSelectbox"] [role="group"] { background: var(--clay); border: 1px solid var(--line);
+    border-radius: 14px; box-shadow: var(--clay-shadow); cursor: pointer; transition: background .15s ease; }
+[data-testid="stSelectbox"] [role="group"]:hover { background: var(--clay-hover); border-color: var(--accent); }
+[data-testid="stSelectbox"] [role="group"]:focus-within { border-color: var(--accent); }
+[data-testid="stSelectbox"] [role="group"] input { color: var(--text); font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500; cursor: pointer; }
+[data-testid="stSelectbox"] [role="group"] svg { color: var(--text); }
+[data-testid="stSelectboxVirtualDropdown"] { min-width: min(22rem, 90vw); background: var(--glass-strong); backdrop-filter: blur(18px);
+    border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--clay-shadow); }
+[data-testid="stSelectboxVirtualDropdown"] [role="option"] { color: var(--text); font-family: 'IBM Plex Sans', sans-serif;
+    border-radius: 10px; }
+[data-testid="stSelectboxVirtualDropdown"] [role="option"][data-focused="true"] { background: var(--clay-hover); }
+[data-testid="stSelectboxVirtualDropdown"] [role="option"][aria-selected="true"] { color: var(--accent-text); font-weight: 600; }
 [data-testid="stChatInputSubmitButton"] svg { fill: var(--accent-ink); color: var(--accent-ink); }
 
 /* Sidebar content */
@@ -126,7 +141,8 @@ section[data-testid="stSidebar"] .stButton button p { overflow: hidden; text-ove
 .source .meta .sub { color: var(--muted); }
 .passage { font-size: .85rem; color: var(--muted); line-height: 1.6; margin: .25rem 0 .9rem; white-space: pre-line; }
 @media (max-width: 640px) { .greet { margin-top: 7vh; } .greet h1 { font-size: 2rem; } .user-bubble { max-width: 92%; } }
-@media (prefers-reduced-motion: reduce) { .stApp .stButton button { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .stApp .stButton button,
+    [data-testid="stSelectbox"] [role="group"] { transition: none; } }
 """
 
 

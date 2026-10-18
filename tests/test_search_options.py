@@ -96,3 +96,11 @@ def test_question_naming_two_books_gets_pages_from_both():
     assert {r["book_id"] for r in results} == {"B1", "B2"}
     assert [r["book_id"] for r in results[:2]] == ["B1", "B2"]  # the books' best pages are interleaved
 
+
+
+def test_chosen_book_is_the_only_one_searched():
+    retriever = _retriever(PASSAGES, hybrid=True, distinct_pages=True)
+    results = retriever.search("ridge regression", 5, books=["B2"])
+    assert results and {r["book_id"] for r in results} == {"B2"}
+    assert retriever.search("ridge regression", 5, books=["B3"])[0]["book_id"] == "B3"  # even a poor match
+    assert len({r["book_id"] for r in retriever.search("ridge regression", 5)}) > 1  # no choice: all books

@@ -13,6 +13,8 @@ When a question names one or more books (by title or a short name from the manif
 and `book_routing` is on, each named book is searched on its own with the book names removed from
 the question, and the books' best pages are interleaved. Questions that name a book otherwise
 match its title and contents pages, and cross-book questions return pages from only one book.
+`search(..., books=[...])` searches only the given books the same way, whatever the question says
+(the chat page's book menu uses it).
 Each result's `score` stays the vector (cosine) similarity, which the answer step uses to decide
 whether the books contain any relevant evidence at all.
 """
@@ -96,10 +98,9 @@ class Retriever:
         self.reranker = reranker
         self.distinct_pages = distinct_pages
         self.book_names = book_names or {}
-        if self.book_names:
-            book_of = np.array([p["book_id"] for p in passages])
-            self.book_rows = {b: np.where(book_of == b)[0] for b in self.book_names}
-            self.vectors = index.reconstruct_n(0, index.ntotal)
+        book_of = np.array([p["book_id"] for p in passages])
+        self.book_rows = {b: np.where(book_of == b)[0] for b in dict.fromkeys(book_of.tolist())}
+        self._vectors = None
 
     @classmethod
     def from_dir(cls, index_dir: str | Path, embedder, **options) -> "Retriever":
@@ -117,9 +118,18 @@ class Retriever:
         p = self.passages[i]
         return {**{f: p.get(f) for f in RESULT_FIELDS}, "score": float(score), **extra}
 
-    def search(self, question: str, top_k: int = 5) -> list[dict]:
+    @property
+    def vectors(self) -> np.ndarray:
+        if self._vectors is None:  # needed only to search single books
+            self._vectors = self.index.reconstruct_n(0, self.index.ntotal)
+        return self._vectors
+
+    def search(self, question: str, top_k: int = 5, books: list[str] | None = None) -> list[dict]:
+        """Best passages for the question, from all books or only from `books` (book IDs)."""
         if not question.strip():
             return []
+        if books:
+            return self._search_named_books(books, question, top_k)
         if self.book_names:
             named, core = find_named_books(question, self.book_names)
             if named and core:
