@@ -9,6 +9,11 @@ retrieval. The experiment asks two questions:
 2. **Can two separately trained adapters be merged without losing performance?** This mirrors
    the project's plan to combine adapters from different groups.
 
+**When it ran.** On 2026-10-18, with the v2.1 book set: books 014 and 015 were then the two
+commercial titles that were replaced later that day (see the book record). The training data
+and all the results below come from that earlier index. The experiment was not re-run after
+the replacement because no adapter was adopted.
+
 **Result in one line:** LoRA fixed the format problem, and the merge worked mechanically, but
 the merged adapter scored below the separate adapters. Neither the adapters nor the merge beat
 the 1.5B model, so **the chatbot keeps the 1.5B model and no adapter is adopted.**

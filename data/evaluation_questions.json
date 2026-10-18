@@ -298,13 +298,9 @@
   {
     "id": "Q018",
     "question": "How do you split data into training and test sets with scikit-learn?",
-    "reference_answer": "Use train_test_split from sklearn.model_selection, e.g. features_train, features_test, target_train, target_test = train_test_split(features, target, test_size=0.1, random_state=1).",
+    "reference_answer": "Use train_test_split from sklearn.model_selection. The Python Data Science Handbook holds back part of the data as a holdout set: X1, X2, y1, y2 = train_test_split(X, y, random_state=0, train_size=0.5), then fits on X1, y1 and evaluates on X2, y2.",
     "type": "factual",
     "expected_evidence": [
-      {
-        "book_id": "G000_BOOK_014",
-        "page": 196
-      },
       {
         "book_id": "G000_BOOK_001",
         "page": 233
@@ -317,13 +313,17 @@
   },
   {
     "id": "Q019",
-    "question": "What are the six steps in Mastering Machine Learning with Python in Six Steps?",
-    "reference_answer": "Step 1: Getting started in Python; Step 2: Introduction to machine learning; Step 3: Fundamentals of machine learning; Step 4: Model diagnosis and tuning; Step 5: Text mining and recommender systems; Step 6: Deep and reinforcement learning.",
+    "question": "According to Patterns, Predictions, and Actions, why does reusing the test set invalidate the statistical guarantees of the holdout method?",
+    "reference_answer": "Predictors built with knowledge of earlier test-set evaluations are no longer independent of the test data, so the sample is no longer fresh. Choosing models adaptively in this way can overfit the test set, so the test error of the chosen model underestimates its true risk; as the number of adaptive queries grows towards the test-set size, the holdout guarantees become vacuous.",
     "type": "factual",
     "expected_evidence": [
       {
         "book_id": "G000_BOOK_015",
-        "page": 4
+        "page": 157
+      },
+      {
+        "book_id": "G000_BOOK_015",
+        "page": 169
       }
     ],
     "answerable": true,
@@ -557,8 +557,8 @@
   },
   {
     "id": "Q032",
-    "question": "How do the Python Data Science Handbook and the Machine Learning with Python Cookbook split data for evaluation?",
-    "reference_answer": "Both use scikit-learn's train_test_split. The Handbook splits the data 50/50 into a training set and a holdout set (train_size=0.5); the Cookbook creates training and test sets with test_size=0.1 and random_state=1.",
+    "question": "How do the Python Data Science Handbook and Machine Learning: A First Course for Engineers and Scientists each estimate how well a model will perform on new data?",
+    "reference_answer": "Both hold back data that is not used for training. The Handbook splits the data with Scikit-Learn's train_test_split (train_size=0.5) into a training set and a holdout set and measures accuracy on the holdout set. The First Course explains that the training error is not a reliable estimate of the new-data error E_new and estimates it with E_hold-out on a hold-out validation set: a larger hold-out set gives a lower-variance estimate but leaves less data for training.",
     "type": "cross_book",
     "expected_evidence": [
       {
@@ -567,7 +567,11 @@
       },
       {
         "book_id": "G000_BOOK_014",
-        "page": 196
+        "page": 77
+      },
+      {
+        "book_id": "G000_BOOK_014",
+        "page": 78
       }
     ],
     "answerable": true,
@@ -835,13 +839,13 @@
   },
   {
     "id": "Q049",
-    "question": "How do you standardize a feature to mean 0 and standard deviation 1 in scikit-learn?",
-    "reference_answer": "Use scikit-learn's StandardScaler: create scaler = preprocessing.StandardScaler() and call scaler.fit_transform(x).",
+    "question": "Why should input variables be normalised before using k-NN, and how can this be done?",
+    "reference_answer": "k-NN uses distances, so an input with a much larger range dominates the others. Rescale the inputs, either by min-max normalisation (x - min) / (max - min) to the range [0, 1], or by standardising (x - mean) / standard deviation. The scaling factors must be computed on the training data only and then applied to test data.",
     "type": "factual",
     "expected_evidence": [
       {
         "book_id": "G000_BOOK_014",
-        "page": 78
+        "page": 35
       }
     ],
     "answerable": true,
@@ -852,12 +856,16 @@
   {
     "id": "Q050",
     "question": "What is a confusion matrix?",
-    "reference_answer": "A table describing the performance of a classification model, with counts of true negatives, false positives (Type I errors), false negatives (Type II errors) and true positives.",
+    "reference_answer": "For a binary classifier evaluated on hold-out data, a table that counts the predictions against the true classes: true negatives, false positives, false negatives and true positives. Measures such as recall, precision and accuracy are computed from these counts.",
     "type": "factual",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_015",
-        "page": 182
+        "book_id": "G000_BOOK_014",
+        "page": 96
+      },
+      {
+        "book_id": "G000_BOOK_014",
+        "page": 97
       }
     ],
     "answerable": true,
@@ -872,8 +880,8 @@
     "type": "numerical",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_015",
-        "page": 183
+        "book_id": "G000_BOOK_014",
+        "page": 97
       }
     ],
     "answerable": true,

@@ -4,8 +4,8 @@ Generated from `data/book_manifest.json` by `python -m src.manifest record` on 2
 Edit the manifest, not this file, then run the command again.
 
 - Books: **15** (minimum 15); processed: **15**
-- PDF pages: **8,340**, of which with text: **8,218**; passages indexed: **21,630**
-- Permission to process confirmed: **13 of 15**
+- PDF pages: **8,257**, of which with text: **8,133**; passages indexed: **22,216**
+- Permission to process confirmed: **15 of 15**
 - Approved by the project coordinator: **0 of 15** (set `coordinator_approval` to `approved` in the manifest once the coordinator signs off)
 
 ## Bibliographic details
@@ -25,8 +25,8 @@ Edit the manifest, not this file, then run the command again.
 | 011 | Foundations of Data Science | Avrim Blum, John Hopcroft, Ravindran Kannan | Author draft of 4 January 2018 | Cambridge University Press | 2020 | 978-1-108-48506-7 |
 | 012 | Dive into Deep Learning | Aston Zhang, Zachary C. Lipton, Mu Li, Alexander J. Smola | Online edition PDF (August 2023 build) | Cambridge University Press | 2023 | 978-1-009-38943-3 |
 | 013 | Think Stats: Exploratory Data Analysis in Python | Allen B. Downey | 2nd edition, version 2.2.1 | Green Tea Press | 2014 | 978-1-491-90733-7 |
-| 014 | Machine Learning with Python Cookbook: Practical Solutions from Preprocessing to Deep Learning | Chris Albon | 1st edition | O'Reilly Media | 2018 | 978-1-491-98938-8 |
-| 015 | Mastering Machine Learning with Python in Six Steps: A Practical Implementation Guide to Predictive Data Analytics Using Python | Manohar Swamynathan | 1st edition | Apress | 2017 | 978-1-4842-2865-4 |
+| 014 | Machine Learning: A First Course for Engineers and Scientists | Andreas Lindholm, Niklas Wahlström, Fredrik Lindsten, Thomas B. Schön | 1st edition (authors' pre-publication PDF, version of March 4, 2026) | Cambridge University Press | 2022 | 978-1-108-84360-7 |
+| 015 | Patterns, Predictions, and Actions: Foundations of Machine Learning | Moritz Hardt, Benjamin Recht | Web preprint (compiled June 8, 2026); print edition 2022 | Princeton University Press | 2022 | 978-0-691-23373-4 |
 
 ## Licensing, processing and approval
 
@@ -45,8 +45,8 @@ Edit the manifest, not this file, then run the command again.
 | 011 | Free draft PDF posted by the authors (Cornell); (c) 2015, all rights reserved. Not redistributed. | yes | pdf_text | 479 (479) | 1,336 | processed | pending |
 | 012 | Free PDF from d2l.ai, released by the authors under an open licence (CC BY-SA 4.0). Not redistributed. | yes | pdf_text | 1151 (1144) | 2,490 | processed | pending |
 | 013 | Book states: Creative Commons Attribution-NonCommercial-ShareAlike 4.0. | yes | pdf_text | 264 (256) | 425 | processed | pending |
-| 014 | NOT CONFIRMED: commercial book, (c) 2018 Chris Albon, all rights reserved. The group must confirm a purchase or library/O'Reilly licence before submission. | NO | pdf_text | 366 (356) | 543 | processed | pending |
-| 015 | NOT CONFIRMED: commercial book, (c) 2017 Manohar Swamynathan, subject to copyright. The file name indicates it came from PDFDrive, which is not the publisher. The group must confirm a purchase or library/SpringerLink licence before submission. | NO | pdf_text | 374 (374) | 553 | processed | pending |
+| 014 | Book states: 'This pre-publication version is free to view and download for personal use only. Not for re-distribution, re-sale or use in derivative works.' Free PDF from the authors' website; not redistributed. | yes | pdf_text | 348 (337) | 949 | processed | pending |
+| 015 | Book states: licensed under the Creative Commons BY-NC-ND 4.0 license. Free PDF from the authors' website mlstory.org; not redistributed. | yes | pdf_text | 309 (308) | 733 | processed | pending |
 
 ## Sources and notes
 
@@ -63,9 +63,7 @@ Edit the manifest, not this file, then run the command again.
 - **G000_BOOK_011** <https://www.cs.cornell.edu/jeh/book.pdf>. Draft predates the 2020 printed edition; ISBN is for the printed edition.
 - **G000_BOOK_012** <https://d2l.ai/>. ISBN is for the printed edition.
 - **G000_BOOK_013** <https://greenteapress.com/wp/think-stats-2e/>. ISBN is for the O'Reilly print edition.
-- **G000_BOOK_014** <https://www.oreilly.com/library/view/machine-learning-with/9781491989371/>.
-- **G000_BOOK_015** <https://link.springer.com/book/10.1007/978-1-4842-2866-1>. Replaces Blitzstein & Hwang, Introduction to Probability (download disabled by the authors).
-
-**Action needed:** permission is not confirmed for G000_BOOK_014, G000_BOOK_015. Confirm a purchase or library licence, or replace these books, before submission.
+- **G000_BOOK_014** <https://smlbook.org/>. Replaces Machine Learning with Python Cookbook (Chris Albon, 2018), whose permission could not be confirmed. Downloaded 2026-10-18, SHA-256 f185bd18c1a4daf46260db72d2a71cf1d03f4dd5c8bd394bfa9ad75ac5c5216b. Linear regression is section 3.1.
+- **G000_BOOK_015** <https://mlstory.org/>. Replaces Mastering Machine Learning with Python in Six Steps (Manohar Swamynathan, 2017), whose permission could not be confirmed. Downloaded 2026-10-18, SHA-256 0e5a127787d1e94e4b6828ee30fee5f8d5e1b14a2e8938a1b069f20454c32093.
 
 The PDFs, extracted text and index are not distributed (see `.gitignore`); page numbers are PDF page numbers unless a printed page label is shown.
