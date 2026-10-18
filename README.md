@@ -169,8 +169,9 @@ To run without internet once everything is downloaded, set `HF_HUB_OFFLINE=1`.
   or just one of them. With one book picked, only that book is searched and the line under each
   answer names it; if that book doesn't cover the question, TOODLES says so and suggests picking
   another book. You can type in the menu to find a book by name.
-- **Mode menu**, plain text under the message box on the right (for example "Toodles Ultra
-  5 passages"): Toodles Instant or Toodles Ultra (default), and how many passages to search.
+- **Mode menu**, plain text under the message box on the right ("Toodles Ultra" or "Toodles
+  Instant"): pick how answers are written. Every question searches the 5 best passages
+  (`retrieval.top_k` in `config/config.yaml`).
 
 ## Common interfaces
 

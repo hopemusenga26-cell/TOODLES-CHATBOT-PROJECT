@@ -67,6 +67,8 @@ section[data-testid="stSidebar"] { background: var(--glass); backdrop-filter: bl
     background: var(--clay-hover); transform: translateY(-1px); border-color: var(--accent); }
 .stApp .stButton button[kind="tertiary"] { background: transparent; box-shadow: none; border-color: transparent; }
 [data-testid="stButtonGroup"] > div { justify-content: center; gap: .55rem; }
+/* Suggested questions vanish as soon as one is asked, instead of fading while the answer is written */
+[data-stale="true"].st-key-suggestion, [data-stale="true"] .st-key-suggestion { display: none; }
 [data-testid="stChatInput"] { background: var(--clay); border: 1px solid var(--line); border-radius: 22px;
     box-shadow: var(--clay-shadow); }
 [data-testid="stChatInput"] > div, [data-testid="stChatInput"] textarea { background: transparent !important; }
@@ -83,8 +85,6 @@ section[data-testid="stSidebar"] { background: var(--glass); backdrop-filter: bl
 .st-key-composer_tools [data-testid="stPopover"] button, .st-key-composer_tools [data-testid="stPopover"] button:hover {
     background: transparent; border: none; box-shadow: none; transform: none; padding: .15rem .35rem; min-height: 0; }
 .st-key-composer_tools [data-testid="stPopover"] button p { font: 500 .9rem 'IBM Plex Sans', sans-serif; color: var(--text); }
-.st-key-composer_tools [data-testid="stPopover"] button span[class*="gray"],
-.st-key-composer_tools [data-testid="stPopover"] button p span { color: var(--muted) !important; }
 .st-key-composer_tools [data-testid="stPopover"] button:hover p { color: var(--accent-text); }
 
 /* Book menu in the sidebar: a clay control whose open list is glass, like the mode menu */

@@ -149,7 +149,7 @@ def submit(question: str) -> None:
     chat = st.session_state.chat
     if not chat["turns"]:
         chat["title"] = title_from(question)
-    chat["turns"].append({"question": question, "mode": st.session_state.mode, "top_k": st.session_state.top_k,
+    chat["turns"].append({"question": question, "mode": st.session_state.mode,
                           "book": st.session_state.book, "pending": True})
 
 
@@ -208,7 +208,7 @@ def answer_pending(turn: dict) -> None:
     start = time.perf_counter()
     try:
         books = [turn["book"]] if turn.get("book") else None
-        response, cited = answerer.run(turn["question"], turn["top_k"], on_draft=show_draft, books=books)
+        response, cited = answerer.run(turn["question"], on_draft=show_draft, books=books)
     except RuntimeError as e:  # e.g. Ollama not installed or not running
         turn["error"] = f"{e} Or pick another mode from the menu next to the message box."
         return
@@ -229,10 +229,9 @@ def composer(name: str):
     with st.container(horizontal=True, horizontal_alignment="right", key="composer_tools"):
         # Values are passed in and stored explicitly: keyed widgets lose their value when the
         # message box moves from the middle of the page to the bottom.
-        with st.popover(f"{MODES[state.mode][0]} :gray[{state.top_k} passages]", type="tertiary"):
+        with st.popover(MODES[state.mode][0], type="tertiary"):
             state.mode = st.radio("Answer mode", list(MODES), index=list(MODES).index(state.mode),
                                   format_func=lambda m: MODES[m][0], captions=[c for _, c in MODES.values()])
-            state.top_k = st.slider("Passages to search", 1, 10, value=state.top_k)
     return question
 
 
@@ -252,7 +251,6 @@ def main() -> None:
     state.setdefault("chat", new_chat())
     default_mode = cfg.get("app", {}).get("default_answer_writer", cfg["generation"]["backend"])
     state.setdefault("mode", default_mode if default_mode in MODES else "extractive")
-    state.setdefault("top_k", cfg["retrieval"]["top_k"])
     state.setdefault("books", {b["book_id"]: b.get("title") or b["book_id"]
                                for b in read_json(resolve(cfg["paths"]["manifest"]), default=[])})
     state.setdefault("book", None)
@@ -297,15 +295,24 @@ def main() -> None:
                  label_visibility="collapsed")
     else:
         st.markdown(f'<div class="chat-title">{html.escape(chat["title"])}</div>', unsafe_allow_html=True)
+        pending = None
         for turn in chat["turns"]:
             show_user(turn["question"])
-            if turn.pop("pending", False):
-                answer_pending(turn)
-                save_chat(chat, folder)
-                st.rerun()
-            show_answer(turn)
+            if turn.get("pending"):
+                pending = turn, st.container()  # filled in once the rest of the page is drawn
+            else:
+                show_answer(turn)
         with st.bottom:
             question = composer(name)
+        if pending:
+            # Answer last: Streamlit keeps showing the previous page's leftovers (such as the suggested
+            # questions) until it reaches them, so the whole new page is drawn before the slow part.
+            turn, slot = pending
+            del turn["pending"]
+            with slot:
+                answer_pending(turn)
+            save_chat(chat, folder)
+            st.rerun()
 
     if question:
         submit(question)
