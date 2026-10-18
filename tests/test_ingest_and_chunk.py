@@ -1,7 +1,7 @@
 """Ingestion, chunking and manifest checks."""
 from src.chunk import build_passages, chunk_page, clean_text, is_heading
 from src.ingest import ingest_book
-from src.manifest import MIN_BOOKS, skeleton, validate_manifest
+from src.manifest import MIN_BOOKS, book_record, identifier, permission_confirmed, skeleton, validate_manifest
 from tests.conftest import BOOK
 
 PASSAGE_FIELDS = {"group_id", "subject", "book_id", "title", "edition", "page", "chunk_id", "text"}
@@ -76,3 +76,31 @@ def test_manifest_requires_fifteen_complete_books():
         b.update(title="T", author="A", edition="1st", permission_status="library licence", file="x.pdf")
     assert validate_manifest(books) == []
     assert any("at least 15" in p for p in validate_manifest(books[:14]))
+
+
+def test_coordinator_approval_values_are_checked():
+    books = skeleton("G000", "ML")
+    for b in books:
+        b.update(title="T", author="A", edition="1st", permission_status="free PDF", file="x.pdf")
+    assert all(b["coordinator_approval"] == "pending" for b in books)
+    books[0]["coordinator_approval"] = "maybe"
+    books[1]["coordinator_approval"] = "rejected"
+    problems = validate_manifest(books)
+    assert any("G000_BOOK_001: coordinator_approval 'maybe'" in p for p in problems)
+    assert any("G000_BOOK_002: rejected" in p for p in problems)
+
+
+def test_book_record_lists_editions_licences_and_open_issues():
+    books = skeleton("G000", "ML", count=2)
+    books[0].update(title="Book One", author="A", edition="2nd edition", isbn="978-0", permission_status="CC BY 4.0",
+                    processing_status="processed", coordinator_approval="approved")
+    books[1].update(title="Book Two", author="B", edition="1st edition", source_url="https://example.org/book2",
+                    permission_status="NOT CONFIRMED: commercial book")
+    ingest = {"books": [{"book_id": "G000_BOOK_001", "page_count": 10, "pages_with_text": 9}]}
+    rows, markdown = book_record(books, ingest, {"G000_BOOK_001": 30})
+    assert identifier(books[1]) == "https://example.org/book2"  # no ISBN: stable identifier instead
+    assert [r["permission_confirmed"] for r in rows] == ["yes", "NO"]
+    assert not permission_confirmed(books[1])
+    assert "| 001 | Book One | A | 2nd edition |" in markdown
+    assert "Approved by the project coordinator: **1 of 2**" in markdown
+    assert "permission is not confirmed for G000_BOOK_002" in markdown
