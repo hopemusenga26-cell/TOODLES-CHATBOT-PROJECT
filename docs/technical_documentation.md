@@ -78,7 +78,7 @@ hyphenated line breaks are repaired. The most recent heading is stored as the pa
 | `embedding.normalize` | true | Unit-length vectors, so the inner product equals cosine similarity |
 | `embedding.query_prefix` | `"Represent this sentence for searching relevant passages: "` | BGE's recommended instruction, added to questions only |
 | `embedding.passage_prefix` | `""` | None for BGE |
-| Index type | `faiss.IndexFlatIP` | Exact search over 21,630 × 384 vectors (59.5 MB) |
+| Index type | `faiss.IndexFlatIP` | Exact search over 22,216 × 384 vectors (61.2 MB with the passage records) |
 
 ### Generation (`src/generate.py`)
 
@@ -285,13 +285,13 @@ python -m src.lora train --group A --name lora_A
 
 **Data and processing**
 
-- Books 014 and 015 are commercial titles. Permission to process them is not confirmed, and the
-  coordinator has not yet approved the book list or the models.
+- The coordinator has not yet approved the book list or the models. Books 014 and 015 were
+  replaced on 2026-10-18 with freely available books, so permission is documented for all 15.
 - A passage never spans two pages, so an explanation split across a page break is retrieved as
   two passages.
-- **51% of passages are longer than the 256-token embedding limit**, so their last sentences do
+- **50% of passages are longer than the 256-token embedding limit**, so their last sentences do
   not count towards vector search. This was measured by `src/fundamentals.py`; on average a
-  passage is 261.5 bge tokens. BM25 still reads the full text. Raising
+  passage is 258.3 bge tokens. BM25 still reads the full text. Raising
   `embedding.max_seq_length` to 512 (about 3 times slower indexing) or using shorter chunks are
   candidate fixes. They must be chosen on the validation split and need an index rebuild.
 - Equations, tables and figures are extracted as plain text and lose their layout.
@@ -299,14 +299,14 @@ python -m src.lora train --group A --name lora_A
 
 **Retrieval**
 
-- On the held-out test set the right page is in the top 5 for 53.6% of answerable questions,
-  against 80% on validation and a target of 80%. Exact-page matching undercounts, because
+- On the held-out test set the right page is in the top 5 for 60.7% of answerable questions
+  (v3), against 75% on validation and a target of 80%. Exact-page matching undercounts, because
   several books often explain the same thing on pages not listed as expected evidence. The
   report also gives a ±1-page hit rate.
 - Cross-book questions often miss the expected page of one of the two books.
-- Title, contents and preface pages are indexed. Questions that name a book (for example *"the
-  six steps in Mastering Machine Learning with Python in Six Steps"*) retrieve them instead of
-  the pages that answer the question.
+- Title, contents and preface pages are indexed. Questions that name a book retrieve them instead of the
+  pages that answer the question. For example, the cross-book question Q032 retrieved the title,
+  contents and notation pages of *Machine Learning: A First Course for Engineers and Scientists*.
 
 **Answers**
 
@@ -314,7 +314,9 @@ python -m src.lora train --group A --name lora_A
   still change their meaning, and a correct paraphrase can be removed.
 - The quote fallback can quote loosely related sentences, and it answered 1 of the 5
   not-in-the-books test questions. Overall, 2 of the 5 were answered instead of refused.
-- The 1.5B model rarely carries out calculations, even when the formula is in the passage.
+- The 1.5B model rarely carries out calculations correctly, even when the formula is in the
+  passage: it declined two on the test set and gave a wrong accuracy (85% instead of 90%) on
+  validation, which the word-overlap check cannot catch.
 - The automatic answer scores (word-overlap F1 and embedding similarity with the reference
   answer) only estimate correctness. Answer correctness still needs the human review
   (`evaluation/human_reviews.json`), which is pending.
@@ -322,5 +324,5 @@ python -m src.lora train --group A --name lora_A
 
 **Efficiency**
 
-- Toodles Ultra takes about 6 s per answer (6.5 s mean, 9.9 s at the 95th percentile on the test set); the Transformers reference takes about 60 s on this
+- Toodles Ultra takes about 6–9 s per answer (8.4 s mean and 12.1 s at the 95th percentile on the v3 test run); the Transformers reference takes about 60 s on this
   CPU. The first question after starting is slower while the models load.

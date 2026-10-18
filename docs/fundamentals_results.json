@@ -80,11 +80,11 @@
         13
       ]
     },
-    "passages_sampled": 866,
+    "passages_sampled": 889,
     "words_per_passage_mean": 171.5,
-    "embedding_tokens_per_passage_mean": 261.5,
-    "answer_model_tokens_per_passage_mean": 269.0,
-    "share_of_passages_longer_than_embedding_limit": 0.51,
+    "embedding_tokens_per_passage_mean": 258.3,
+    "answer_model_tokens_per_passage_mean": 267.7,
+    "share_of_passages_longer_than_embedding_limit": 0.502,
     "embedding_limit_tokens": 256
   },
   "embeddings": {
@@ -262,8 +262,8 @@
       }
     ],
     "greedy_continuation": " squares. This means that we minimize the sum of the squared",
-    "forward_pass_s": 1.49,
-    "seconds_per_generated_token": 0.357,
+    "forward_pass_s": 2.62,
+    "seconds_per_generated_token": 0.419,
     "dtype": "bfloat16"
   },
   "embedding_vs_generative": {

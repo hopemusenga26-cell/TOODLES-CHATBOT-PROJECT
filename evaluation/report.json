@@ -1,7 +1,7 @@
 {
   "group_id": "G000",
   "subject": "Machine Learning",
-  "created_at": "2026-10-18T05:24:01+00:00",
+  "created_at": "2026-10-18T11:43:33+00:00",
   "split": "test",
   "conditions": {
     "embedding_model": "BAAI/bge-small-en-v1.5",
@@ -30,12 +30,12 @@
     "books_processed": 15,
     "books_needing_ocr": [],
     "books_skipped": [],
-    "total_pages": 8340,
-    "pages_with_text": 8218,
+    "total_pages": 8257,
+    "pages_with_text": 8133,
     "failed_pages": {},
     "ocr_available": false,
     "metadata_complete_books": 15,
-    "permission_confirmed_books": 13,
+    "permission_confirmed_books": 15,
     "coordinator_approved_books": 0
   },
   "metrics": {
@@ -50,40 +50,40 @@
       "numerical": 4,
       "reasoning": 4
     },
-    "retrieval_recall_at_k": 0.4821,
-    "retrieval_hit_rate_at_k": 0.5357,
-    "retrieval_hit_rate_at_k_pm1_page": 0.6071,
+    "retrieval_recall_at_k": 0.5536,
+    "retrieval_hit_rate_at_k": 0.6071,
+    "retrieval_hit_rate_at_k_pm1_page": 0.6786,
     "citation_traceability": 1.0,
-    "cited_pages_match_expected_auto": 0.4808,
+    "cited_pages_match_expected_auto": 0.52,
     "abstention_on_no_answer": 0.6,
-    "false_abstention_on_answerable": 0.0714,
-    "quote_fallback_rate": 0.0714,
-    "answer_f1_auto": 0.2962,
-    "answer_similarity_auto": 0.8217,
-    "answers_scored_auto": 26,
+    "false_abstention_on_answerable": 0.1071,
+    "quote_fallback_rate": 0.0741,
+    "answer_f1_auto": 0.3085,
+    "answer_similarity_auto": 0.8128,
+    "answers_scored_auto": 25,
     "answer_correctness": null,
     "answers_human_reviewed": 0,
     "groundedness": null,
-    "latency_mean_s": 6.504,
-    "latency_p95_s": 9.863,
+    "latency_mean_s": 8.443,
+    "latency_p95_s": 12.114,
     "by_type_results": {
       "citation_check": {
         "questions": 2,
         "hit_rate_at_k": 0.0,
-        "answered": 1.0,
-        "answer_f1_auto": 0.1376
+        "answered": 0.5,
+        "answer_f1_auto": 0.0694
       },
       "cross_book": {
         "questions": 4,
         "hit_rate_at_k": 0.0,
         "answered": 1.0,
-        "answer_f1_auto": 0.1832
+        "answer_f1_auto": 0.2245
       },
       "factual": {
         "questions": 14,
-        "hit_rate_at_k": 0.7143,
+        "hit_rate_at_k": 0.7857,
         "answered": 1.0,
-        "answer_f1_auto": 0.358
+        "answer_f1_auto": 0.3845
       },
       "no_answer": {
         "questions": 5,
@@ -93,22 +93,22 @@
       },
       "numerical": {
         "questions": 4,
-        "hit_rate_at_k": 0.75,
+        "hit_rate_at_k": 1.0,
         "answered": 0.5,
-        "answer_f1_auto": 0.2905
+        "answer_f1_auto": 0.2258
       },
       "reasoning": {
         "questions": 4,
         "hit_rate_at_k": 0.5,
         "answered": 1.0,
-        "answer_f1_auto": 0.2752
+        "answer_f1_auto": 0.2273
       }
     }
   },
   "targets": {
     "retrieval_recall_at_k": {
       "target": 0.8,
-      "actual": 0.4821,
+      "actual": 0.5536,
       "met": false
     },
     "answer_correctness": {
@@ -123,10 +123,10 @@
     }
   },
   "efficiency": {
-    "latency_mean_s": 6.504,
-    "latency_p95_s": 9.863,
-    "peak_ram_mb": 787.0,
-    "index_size_mb": 59.46
+    "latency_mean_s": 8.443,
+    "latency_p95_s": 12.114,
+    "peak_ram_mb": 784.4,
+    "index_size_mb": 61.15
   },
   "question_file_warnings": [],
   "failures": [
@@ -146,11 +146,6 @@
       "issue": "relevant page not retrieved"
     },
     {
-      "id": "Q019",
-      "type": "factual",
-      "issue": "relevant page not retrieved"
-    },
-    {
       "id": "Q021",
       "type": "reasoning",
       "issue": "relevant page not retrieved"
@@ -158,11 +153,6 @@
     {
       "id": "Q024",
       "type": "reasoning",
-      "issue": "relevant page not retrieved"
-    },
-    {
-      "id": "Q025",
-      "type": "numerical",
       "issue": "relevant page not retrieved"
     },
     {
@@ -211,26 +201,39 @@
       "issue": "relevant page not retrieved"
     },
     {
+      "id": "Q041",
+      "type": "citation_check",
+      "issue": "abstained on an answerable question"
+    },
+    {
       "id": "Q042",
       "type": "citation_check",
       "issue": "relevant page not retrieved"
     }
   ],
-  "error_analysis": "v2.1 held-out test run, 33 questions (28 answerable, 5 not in the books), 2026-10-18. System as v2 (chosen on the validation split), with Toodles Ultra (qwen2.5:1.5b, Q4_K_M, Ollama 0.40.5) run fully on the GeForce MX450 GPU (num_ctx 2048). This run added automatic measures: hit rate within +/-1 page, word-overlap F1 and embedding similarity of answers against the reference answers, quote-fallback rate and results by question type. Full write-up: docs/evaluation_report.md.\n\n1. Retrieval: hit rate 53.6%, +/-1 page 60.7%, recall@5 48.2%; target 80% (validation: 80%, +/-1 page 85%). Four kinds of miss: (a) questions that name a book retrieve its title, contents or preface pages (Q019, Q032); (b) cross-book and citation-check questions miss the expected page of at least one book (Q030, Q031, Q032, Q034, Q041, Q042; 0 of 6 hits); (c) relevant pages elsewhere in the same or another book that expected_evidence does not list (Q005, Q012, Q015, Q021); (d) explanations crossing a page break (Q024, Q030 are hits within +/-1 page).\n\n2. Abstention: 3 of 5 no-answer questions refused. Q035 (AWS SageMaker) was answered from D2L's appendix on renting AWS machines: the words match, so the grounding check passed a misleading answer. Q038 (Python 3.13 features) received an unrelated quote from the fallback, which needs only one shared keyword. 2 of 28 answerable questions were wrongly refused (7.1%; v2 CPU run 10.7%, v1 21.4%): Q025 (R-squared) and Q029 (correlation), calculations the model does not carry out. Q042 is now answered, but only by the quote fallback with a formula from another book, so this is not a real improvement.\n\n3. Citations: 100% resolve to stored passages; 48.1% of cited pages are expected evidence pages. Answers' automatic scores: F1 0.296, similarity 0.822 (quote-only baseline 0.181 / 0.758). By type, factual questions score best (F1 0.358, hit rate 71%); cross-book (0.183) and citation-check (0.138) worst.\n\n4. Speed: mean 6.5 s, p95 9.9 s per answer on the GPU (v2 CPU run: 5.0 / 9.4 s); evaluation process peak RAM 0.8 GB plus about 1.4 GB for Ollama. Transformers reference (bfloat16, CPU): 60.5 s mean, 3.9 GB.\n\n5. Answer correctness and groundedness: human review pending (evaluation/human_reviews.json is empty).\n\nNot changed after seeing these test results, to keep the test split held out. Candidate fixes to check on the validation split first: leave title, contents and preface pages out of the index; one retrieval per book named in cross-book questions; require several question keywords in a fallback quote; number-aware grounding for computed values; embed passages with max_seq_length 512 or shorter chunks (51% of passages exceed 256 tokens); and complete expected_evidence lists for topics covered in several books.",
-  "limitations": "Retrieval is below the 80% target on the test split (53.6%), and exact-page evidence matching undercounts valid pages in other chapters and books. 51% of passages exceed the 256-token embedding limit, so their endings count only for keyword search. Title and preface pages are indexed. The lexical grounding check compares words, not meaning: it can pass an on-topic but misleading answer (Q035), and the quote fallback can quote loosely related text (Q038, Q042). The 1.5B model rarely carries out calculations. Answers on the GPU can vary slightly between runs. The automatic answer scores are not a substitute for the pending human review of correctness and groundedness. Evaluation questions and reference answers are drafts that still need subject-expert review; validation and test share 9 evidence pages (no near-duplicate questions). Books 014 and 015 are commercial and their permission is not confirmed; the coordinator has not yet approved the books or models. Passages never cross page boundaries; equations and tables lose their layout.",
-  "version": "v2.1",
+  "error_analysis": "v3 held-out test run, 33 questions (28 answerable, 5 not in the books), 2026-10-18. Settings as v2.1 (chosen on the validation split): Toodles Ultra (qwen2.5:1.5b, Q4_K_M, Ollama 0.40.5, fully on the GeForce MX450 GPU). Books 014 and 015 were replaced the same day by freely licensed books (Machine Learning: A First Course for Engineers and Scientists; Patterns, Predictions, and Actions) because permission for the two commercial titles could not be confirmed. The index was rebuilt (22,216 passages) and six questions tied to the old books were updated beforehand (test: Q019 and Q032 rewritten; validation: Q018, Q049, Q050, Q051), so 31 of the 33 test questions are unchanged from v2.1. Full write-up: docs/evaluation_report.md.\n\n1. Retrieval: hit rate 60.7% (v2.1: 53.6%), +/-1 page 67.9%, recall@5 55.4%; target 80%. Q025 now retrieves its page and the rewritten Q019 finds both of its pages. Validation fell from 80% to 75% (Q047 lost its page to passages from the new books). Kinds of miss: front matter (title, contents, notation and preface pages) retrieved for questions that name a book (Q031, Q032, Q038, Q041); cross-book and citation-check questions miss at least one expected page (Q030, Q031, Q032, Q034, Q041, Q042; 0 of 6 hits); relevant pages elsewhere that expected_evidence does not list (Q005, Q012, Q015, Q021); explanations crossing a page break (Q024, Q030 are hits within +/-1 page).\n\n2. Abstention: 3 of 5 no-answer questions refused. Q035 (AWS SageMaker) was answered from D2L's appendix on renting AWS machines; Q038 (Python 3.13) got an unrelated quote from the fallback. 3 of 28 answerable questions were wrongly refused (10.7%; v2.1 7.1%): Q025 and Q029 (calculations) and Q041 (evidence page not retrieved).\n\n3. Citations and answers: 100% of citations resolve to stored passages; 52.0% of cited pages are expected evidence pages. Automatic scores: F1 0.309, similarity 0.813 (quote-only baseline 0.209 / 0.765). Reading the answers: Q031 calls The Elements of Statistical Learning 'ISLR'; Q042 is a quote fallback with a formula from another book; on validation Q051 gives an accuracy of 85% instead of 90%, which the word-overlap check cannot catch.\n\n4. Speed: mean 8.4 s, p95 12.1 s per answer on the GPU (v2.1: 6.5 / 9.9 s); evaluation process peak RAM 0.8 GB plus about 1.4 GB for Ollama; index 61.2 MB.\n\n5. Answer correctness and groundedness: human review pending (evaluation/human_reviews.json is empty).\n\nNot changed after seeing these test results. Candidate fixes to check on the validation split first: leave title, contents and preface pages out of the index; one retrieval per book named in cross-book questions; require several question keywords in a fallback quote; number-aware grounding for computed values; embed passages with max_seq_length 512 or shorter chunks (50% of passages exceed 256 tokens); and complete expected_evidence lists for topics covered in several books.",
+  "limitations": "Retrieval is below the 80% target (test 60.7%, validation 75%), and exact-page evidence matching undercounts valid pages in other chapters and books. Half of the passages exceed the 256-token embedding limit, so their endings count only for keyword search. Title, contents and preface pages are indexed. The lexical grounding check compares words, not meaning: it can pass an on-topic but misleading answer (Q035) or a wrong number (Q051), and the quote fallback can quote loosely related text (Q038, Q042). The 1.5B model rarely carries out calculations correctly. Answers on the GPU can vary slightly between runs. The automatic answer scores are not a substitute for the pending human review of correctness and groundedness. Evaluation questions and reference answers are drafts that still need subject-expert review; validation and test share 8 evidence pages (no near-duplicate questions). Permission is documented for all 15 books, but the coordinator has not yet approved the books or models. Passages never cross page boundaries; equations and tables lose their layout.",
+  "version": "v3",
   "compared_runs": {
     "v1_test (Hugging Face, all-MiniLM-L6-v2, float32)": "evaluation/report_v1_test.json",
-    "v2_test quote-only baseline (Toodles Instant), re-run 2026-10-18 with the added measures": "evaluation/report_test_v2_extractive.json",
-    "v2.1_test Ollama qwen2.5:1.5b on the GPU (Toodles Ultra, this report)": "evaluation/report.json",
-    "v2_test Hugging Face Transformers Qwen2.5-1.5B, pinned revision (reference, removed from app)": "evaluation/report_test_v2_hf.json",
-    "validation runs used to choose v2 settings": [
-      "evaluation/report_val_baseline.json",
-      "evaluation/report_val_ollama15.json",
-      "evaluation/report_val_ollama3.json",
-      "evaluation/report_val_ollama15_gpu.json"
-    ],
-    "optional LoRA experiment (Qwen2.5-0.5B base, adapters A and B, merged A+B; see docs/lora_experiment.md)": [
+    "v2_test Hugging Face Transformers Qwen2.5-1.5B, pinned revision (reference, removed from app; previous book set)": "evaluation/report_test_v2_hf.json",
+    "v2.1_test Toodles Ultra on the GPU, previous book set": "evaluation/report_test_v2.1_ollama.json",
+    "v2.1_test quote-only baseline (Toodles Instant), previous book set": "evaluation/report_test_v2_extractive.json",
+    "v3_test quote-only baseline (Toodles Instant)": "evaluation/report_test_v3_extractive.json",
+    "v3_test Toodles Ultra (this report)": "evaluation/report.json",
+    "validation runs": {
+      "v3": [
+        "evaluation/report_val_v3_ollama.json",
+        "evaluation/report_val_v3_extractive.json"
+      ],
+      "previous book set": [
+        "evaluation/report_val_baseline.json",
+        "evaluation/report_val_ollama15.json",
+        "evaluation/report_val_ollama3.json",
+        "evaluation/report_val_ollama15_gpu.json"
+      ]
+    },
+    "optional LoRA experiment (previous book set; see docs/lora_experiment.md)": [
       "evaluation/report_val_lora_base.json",
       "evaluation/report_val_lora_A.json",
       "evaluation/report_val_lora_B.json",

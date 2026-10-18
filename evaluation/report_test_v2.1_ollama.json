@@ -1,0 +1,244 @@
+{
+  "group_id": "G000",
+  "subject": "Machine Learning",
+  "created_at": "2026-10-18T05:24:01+00:00",
+  "split": "test",
+  "conditions": {
+    "embedding_model": "BAAI/bge-small-en-v1.5",
+    "embedding_revision": "5c38ec7c405ec4b44b94cc5a9bb96e735b38267a",
+    "generation_backend": "ollama",
+    "generation_model": "qwen2.5:1.5b",
+    "generation_revision": null,
+    "generation_adapter": null,
+    "generation_settings": {
+      "dtype": "bfloat16",
+      "max_new_tokens": 200,
+      "max_passages": 3,
+      "min_support": 0.4
+    },
+    "top_k": 5,
+    "min_score": 0.67,
+    "chunking": {
+      "chunk_size_words": 220,
+      "overlap_words": 40,
+      "min_chunk_words": 20,
+      "boilerplate_page_share": 0.2
+    }
+  },
+  "document_processing": {
+    "books_in_manifest": 15,
+    "books_processed": 15,
+    "books_needing_ocr": [],
+    "books_skipped": [],
+    "total_pages": 8340,
+    "pages_with_text": 8218,
+    "failed_pages": {},
+    "ocr_available": false,
+    "metadata_complete_books": 15,
+    "permission_confirmed_books": 13,
+    "coordinator_approved_books": 0
+  },
+  "metrics": {
+    "questions": 33,
+    "answerable": 28,
+    "no_answer": 5,
+    "by_type": {
+      "citation_check": 2,
+      "cross_book": 4,
+      "factual": 14,
+      "no_answer": 5,
+      "numerical": 4,
+      "reasoning": 4
+    },
+    "retrieval_recall_at_k": 0.4821,
+    "retrieval_hit_rate_at_k": 0.5357,
+    "retrieval_hit_rate_at_k_pm1_page": 0.6071,
+    "citation_traceability": 1.0,
+    "cited_pages_match_expected_auto": 0.4808,
+    "abstention_on_no_answer": 0.6,
+    "false_abstention_on_answerable": 0.0714,
+    "quote_fallback_rate": 0.0714,
+    "answer_f1_auto": 0.2962,
+    "answer_similarity_auto": 0.8217,
+    "answers_scored_auto": 26,
+    "answer_correctness": null,
+    "answers_human_reviewed": 0,
+    "groundedness": null,
+    "latency_mean_s": 6.504,
+    "latency_p95_s": 9.863,
+    "by_type_results": {
+      "citation_check": {
+        "questions": 2,
+        "hit_rate_at_k": 0.0,
+        "answered": 1.0,
+        "answer_f1_auto": 0.1376
+      },
+      "cross_book": {
+        "questions": 4,
+        "hit_rate_at_k": 0.0,
+        "answered": 1.0,
+        "answer_f1_auto": 0.1832
+      },
+      "factual": {
+        "questions": 14,
+        "hit_rate_at_k": 0.7143,
+        "answered": 1.0,
+        "answer_f1_auto": 0.358
+      },
+      "no_answer": {
+        "questions": 5,
+        "hit_rate_at_k": null,
+        "answered": 0.4,
+        "answer_f1_auto": null
+      },
+      "numerical": {
+        "questions": 4,
+        "hit_rate_at_k": 0.75,
+        "answered": 0.5,
+        "answer_f1_auto": 0.2905
+      },
+      "reasoning": {
+        "questions": 4,
+        "hit_rate_at_k": 0.5,
+        "answered": 1.0,
+        "answer_f1_auto": 0.2752
+      }
+    }
+  },
+  "targets": {
+    "retrieval_recall_at_k": {
+      "target": 0.8,
+      "actual": 0.4821,
+      "met": false
+    },
+    "answer_correctness": {
+      "target": 0.8,
+      "actual": null,
+      "met": null
+    },
+    "citation_traceability": {
+      "target": 1.0,
+      "actual": 1.0,
+      "met": true
+    }
+  },
+  "efficiency": {
+    "latency_mean_s": 6.504,
+    "latency_p95_s": 9.863,
+    "peak_ram_mb": 787.0,
+    "index_size_mb": 59.46
+  },
+  "question_file_warnings": [],
+  "failures": [
+    {
+      "id": "Q005",
+      "type": "factual",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q012",
+      "type": "factual",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q015",
+      "type": "factual",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q019",
+      "type": "factual",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q021",
+      "type": "reasoning",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q024",
+      "type": "reasoning",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q025",
+      "type": "numerical",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q025",
+      "type": "numerical",
+      "issue": "abstained on an answerable question"
+    },
+    {
+      "id": "Q029",
+      "type": "numerical",
+      "issue": "abstained on an answerable question"
+    },
+    {
+      "id": "Q030",
+      "type": "cross_book",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q031",
+      "type": "cross_book",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q032",
+      "type": "cross_book",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q034",
+      "type": "cross_book",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q035",
+      "type": "no_answer",
+      "issue": "answered a no-answer question"
+    },
+    {
+      "id": "Q038",
+      "type": "no_answer",
+      "issue": "answered a no-answer question"
+    },
+    {
+      "id": "Q041",
+      "type": "citation_check",
+      "issue": "relevant page not retrieved"
+    },
+    {
+      "id": "Q042",
+      "type": "citation_check",
+      "issue": "relevant page not retrieved"
+    }
+  ],
+  "error_analysis": "v2.1 held-out test run, 33 questions (28 answerable, 5 not in the books), 2026-10-18. System as v2 (chosen on the validation split), with Toodles Ultra (qwen2.5:1.5b, Q4_K_M, Ollama 0.40.5) run fully on the GeForce MX450 GPU (num_ctx 2048). This run added automatic measures: hit rate within +/-1 page, word-overlap F1 and embedding similarity of answers against the reference answers, quote-fallback rate and results by question type. Full write-up: docs/evaluation_report.md.\n\n1. Retrieval: hit rate 53.6%, +/-1 page 60.7%, recall@5 48.2%; target 80% (validation: 80%, +/-1 page 85%). Four kinds of miss: (a) questions that name a book retrieve its title, contents or preface pages (Q019, Q032); (b) cross-book and citation-check questions miss the expected page of at least one book (Q030, Q031, Q032, Q034, Q041, Q042; 0 of 6 hits); (c) relevant pages elsewhere in the same or another book that expected_evidence does not list (Q005, Q012, Q015, Q021); (d) explanations crossing a page break (Q024, Q030 are hits within +/-1 page).\n\n2. Abstention: 3 of 5 no-answer questions refused. Q035 (AWS SageMaker) was answered from D2L's appendix on renting AWS machines: the words match, so the grounding check passed a misleading answer. Q038 (Python 3.13 features) received an unrelated quote from the fallback, which needs only one shared keyword. 2 of 28 answerable questions were wrongly refused (7.1%; v2 CPU run 10.7%, v1 21.4%): Q025 (R-squared) and Q029 (correlation), calculations the model does not carry out. Q042 is now answered, but only by the quote fallback with a formula from another book, so this is not a real improvement.\n\n3. Citations: 100% resolve to stored passages; 48.1% of cited pages are expected evidence pages. Answers' automatic scores: F1 0.296, similarity 0.822 (quote-only baseline 0.181 / 0.758). By type, factual questions score best (F1 0.358, hit rate 71%); cross-book (0.183) and citation-check (0.138) worst.\n\n4. Speed: mean 6.5 s, p95 9.9 s per answer on the GPU (v2 CPU run: 5.0 / 9.4 s); evaluation process peak RAM 0.8 GB plus about 1.4 GB for Ollama. Transformers reference (bfloat16, CPU): 60.5 s mean, 3.9 GB.\n\n5. Answer correctness and groundedness: human review pending (evaluation/human_reviews.json is empty).\n\nNot changed after seeing these test results, to keep the test split held out. Candidate fixes to check on the validation split first: leave title, contents and preface pages out of the index; one retrieval per book named in cross-book questions; require several question keywords in a fallback quote; number-aware grounding for computed values; embed passages with max_seq_length 512 or shorter chunks (51% of passages exceed 256 tokens); and complete expected_evidence lists for topics covered in several books.",
+  "limitations": "Retrieval is below the 80% target on the test split (53.6%), and exact-page evidence matching undercounts valid pages in other chapters and books. 51% of passages exceed the 256-token embedding limit, so their endings count only for keyword search. Title and preface pages are indexed. The lexical grounding check compares words, not meaning: it can pass an on-topic but misleading answer (Q035), and the quote fallback can quote loosely related text (Q038, Q042). The 1.5B model rarely carries out calculations. Answers on the GPU can vary slightly between runs. The automatic answer scores are not a substitute for the pending human review of correctness and groundedness. Evaluation questions and reference answers are drafts that still need subject-expert review; validation and test share 9 evidence pages (no near-duplicate questions). Books 014 and 015 are commercial and their permission is not confirmed; the coordinator has not yet approved the books or models. Passages never cross page boundaries; equations and tables lose their layout.",
+  "version": "v2.1",
+  "compared_runs": {
+    "v1_test (Hugging Face, all-MiniLM-L6-v2, float32)": "evaluation/report_v1_test.json",
+    "v2_test quote-only baseline (Toodles Instant), re-run 2026-10-18 with the added measures": "evaluation/report_test_v2_extractive.json",
+    "v2.1_test Ollama qwen2.5:1.5b on the GPU (Toodles Ultra, this report)": "evaluation/report.json",
+    "v2_test Hugging Face Transformers Qwen2.5-1.5B, pinned revision (reference, removed from app)": "evaluation/report_test_v2_hf.json",
+    "validation runs used to choose v2 settings": [
+      "evaluation/report_val_baseline.json",
+      "evaluation/report_val_ollama15.json",
+      "evaluation/report_val_ollama3.json",
+      "evaluation/report_val_ollama15_gpu.json"
+    ],
+    "optional LoRA experiment (Qwen2.5-0.5B base, adapters A and B, merged A+B; see docs/lora_experiment.md)": [
+      "evaluation/report_val_lora_base.json",
+      "evaluation/report_val_lora_A.json",
+      "evaluation/report_val_lora_B.json",
+      "evaluation/report_val_merged_AB.json",
+      "evaluation/report_test_lora_base.json",
+      "evaluation/report_test_lora_A.json",
+      "evaluation/report_test_lora_B.json",
+      "evaluation/report_test_merged_AB.json"
+    ]
+  }
+}

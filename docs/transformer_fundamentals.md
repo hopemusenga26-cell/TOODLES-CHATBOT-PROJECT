@@ -34,10 +34,10 @@ The sentence *"Ridge regression shrinks the coefficients of a linear model towar
 - The same text costs a different number of tokens in each model. Model limits are counted in
   tokens, not words.
 
-**What this means for TOODLES (measured on 866 sampled passages).** A passage averages 171.5
-words, which is **261.5 bge tokens** and 269 Qwen tokens. Passages are embedded with a limit of
+**What this means for TOODLES (measured on 889 sampled passages).** A passage averages 171.5
+words, which is **258.3 bge tokens** and 267.7 Qwen tokens. Passages are embedded with a limit of
 256 tokens (`embedding.max_seq_length`), chosen because 512 made indexing about 3 times slower.
-As a result, **51% of passages are cut off** when embedded: their last few sentences do not
+As a result, **50% of passages are cut off** when embedded: their last few sentences do not
 count towards vector search. BM25 keyword search still reads the whole passage, which partly
 makes up for it. This is a documented limitation, and a candidate fix for the next version (see
 the technical documentation).
@@ -135,8 +135,8 @@ tokens), Qwen-1.5B (bfloat16, CPU) predicts:
 **Decoding** chooses the tokens one at a time. TOODLES uses **greedy decoding** (always pick the
 most likely token, temperature 0), so the same question always gives the same answer. Here the
 continuation is *" squares. This means that we minimize the sum of the squared"*. Each new
-token needs another forward pass. On this laptop that is **about 0.36 s per token** for the
-full-precision 1.5B model, which is why the 4-bit Ollama copy (about 6 s per whole answer) is
+token needs another forward pass. On this laptop that is **about 0.4 s per token** for the
+full-precision 1.5B model, which is why the 4-bit Ollama copy (about 6–9 s per whole answer) is
 used in the app.
 
 A chatbot answer costs one pass over the whole prompt (instructions plus 3 passages, about
@@ -154,11 +154,11 @@ Both are Transformers, but they are built and used differently:
 | Measured | average attention weight on *later* tokens = 0.037 (non-zero: it looks ahead) | largest attention weight on any later token = **0.0** exactly |
 | Output | one 384-number vector per text | a probability for each of 151,936 tokens, one token at a time |
 | Trained to | place texts with the same meaning close together | predict the next token, then follow instructions |
-| Job in TOODLES | search: compare the question with 21,630 passages in about 55 ms | write a cited answer from 3 passages |
+| Job in TOODLES | search: compare the question with 22,216 passages in about 55 ms | write a cited answer from 3 passages |
 
 A generative model must not peek at future tokens, because it has to write them. An embedding
 model reads the whole text at once to understand it. Retrieval-augmented generation (RAG) uses
-each where it is strong: the cheap encoder narrows 21,630 passages down to 5, and the expensive
+each where it is strong: the cheap encoder narrows 22,216 passages down to 5, and the expensive
 decoder reads only those.
 
 ## 6. Fine-tuning and LoRA

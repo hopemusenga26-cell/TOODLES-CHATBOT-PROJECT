@@ -33,7 +33,7 @@ from src.theme import build_css  # noqa: E402
 MODES = {
     "extractive": ("Toodles Instant", "Shows the matching book passages word for word. Instant, but you "
                                       "read and piece together the answer yourself."),
-    "ollama": ("Toodles Ultra", "Writes a short answer in its own words, with page citations. About 6 "
+    "ollama": ("Toodles Ultra", "Writes a short answer in its own words, with page citations. About 6 to 9 "
                                 "seconds. Recommended."),
 }
 SUGGESTIONS = [

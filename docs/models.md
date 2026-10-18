@@ -25,7 +25,7 @@ passages ──► embedding model ──► vectors ┘                        
 | Architecture | Encoder-only Transformer (BERT): 12 layers, hidden size 384, 12 attention heads, 33.4 M parameters, WordPiece vocabulary of 30,522 tokens |
 | Library | Sentence Transformers 6.1.0 (`src/embeddings.py`) |
 | Settings | 256 tokens per passage (the model accepts 512), vectors normalised to length 1, BGE's query instruction `"Represent this sentence for searching relevant passages: "` in front of questions only |
-| Size and speed | about 130 MB download; embeds a question in about 30 ms on the CPU (a full hybrid search takes about 55 ms); the 21,630-passage index is 59.5 MB |
+| Size and speed | about 130 MB download; embeds a question in about 30 ms on the CPU (a full hybrid search takes about 55 ms); the 22,216-passage index is 61.2 MB |
 | Also used for | The evidence threshold. If no retrieved passage has cosine similarity of at least 0.67 with the question, the chatbot declines. It also gives the automatic answer-similarity score in the evaluation |
 
 **Why this model.** It is small enough for a CPU-only laptop and ranks well for its size on
@@ -43,7 +43,7 @@ search an index that was built with a different model.
 | Revision | `989aa7980e4cf806f80c7fef2b1adb7bc71aa306` (Hugging Face; pinned) |
 | Licence | Apache-2.0 |
 | Architecture | Decoder-only Transformer (Qwen2): 28 layers, hidden size 1,536, 12 query heads sharing 2 key/value heads (grouped-query attention), SwiGLU feed-forward of 8,960, RoPE positions, RMSNorm, 1.54 B parameters, byte-level BPE vocabulary of 151,936 tokens, 32,768-token context |
-| How it runs: **Toodles Ultra** (default, official evaluation) | The same model in a 4-bit format (`qwen2.5:1.5b`, Q4_K_M, 0.92 GB, digest `65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b`) served by Ollama 0.40.5. About 6 s per answer (6.5 s mean on the test set) and 1.4 GB of memory; on a GeForce MX450 (2 GB) the whole model fits on the GPU with a 2,048-token context |
+| How it runs: **Toodles Ultra** (default, official evaluation) | The same model in a 4-bit format (`qwen2.5:1.5b`, Q4_K_M, 0.92 GB, digest `65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b`) served by Ollama 0.40.5. About 6–9 s per answer (8.4 s mean on the v3 test run, 6.5 s on v2.1) and 1.4 GB of memory; on a GeForce MX450 (2 GB) the whole model fits on the GPU with a 2,048-token context |
 | How it runs: Transformers reference | The full-precision weights at the pinned revision, loaded with Hugging Face Transformers 5.20.0 in bfloat16 on the CPU (`generation.backend: hf`). Same accuracy on the test set, about 60 s per answer, 3.9 GB peak RAM. Kept as the reproducible reference run |
 | Decoding | Greedy (temperature 0), at most 200 new tokens |
 
