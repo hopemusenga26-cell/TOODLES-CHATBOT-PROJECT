@@ -158,19 +158,19 @@ To run without internet once everything is downloaded, set `HF_HUB_OFFLINE=1`.
 - **Look:** yellow, black, white and grey, with a **Dark mode** switch in the sidebar (starts dark;
   `app.theme` in the config). Buttons, chips, your messages and the message box use a soft clay style;
   the sidebar, passages panel and mode menu use frosted glass (`src/theme.py`).
-- **Sidebar:** New chat, Recents (your previous chats, saved on this computer in `data/chats/`,
-  which is kept out of Git because chats quote the books), Delete this chat, and book details.
+- **Sidebar:** New chat, the Answer from book menu, Recents (your previous chats, saved on this
+  computer in `data/chats/`, which is kept out of Git because chats quote the books), Delete this
+  chat, and book details.
 - **New chat:** a greeting with the message box in the middle and suggested questions underneath.
 - **Conversation:** your questions appear as bubbles on the right; answers appear as text with
   numbered citations, citation chips with the book and page, and a "Show passages" panel with the
   exact text used. The message box stays at the bottom.
-- **Book menu** beside the message box: where answers come from, either all 15 books (default)
+- **Answer from** (book menu in the sidebar): where answers come from, either all 15 books (default)
   or just one of them. With one book picked, only that book is searched and the line under each
   answer names it; if that book doesn't cover the question, TOODLES says so and suggests picking
   another book. You can type in the menu to find a book by name.
-- **Mode menu** beside the message box: Toodles Instant or Toodles Ultra (default),
-  and how many passages to search.
-- **Thumbs up/down** under each answer is saved with the chat and can help with human review.
+- **Mode menu**, plain text under the message box on the right (for example "Toodles Ultra
+  5 passages"): Toodles Instant or Toodles Ultra (default), and how many passages to search.
 
 ## Common interfaces
 

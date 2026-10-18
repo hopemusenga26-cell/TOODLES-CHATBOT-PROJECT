@@ -217,7 +217,7 @@ The teacher's answers to these questions use the chatbot's own prompt above.
 | `retrieval.min_score` | 0.67 | Evidence threshold on cosine similarity. Questions the books answer scored 0.72–0.88; off-topic ones 0.49–0.63 |
 | BM25 parameters | k1 = 1.5, b = 0.75 | Standard values; the same simple suffix stemming as the grounding check |
 
-The chat page's book menu limits a question to one book: `search(question, top_k, books=[book_id])`
+The chat page's book menu (Answer from, in the sidebar) limits a question to one book: `search(question, top_k, books=[book_id])`
 searches that book on its own, the same way as a named book, whatever the question says. The
 evidence threshold still applies, so a book that doesn't cover the question gets "insufficient
 evidence". Evaluations always search all books.

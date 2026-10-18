@@ -2,9 +2,9 @@
 
 Layout: a sidebar with new chat, recent chats and book details; an empty chat opens on a
 greeting with the message box and suggested questions in the middle; once a conversation
-starts, messages fill a centred column and the message box is pinned to the bottom. Beside the
-message box, a book menu picks where answers come from (all books, or one of them) and the mode
-menu picks how they are written.
+starts, messages fill a centred column and the message box is pinned to the bottom. The book
+menu in the sidebar picks where answers come from (all books, or one of them); the mode menu, plain
+text under the message box, picks how they are written.
 
 Usage:
     streamlit run src/app.py
@@ -96,7 +96,7 @@ def show_user(question: str) -> None:
                 unsafe_allow_html=True)
 
 
-def show_answer(turn: dict, index: int) -> None:
+def show_answer(turn: dict) -> None:
     if "error" in turn:
         st.error(turn["error"])
         return
@@ -104,7 +104,7 @@ def show_answer(turn: dict, index: int) -> None:
     if response["insufficient_evidence"] and turn.get("book"):
         st.markdown(f'<div class="notice"><b>Not in {html.escape(book_label(turn["book"]))}.</b> This book '
                     "doesn't contain enough evidence to answer this. Pick another book, or all books, from the "
-                    "book menu next to the message box.</div>", unsafe_allow_html=True)
+                    "Answer from menu in the sidebar.</div>", unsafe_allow_html=True)
     elif response["insufficient_evidence"]:
         st.markdown('<div class="notice"><b>Not in the books.</b> The books don\'t contain enough evidence '
                     "to answer this. Try rephrasing, or ask about a topic they cover.</div>", unsafe_allow_html=True)
@@ -114,27 +114,17 @@ def show_answer(turn: dict, index: int) -> None:
         with st.expander(f"Show {'the passage' if len(cited) == 1 else f'{len(cited)} passages'}"):
             for n, p in enumerate(cited, start=1):
                 st.markdown(render_source(n, p), unsafe_allow_html=True)
-    row = st.container(horizontal=True, vertical_alignment="center", gap="small")
-    with row:
-        label = MODES.get(turn.get("mode"), ("Toodles",))[0]
-        source = f"searched {html.escape(book_label(turn['book']))}, " if turn.get("book") else ""
-        state = "nomatch" if response["insufficient_evidence"] else "answered"
-        st.markdown(f'{mark_svg(22, state)} <span class="turn-meta">{label}, {source}{turn.get("seconds", 0):.1f} s'
-                    '</span>', unsafe_allow_html=True)
-        key = f"fb_{st.session_state.chat['id']}_{index}"
-        st.session_state.setdefault(key, turn.get("feedback"))
-        st.feedback("thumbs", key=key, on_change=save_feedback, args=(index, key))
+    label = MODES.get(turn.get("mode"), ("Toodles",))[0]
+    source = f"searched {html.escape(book_label(turn['book']))}, " if turn.get("book") else ""
+    state = "nomatch" if response["insufficient_evidence"] else "answered"
+    st.markdown(f'{mark_svg(22, state)} <span class="turn-meta">{label}, {source}{turn.get("seconds", 0):.1f} s'
+                '</span>', unsafe_allow_html=True)
 
 
 # ---------- state ----------
 
 def chats_dir(cfg: dict) -> Path:
     return resolve(cfg["paths"].get("chats", "data/chats"))
-
-
-def save_feedback(index: int, key: str) -> None:
-    st.session_state.chat["turns"][index]["feedback"] = st.session_state[key]
-    save_chat(st.session_state.chat, chats_dir(load_config()))
 
 
 def start_new_chat() -> None:
@@ -232,18 +222,14 @@ def answer_pending(turn: dict) -> None:
 # ---------- page ----------
 
 def composer(name: str):
-    """Message box with the book and answer-mode menus beside it; returns the submitted text, if any."""
+    """Message box with the answer-mode menu as plain text under it; returns the submitted text, if any."""
     state = st.session_state
-    row = st.container(horizontal=True, vertical_alignment="bottom", gap="small")
-    with row:
+    with st.container():  # keeps the message box in place instead of pinning it to the bottom
         question = st.chat_input(f"Ask {name}…", key="composer")
+    with st.container(horizontal=True, horizontal_alignment="right", key="composer_tools"):
         # Values are passed in and stored explicitly: keyed widgets lose their value when the
         # message box moves from the middle of the page to the bottom.
-        options = [None, *state.books]
-        state.book = st.selectbox("Answer from", options, index=options.index(state.book), format_func=book_label,
-                                  label_visibility="collapsed", width=200,
-                                  help="Where answers come from: all the books, or only the one you pick.")
-        with st.popover(MODES[state.mode][0]):
+        with st.popover(f"{MODES[state.mode][0]} :gray[{state.top_k} passages]", type="tertiary"):
             state.mode = st.radio("Answer mode", list(MODES), index=list(MODES).index(state.mode),
                                   format_func=lambda m: MODES[m][0], captions=[c for _, c in MODES.values()])
             state.top_k = st.slider("Passages to search", 1, 10, value=state.top_k)
@@ -278,6 +264,11 @@ def main() -> None:
         st.markdown(f'<div class="brand">{mark_svg(32)}{html.escape(name)}</div>',
                     unsafe_allow_html=True)
         st.button("New chat", icon=":material/add:", on_click=start_new_chat, type="secondary")
+        st.markdown('<div class="side-label">Answer from</div>', unsafe_allow_html=True)
+        options = [None, *state.books]
+        state.book = st.selectbox("Answer from", options, index=options.index(state.book), format_func=book_label,
+                                  label_visibility="collapsed",
+                                  help="Where answers come from: all the books, or only the one you pick.")
         recents = list_chats(folder)
         if recents:
             st.markdown('<div class="side-label">Recents</div>', unsafe_allow_html=True)
@@ -306,13 +297,13 @@ def main() -> None:
                  label_visibility="collapsed")
     else:
         st.markdown(f'<div class="chat-title">{html.escape(chat["title"])}</div>', unsafe_allow_html=True)
-        for index, turn in enumerate(chat["turns"]):
+        for turn in chat["turns"]:
             show_user(turn["question"])
             if turn.pop("pending", False):
                 answer_pending(turn)
                 save_chat(chat, folder)
                 st.rerun()
-            show_answer(turn, index)
+            show_answer(turn)
         with st.bottom:
             question = composer(name)
 
