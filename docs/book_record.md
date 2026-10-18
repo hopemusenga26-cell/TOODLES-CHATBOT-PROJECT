@@ -50,20 +50,20 @@ Edit the manifest, not this file, then run the command again.
 
 ## Sources and notes
 
-- **G000_BOOK_001** <https://github.com/jakevdp/PythonDataScienceHandbook>. Built from the 66 chapter notebooks (folder 'notebooks', commit d66231454ef753818dc9213c9b5942e067266966); images omitted. Page numbers refer to this PDF, not the printed book. Machine learning is chapter 5 (linear regression: 5.6).
-- **G000_BOOK_002** <https://www.statlearning.com/>. Cover page text extracts as garbled characters; body text is fine.
-- **G000_BOOK_003** <https://hastie.su.domains/ElemStatLearn/>.
-- **G000_BOOK_004** <https://avehtari.github.io/ROS-Examples/>.
-- **G000_BOOK_005** <https://web.stanford.edu/~boyd/vmls/>.
-- **G000_BOOK_006** <https://mml-book.github.io/>.
-- **G000_BOOK_007** <https://web.stanford.edu/~boyd/cvxbook/>.
-- **G000_BOOK_008** <http://ciml.info/>. No ISBN (self-published).
-- **G000_BOOK_009** <https://www.microsoft.com/en-us/research/publication/pattern-recognition-machine-learning/>.
-- **G000_BOOK_010** <https://probml.github.io/pml-book/book1.html>. 88 MB file.
-- **G000_BOOK_011** <https://www.cs.cornell.edu/jeh/book.pdf>. Draft predates the 2020 printed edition; ISBN is for the printed edition.
-- **G000_BOOK_012** <https://d2l.ai/>. ISBN is for the printed edition.
-- **G000_BOOK_013** <https://greenteapress.com/wp/think-stats-2e/>. ISBN is for the O'Reilly print edition.
-- **G000_BOOK_014** <https://smlbook.org/>. Replaces Machine Learning with Python Cookbook (Chris Albon, 2018), whose permission could not be confirmed. Downloaded 2026-10-18, SHA-256 f185bd18c1a4daf46260db72d2a71cf1d03f4dd5c8bd394bfa9ad75ac5c5216b. Linear regression is section 3.1.
-- **G000_BOOK_015** <https://mlstory.org/>. Replaces Mastering Machine Learning with Python in Six Steps (Manohar Swamynathan, 2017), whose permission could not be confirmed. Downloaded 2026-10-18, SHA-256 0e5a127787d1e94e4b6828ee30fee5f8d5e1b14a2e8938a1b069f20454c32093.
+- **GROUP 30_BOOK_001** <https://github.com/jakevdp/PythonDataScienceHandbook>. Built from the 66 chapter notebooks (folder 'notebooks', commit d66231454ef753818dc9213c9b5942e067266966); images omitted. Page numbers refer to this PDF, not the printed book. Machine learning is chapter 5 (linear regression: 5.6).
+- **GROUP 30_BOOK_002** <https://www.statlearning.com/>. Cover page text extracts as garbled characters; body text is fine.
+- **GROUP 30_BOOK_003** <https://hastie.su.domains/ElemStatLearn/>.
+- **GROUP 30_BOOK_004** <https://avehtari.github.io/ROS-Examples/>.
+- **GROUP 30_BOOK_005** <https://web.stanford.edu/~boyd/vmls/>.
+- **GROUP 30_BOOK_006** <https://mml-book.github.io/>.
+- **GROUP 30_BOOK_007** <https://web.stanford.edu/~boyd/cvxbook/>.
+- **GROUP 30_BOOK_008** <http://ciml.info/>. No ISBN (self-published).
+- **GROUP 30_BOOK_009** <https://www.microsoft.com/en-us/research/publication/pattern-recognition-machine-learning/>.
+- **GROUP 30_BOOK_010** <https://probml.github.io/pml-book/book1.html>. 88 MB file.
+- **GROUP 30_BOOK_011** <https://www.cs.cornell.edu/jeh/book.pdf>. Draft predates the 2020 printed edition; ISBN is for the printed edition.
+- **GROUP 30_BOOK_012** <https://d2l.ai/>. ISBN is for the printed edition.
+- **GROUP 30_BOOK_013** <https://greenteapress.com/wp/think-stats-2e/>. ISBN is for the O'Reilly print edition.
+- **GROUP 30_BOOK_014** <https://smlbook.org/>. Replaces Machine Learning with Python Cookbook (Chris Albon, 2018), whose permission could not be confirmed. Downloaded 2026-10-18, SHA-256 f185bd18c1a4daf46260db72d2a71cf1d03f4dd5c8bd394bfa9ad75ac5c5216b. Linear regression is section 3.1.
+- **GROUP 30_BOOK_015** <https://mlstory.org/>. Replaces Mastering Machine Learning with Python in Six Steps (Manohar Swamynathan, 2017), whose permission could not be confirmed. Downloaded 2026-10-18, SHA-256 0e5a127787d1e94e4b6828ee30fee5f8d5e1b14a2e8938a1b069f20454c32093.
 
 The PDFs, extracted text and index are not distributed (see `.gitignore`); page numbers are PDF page numbers unless a printed page label is shown.

@@ -20,8 +20,10 @@ MIN_BOOKS = 15
 FIELDS = (
     "book_id", "title", "author", "edition", "publisher", "year", "isbn",
     "subject", "source_type", "permission_status", "processing_status",
-    "coordinator_approval", "file", "source_url", "page_count", "notes",
+    "coordinator_approval", "file", "source_url", "aliases", "page_count", "notes",
 )
+# `aliases`: short names a question may use for the book (ISLP, D2L, Bishop's); retrieval searches
+# a named book on its own (src/retrieve.py, retrieval.book_routing).
 REQUIRED_FIELDS = (
     "book_id", "title", "author", "edition", "subject",
     "permission_status", "processing_status",

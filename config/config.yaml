@@ -1,8 +1,8 @@
 # Group chatbot configuration.
 # Edit group_id and subject once the coordinator assigns them.
 
-group_id: "G000"          # e.g. "G014"
-subject: "Machine Learning"   # linear regression and model training
+group_id: "GROUP 30"          # e.g. "G014"
+subject: "Data Science & Machine Learning"   # linear regression and model training
 
 paths:
   books_dir: data/books                       # book PDFs (never commit these)
@@ -50,6 +50,10 @@ retrieval:
   hybrid: true                 # add BM25 keyword search to vector search (merged by reciprocal rank fusion)
   candidates: 20               # passages each search returns before merging and reranking
   max_per_book: null           # e.g. 2 to force results from several books
+  # v4 (chosen on the validation split, right page in top 5): v3 75%, + distinct pages 80%,
+  # + book routing 85%. Skipping contents/index pages and 512-token embeddings made no difference.
+  distinct_pages: true         # at most one passage per page in the results (citations are per page)
+  book_routing: true           # when a question names a book (title or manifest alias), search that book on its own
   reranker:
     enabled: false
     model_name: cross-encoder/ms-marco-MiniLM-L6-v2       # Apache-2.0

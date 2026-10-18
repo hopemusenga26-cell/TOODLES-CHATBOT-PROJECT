@@ -1,11 +1,11 @@
-# TOODLES: a book-grounded machine learning chatbot (Group G000)
+# TOODLES: a book-grounded machine learning chatbot (GROUP 30)
 
 *Answers from 15 machine learning books, with the page to prove it.*
 
 | | |
 |---|---|
-| **Group ID** | G000 *(replace with your assigned ID, also in `config/config.yaml`)* |
-| **Subject** | Machine Learning (linear regression and model training) |
+| **Group ID** | GROUP 30 (set in `config/config.yaml`; it prefixes every book and passage ID) |
+| **Subject** | Data Science & Machine Learning (linear regression and model training) |
 | **Books** | 15, listed in `data/book_manifest.json` (8,257 pages, 22,216 passages) |
 
 The chatbot answers questions using only the group's books. It finds the most
@@ -196,7 +196,7 @@ and the answer model and pinned revision.
 | Answer model | `Qwen/Qwen2.5-1.5B-Instruct`, bfloat16 on CPU (about 3.8 GB RAM); reads the top 3 passages. Set `dtype: float32` for faster answers if about 7 GB of RAM is free. Fast demo mode: the same model via Ollama (`qwen2.5:1.5b`). |
 | Chunks | about 220 words, 40-word overlap, never crossing a page; paragraphs repeated on 20%+ of a book's pages (copyright notices, running headers, page numbers) are removed first |
 | Index | FAISS `IndexFlatIP` on normalised vectors (cosine similarity) |
-| Search | Hybrid: vector search plus BM25 keyword search, merged by reciprocal rank fusion; a passage counts as evidence only if its cosine similarity is at least 0.67. Optional cross-encoder reranker (`cross-encoder/ms-marco-MiniLM-L6-v2`) and per-book cap are available but off (see below). |
+| Search | Hybrid: vector search plus BM25 keyword search, merged by reciprocal rank fusion; a passage counts as evidence only if its cosine similarity is at least 0.67. Results keep at most one passage per page, and a question that names a book (by title or a short name such as ISLP or D2L) searches that book on its own. Optional cross-encoder reranker (`cross-encoder/ms-marco-MiniLM-L6-v2`) and per-book cap are available but off (see below). |
 
 If the embedding model changes, rebuild the index (`python -m src.build_index`). The
 app refuses to search an index that was built with a different model.
@@ -262,6 +262,20 @@ Hybrid search ties with vector search but fixes exact-name questions (`train_tes
 confusion matrix), so it is kept. The reranker (trained on web search queries) and the per-book
 cap lowered the score and are off.
 
+v4 changes, also chosen on the validation split, on the current book set (v3 baseline 75%):
+
+| Search setting | Right page in top 5 | ±1 page | Recall@5 |
+|---|---|---|---|
+| v3 hybrid search | 75% | 85% | 65% |
+| Skip contents, index and chart-number passages | 75% | 85% | 65% (no change, not used) |
+| **+ one passage per page (used)** | **80%** | 85% | 67% |
+| **+ search named books on their own (used)** | **85%** | **90%** | **72%** |
+| Embeddings of 512 instead of 256 tokens (estimated on each question's top 50) | no change | | (not used) |
+
+One passage per page frees the places a second passage from the same page would take. Searching
+named books on their own fixes questions such as *"according to Mathematics for Machine Learning
+… and Dive into Deep Learning"*, which otherwise matched title and contents pages.
+
 | Ollama answer model | Mean time | Wrongly refused | Correct (own reading of 20 answers) |
 |---|---|---|---|
 | **`qwen2.5:1.5b` (used)** | **7.3 s** | **0%** | about 17 |
@@ -282,7 +296,7 @@ To try other settings without editing the main config, point `CHATBOT_CONFIG` at
   "question": "What is a write-back cache?",
   "reference_answer": "A cache that writes modified blocks to memory only when they are replaced.",
   "type": "factual",
-  "expected_evidence": [{"book_id": "G000_BOOK_003", "page": 412}],
+  "expected_evidence": [{"book_id": "GROUP 30_BOOK_003", "page": 412}],
   "answerable": true,
   "split": "test",
   "review_status": "reviewed",

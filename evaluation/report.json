@@ -1,7 +1,7 @@
 {
-  "group_id": "G000",
-  "subject": "Machine Learning",
-  "created_at": "2026-10-18T11:43:33+00:00",
+  "group_id": "GROUP 30",
+  "subject": "Data Science & Machine Learning",
+  "created_at": "2026-10-18T12:23:03+00:00",
   "split": "test",
   "conditions": {
     "embedding_model": "BAAI/bge-small-en-v1.5",
@@ -50,40 +50,40 @@
       "numerical": 4,
       "reasoning": 4
     },
-    "retrieval_recall_at_k": 0.5536,
-    "retrieval_hit_rate_at_k": 0.6071,
-    "retrieval_hit_rate_at_k_pm1_page": 0.6786,
+    "retrieval_recall_at_k": 0.6429,
+    "retrieval_hit_rate_at_k": 0.75,
+    "retrieval_hit_rate_at_k_pm1_page": 0.7857,
     "citation_traceability": 1.0,
-    "cited_pages_match_expected_auto": 0.52,
+    "cited_pages_match_expected_auto": 0.5,
     "abstention_on_no_answer": 0.6,
     "false_abstention_on_answerable": 0.1071,
     "quote_fallback_rate": 0.0741,
-    "answer_f1_auto": 0.3085,
-    "answer_similarity_auto": 0.8128,
+    "answer_f1_auto": 0.3001,
+    "answer_similarity_auto": 0.8174,
     "answers_scored_auto": 25,
     "answer_correctness": null,
     "answers_human_reviewed": 0,
     "groundedness": null,
-    "latency_mean_s": 8.443,
-    "latency_p95_s": 12.114,
+    "latency_mean_s": 5.072,
+    "latency_p95_s": 12.187,
     "by_type_results": {
       "citation_check": {
         "questions": 2,
-        "hit_rate_at_k": 0.0,
-        "answered": 0.5,
-        "answer_f1_auto": 0.0694
+        "hit_rate_at_k": 0.5,
+        "answered": 1.0,
+        "answer_f1_auto": 0.1476
       },
       "cross_book": {
         "questions": 4,
-        "hit_rate_at_k": 0.0,
-        "answered": 1.0,
-        "answer_f1_auto": 0.2245
+        "hit_rate_at_k": 0.5,
+        "answered": 0.75,
+        "answer_f1_auto": 0.3473
       },
       "factual": {
         "questions": 14,
         "hit_rate_at_k": 0.7857,
         "answered": 1.0,
-        "answer_f1_auto": 0.3845
+        "answer_f1_auto": 0.3371
       },
       "no_answer": {
         "questions": 5,
@@ -99,16 +99,16 @@
       },
       "reasoning": {
         "questions": 4,
-        "hit_rate_at_k": 0.5,
+        "hit_rate_at_k": 0.75,
         "answered": 1.0,
-        "answer_f1_auto": 0.2273
+        "answer_f1_auto": 0.2487
       }
     }
   },
   "targets": {
     "retrieval_recall_at_k": {
       "target": 0.8,
-      "actual": 0.5536,
+      "actual": 0.6429,
       "met": false
     },
     "answer_correctness": {
@@ -123,10 +123,10 @@
     }
   },
   "efficiency": {
-    "latency_mean_s": 8.443,
-    "latency_p95_s": 12.114,
-    "peak_ram_mb": 784.4,
-    "index_size_mb": 61.15
+    "latency_mean_s": 5.072,
+    "latency_p95_s": 12.187,
+    "peak_ram_mb": 792.6,
+    "index_size_mb": 61.72
   },
   "question_file_warnings": [],
   "failures": [
@@ -151,11 +151,6 @@
       "issue": "relevant page not retrieved"
     },
     {
-      "id": "Q024",
-      "type": "reasoning",
-      "issue": "relevant page not retrieved"
-    },
-    {
       "id": "Q025",
       "type": "numerical",
       "issue": "abstained on an answerable question"
@@ -176,14 +171,9 @@
       "issue": "relevant page not retrieved"
     },
     {
-      "id": "Q032",
-      "type": "cross_book",
-      "issue": "relevant page not retrieved"
-    },
-    {
       "id": "Q034",
       "type": "cross_book",
-      "issue": "relevant page not retrieved"
+      "issue": "abstained on an answerable question"
     },
     {
       "id": "Q035",
@@ -194,16 +184,6 @@
       "id": "Q038",
       "type": "no_answer",
       "issue": "answered a no-answer question"
-    },
-    {
-      "id": "Q041",
-      "type": "citation_check",
-      "issue": "relevant page not retrieved"
-    },
-    {
-      "id": "Q041",
-      "type": "citation_check",
-      "issue": "abstained on an answerable question"
     },
     {
       "id": "Q042",

@@ -41,8 +41,8 @@ All settings live in `config/config.yaml`. To try other settings without editing
 
 | Key | Value | Meaning |
 |---|---|---|
-| `group_id` | `G000` | Placeholder until the coordinator assigns the group ID; it prefixes every `book_id` and `chunk_id` |
-| `subject` | `Machine Learning` | Stored in every passage record |
+| `group_id` | `GROUP 30` | The assigned group ID; it prefixes every `book_id` and `chunk_id` |
+| `subject` | `Data Science & Machine Learning` | Stored in every passage record |
 | `paths.*` | `data/...`, `evaluation/...` | Books, manifest, processed pages and passages, index, questions, reviews, report, chats |
 
 ### Ingestion (`src/ingest.py`)
@@ -67,7 +67,7 @@ label is kept when the PDF defines one.
 
 Passages never cross a page boundary, so every passage cites exactly one page. Ligatures and
 hyphenated line breaks are repaired. The most recent heading is stored as the passage's
-`section`. Passage IDs look like `G000_BOOK_002_P087_C04` (book, PDF page, chunk on that page).
+`section`. Passage IDs look like `GROUP 30_BOOK_002_P087_C04` (book, PDF page, chunk on that page).
 
 ### Embeddings and index (`src/embeddings.py`, `src/build_index.py`)
 
@@ -211,6 +211,8 @@ The teacher's answers to these questions use the chatbot's own prompt above.
 | Merging | reciprocal rank fusion, k = 60 | Standard constant; a passage's merged score is the sum of 1 / (60 + rank) over both lists |
 | `retrieval.reranker.enabled` | false | Reranker: 75% (−5 points) and +1.1 s per question |
 | `retrieval.max_per_book` | null | Limit of 2 per book: 70% (−10 points) |
+| `retrieval.distinct_pages` | true | At most one passage per page in the results. v4: right page in top 5 on validation 75% → 80% |
+| `retrieval.book_routing` | true | A question naming a book (full title, a title prefix of at least 3 words, or a manifest `aliases` entry such as ISLP, ESL, D2L, Bishop's), written as in the title, searches that book on its own with the name removed; several named books are interleaved. v4: 80% → 85% |
 | `retrieval.min_score` | 0.67 | Evidence threshold on cosine similarity. Questions the books answer scored 0.72–0.88; off-topic ones 0.49–0.63 |
 | BM25 parameters | k1 = 1.5, b = 0.75 | Standard values; the same simple suffix stemming as the grounding check |
 

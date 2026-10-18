@@ -6,11 +6,11 @@
     "type": "factual",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_001",
+        "book_id": "GROUP 30_BOOK_001",
         "page": 225
       },
       {
-        "book_id": "G000_BOOK_001",
+        "book_id": "GROUP 30_BOOK_001",
         "page": 226
       }
     ],
@@ -26,7 +26,7 @@
     "type": "factual",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_001",
+        "book_id": "GROUP 30_BOOK_001",
         "page": 233
       }
     ],
@@ -42,7 +42,7 @@
     "type": "factual",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_002",
+        "book_id": "GROUP 30_BOOK_002",
         "page": 88
       }
     ],
@@ -58,7 +58,7 @@
     "type": "factual",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_002",
+        "book_id": "GROUP 30_BOOK_002",
         "page": 115
       }
     ],
@@ -74,11 +74,11 @@
     "type": "factual",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_002",
+        "book_id": "GROUP 30_BOOK_002",
         "page": 148
       },
       {
-        "book_id": "G000_BOOK_002",
+        "book_id": "GROUP 30_BOOK_002",
         "page": 149
       }
     ],
@@ -94,11 +94,11 @@
     "type": "factual",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_002",
+        "book_id": "GROUP 30_BOOK_002",
         "page": 252
       },
       {
-        "book_id": "G000_BOOK_002",
+        "book_id": "GROUP 30_BOOK_002",
         "page": 253
       }
     ],
@@ -114,7 +114,7 @@
     "type": "factual",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_003",
+        "book_id": "GROUP 30_BOOK_003",
         "page": 80
       }
     ],
@@ -130,7 +130,7 @@
     "type": "factual",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_004",
+        "book_id": "GROUP 30_BOOK_004",
         "page": 182
       }
     ],
@@ -146,11 +146,11 @@
     "type": "factual",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_005",
+        "book_id": "GROUP 30_BOOK_005",
         "page": 235
       },
       {
-        "book_id": "G000_BOOK_005",
+        "book_id": "GROUP 30_BOOK_005",
         "page": 236
       }
     ],
@@ -166,7 +166,7 @@
     "type": "factual",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_006",
+        "book_id": "GROUP 30_BOOK_006",
         "page": 234
       }
     ],
@@ -182,7 +182,7 @@
     "type": "factual",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_007",
+        "book_id": "GROUP 30_BOOK_007",
         "page": 81
       }
     ],
@@ -198,7 +198,7 @@
     "type": "factual",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_008",
+        "book_id": "GROUP 30_BOOK_008",
         "page": 43
       }
     ],
@@ -214,11 +214,11 @@
     "type": "factual",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_009",
+        "book_id": "GROUP 30_BOOK_009",
         "page": 26
       },
       {
-        "book_id": "G000_BOOK_009",
+        "book_id": "GROUP 30_BOOK_009",
         "page": 29
       }
     ],
@@ -234,7 +234,7 @@
     "type": "factual",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_010",
+        "book_id": "GROUP 30_BOOK_010",
         "page": 38
       }
     ],
@@ -250,11 +250,11 @@
     "type": "factual",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_012",
+        "book_id": "GROUP 30_BOOK_012",
         "page": 126
       },
       {
-        "book_id": "G000_BOOK_012",
+        "book_id": "GROUP 30_BOOK_012",
         "page": 127
       }
     ],
@@ -270,7 +270,7 @@
     "type": "factual",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_012",
+        "book_id": "GROUP 30_BOOK_012",
         "page": 162
       }
     ],
@@ -286,7 +286,7 @@
     "type": "factual",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_013",
+        "book_id": "GROUP 30_BOOK_013",
         "page": 119
       }
     ],
@@ -302,7 +302,7 @@
     "type": "factual",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_001",
+        "book_id": "GROUP 30_BOOK_001",
         "page": 233
       }
     ],
@@ -318,11 +318,11 @@
     "type": "factual",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_015",
+        "book_id": "GROUP 30_BOOK_015",
         "page": 157
       },
       {
-        "book_id": "G000_BOOK_015",
+        "book_id": "GROUP 30_BOOK_015",
         "page": 169
       }
     ],
@@ -338,11 +338,11 @@
     "type": "reasoning",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_002",
+        "book_id": "GROUP 30_BOOK_002",
         "page": 43
       },
       {
-        "book_id": "G000_BOOK_002",
+        "book_id": "GROUP 30_BOOK_002",
         "page": 44
       }
     ],
@@ -358,11 +358,11 @@
     "type": "reasoning",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_001",
+        "book_id": "GROUP 30_BOOK_001",
         "page": 232
       },
       {
-        "book_id": "G000_BOOK_001",
+        "book_id": "GROUP 30_BOOK_001",
         "page": 233
       }
     ],
@@ -378,15 +378,15 @@
     "type": "reasoning",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_002",
+        "book_id": "GROUP 30_BOOK_002",
         "page": 252
       },
       {
-        "book_id": "G000_BOOK_002",
+        "book_id": "GROUP 30_BOOK_002",
         "page": 253
       },
       {
-        "book_id": "G000_BOOK_002",
+        "book_id": "GROUP 30_BOOK_002",
         "page": 254
       }
     ],
@@ -402,11 +402,11 @@
     "type": "reasoning",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_002",
+        "book_id": "GROUP 30_BOOK_002",
         "page": 116
       },
       {
-        "book_id": "G000_BOOK_002",
+        "book_id": "GROUP 30_BOOK_002",
         "page": 117
       }
     ],
@@ -422,11 +422,11 @@
     "type": "reasoning",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_002",
+        "book_id": "GROUP 30_BOOK_002",
         "page": 148
       },
       {
-        "book_id": "G000_BOOK_002",
+        "book_id": "GROUP 30_BOOK_002",
         "page": 149
       }
     ],
@@ -442,7 +442,7 @@
     "type": "numerical",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_002",
+        "book_id": "GROUP 30_BOOK_002",
         "page": 88
       }
     ],
@@ -458,7 +458,7 @@
     "type": "numerical",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_005",
+        "book_id": "GROUP 30_BOOK_005",
         "page": 237
       }
     ],
@@ -474,7 +474,7 @@
     "type": "numerical",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_008",
+        "book_id": "GROUP 30_BOOK_008",
         "page": 43
       }
     ],
@@ -490,7 +490,7 @@
     "type": "numerical",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_004",
+        "book_id": "GROUP 30_BOOK_004",
         "page": 182
       }
     ],
@@ -506,7 +506,7 @@
     "type": "numerical",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_013",
+        "book_id": "GROUP 30_BOOK_013",
         "page": 119
       }
     ],
@@ -522,11 +522,11 @@
     "type": "cross_book",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_002",
+        "book_id": "GROUP 30_BOOK_002",
         "page": 214
       },
       {
-        "book_id": "G000_BOOK_003",
+        "book_id": "GROUP 30_BOOK_003",
         "page": 80
       }
     ],
@@ -542,11 +542,11 @@
     "type": "cross_book",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_003",
+        "book_id": "GROUP 30_BOOK_003",
         "page": 80
       },
       {
-        "book_id": "G000_BOOK_002",
+        "book_id": "GROUP 30_BOOK_002",
         "page": 252
       }
     ],
@@ -562,15 +562,15 @@
     "type": "cross_book",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_001",
+        "book_id": "GROUP 30_BOOK_001",
         "page": 233
       },
       {
-        "book_id": "G000_BOOK_014",
+        "book_id": "GROUP 30_BOOK_014",
         "page": 77
       },
       {
-        "book_id": "G000_BOOK_014",
+        "book_id": "GROUP 30_BOOK_014",
         "page": 78
       }
     ],
@@ -586,11 +586,11 @@
     "type": "cross_book",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_006",
+        "book_id": "GROUP 30_BOOK_006",
         "page": 234
       },
       {
-        "book_id": "G000_BOOK_012",
+        "book_id": "GROUP 30_BOOK_012",
         "page": 126
       }
     ],
@@ -606,15 +606,15 @@
     "type": "cross_book",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_009",
+        "book_id": "GROUP 30_BOOK_009",
         "page": 26
       },
       {
-        "book_id": "G000_BOOK_009",
+        "book_id": "GROUP 30_BOOK_009",
         "page": 29
       },
       {
-        "book_id": "G000_BOOK_012",
+        "book_id": "GROUP 30_BOOK_012",
         "page": 162
       }
     ],
@@ -696,7 +696,7 @@
     "type": "citation_check",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_008",
+        "book_id": "GROUP 30_BOOK_008",
         "page": 43
       }
     ],
@@ -712,7 +712,7 @@
     "type": "citation_check",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_002",
+        "book_id": "GROUP 30_BOOK_002",
         "page": 148
       }
     ],
@@ -728,7 +728,7 @@
     "type": "citation_check",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_004",
+        "book_id": "GROUP 30_BOOK_004",
         "page": 182
       }
     ],
@@ -744,15 +744,15 @@
     "type": "factual",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_002",
+        "book_id": "GROUP 30_BOOK_002",
         "page": 212
       },
       {
-        "book_id": "G000_BOOK_002",
+        "book_id": "GROUP 30_BOOK_002",
         "page": 213
       },
       {
-        "book_id": "G000_BOOK_002",
+        "book_id": "GROUP 30_BOOK_002",
         "page": 214
       }
     ],
@@ -768,11 +768,11 @@
     "type": "factual",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_002",
+        "book_id": "GROUP 30_BOOK_002",
         "page": 220
       },
       {
-        "book_id": "G000_BOOK_002",
+        "book_id": "GROUP 30_BOOK_002",
         "page": 222
       }
     ],
@@ -788,7 +788,7 @@
     "type": "factual",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_013",
+        "book_id": "GROUP 30_BOOK_013",
         "page": 121
       }
     ],
@@ -804,15 +804,15 @@
     "type": "factual",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_012",
+        "book_id": "GROUP 30_BOOK_012",
         "page": 63
       },
       {
-        "book_id": "G000_BOOK_012",
+        "book_id": "GROUP 30_BOOK_012",
         "page": 235
       },
       {
-        "book_id": "G000_BOOK_012",
+        "book_id": "GROUP 30_BOOK_012",
         "page": 236
       }
     ],
@@ -828,7 +828,7 @@
     "type": "reasoning",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_009",
+        "book_id": "GROUP 30_BOOK_009",
         "page": 49
       }
     ],
@@ -844,7 +844,7 @@
     "type": "factual",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_014",
+        "book_id": "GROUP 30_BOOK_014",
         "page": 35
       }
     ],
@@ -860,11 +860,11 @@
     "type": "factual",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_014",
+        "book_id": "GROUP 30_BOOK_014",
         "page": 96
       },
       {
-        "book_id": "G000_BOOK_014",
+        "book_id": "GROUP 30_BOOK_014",
         "page": 97
       }
     ],
@@ -880,7 +880,7 @@
     "type": "numerical",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_014",
+        "book_id": "GROUP 30_BOOK_014",
         "page": 97
       }
     ],
@@ -896,7 +896,7 @@
     "type": "factual",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_010",
+        "book_id": "GROUP 30_BOOK_010",
         "page": 37
       }
     ],
@@ -912,7 +912,7 @@
     "type": "factual",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_006",
+        "book_id": "GROUP 30_BOOK_006",
         "page": 111
       }
     ],
@@ -928,7 +928,7 @@
     "type": "reasoning",
     "expected_evidence": [
       {
-        "book_id": "G000_BOOK_008",
+        "book_id": "GROUP 30_BOOK_008",
         "page": 12
       }
     ],
