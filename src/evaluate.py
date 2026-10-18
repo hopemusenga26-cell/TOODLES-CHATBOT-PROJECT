@@ -1,27 +1,31 @@
 """Stage 8 - Evaluation: run the question set and write the standard report.
 
 Automatic metrics (retrieval, citation traceability, abstention, efficiency) are
-computed here. Answer correctness and groundedness need people: reviewers fill in
-evaluation/human_reviews.json using evaluation/answers_for_review.json, and the
-next run includes their verdicts in the report.
+computed here, plus two automatic estimates of answer quality against the reference
+answers (word-overlap F1 and embedding similarity). They help compare settings but do
+not replace people: answer correctness and groundedness come from reviewers, who fill in
+evaluation/human_reviews.json using evaluation/answers_for_review.json; the next run
+includes their verdicts in the report.
 
 Usage:
     python -m src.evaluate                 # held-out test split
     python -m src.evaluate --split validation
     python -m src.evaluate --backend extractive
+    python -m src.evaluate --split validation --backend hf --lora-base --adapter artifacts/lora/lora_A --name val_lora_A
 """
 from __future__ import annotations
 
 import argparse
+import re
 import statistics
 import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-from src.citations import format_citation, resolve_sources
+from src.citations import MARKER, format_citation, resolve_sources
 from src.config import load_config, read_json, resolve, write_json
-from src.manifest import load_manifest
+from src.manifest import identifier, load_manifest, permission_confirmed
 
 QUESTION_TYPES = {"factual", "reasoning", "numerical", "cross_book", "no_answer", "citation_check"}
 SPLITS = {"train", "validation", "test"}
@@ -55,6 +59,30 @@ def _page_keys(items: list[dict]) -> set[tuple[str, int]]:
     return {(e["book_id"], int(e["page"])) for e in items if e.get("book_id") and e.get("page") is not None}
 
 
+def _near(keys: set[tuple[str, int]], margin: int = 1) -> set[tuple[str, int]]:
+    """Pages within `margin` of the given pages: passages never cross a page break, so an
+    explanation that starts on the expected page often continues on the next one."""
+    return {(b, p + d) for b, p in keys for d in range(-margin, margin + 1)}
+
+
+def answer_words(text: str) -> list[str]:
+    """Lower-case words of an answer or reference, without citation markers, quote prefix or articles."""
+    from src.generate import QUOTE_PREFIX
+
+    text = MARKER.sub(" ", text.replace(QUOTE_PREFIX, " ")).lower()
+    return [w for w in re.findall(r"[a-z0-9]+", text) if w not in {"a", "an", "the"}]
+
+
+def token_f1(answer: str, reference: str) -> float:
+    """Word-overlap F1 between an answer and the reference answer (as used for SQuAD)."""
+    a, r = answer_words(answer), answer_words(reference)
+    common = sum(min(a.count(w), r.count(w)) for w in set(a) & set(r))
+    if not common:
+        return 0.0
+    precision, recall = common / len(a), common / len(r)
+    return 2 * precision * recall / (precision + recall)
+
+
 def peak_ram_mb() -> float | None:
     try:
         import psutil
@@ -79,8 +107,11 @@ def _ratio(num: int, den: int) -> float | None:
 
 def evaluate(answerer, questions: list[dict], k: int = 5, reviews: dict | None = None) -> tuple[dict, list[dict]]:
     """Return (metrics, per-question records)."""
+    from src.generate import QUOTE_PREFIX
+
     reviews = reviews or {}
     records = []
+    embedder = answerer.retriever.embedder
     for q in questions:
         relevant = _page_keys(q.get("expected_evidence", []))
         hits = answerer.retriever.search(q["question"], k)
@@ -92,6 +123,14 @@ def evaluate(answerer, questions: list[dict], k: int = 5, reviews: dict | None =
 
         _, invalid = resolve_sources(response["sources"], answerer.retriever.by_id)
         cited_keys = [(s["book_id"], s["page"]) for s in response["sources"]]
+        answered_here = not response["insufficient_evidence"]
+        reference = q.get("reference_answer", "")
+        f1 = similarity = None
+        if answered_here and q.get("answerable") and reference:
+            f1 = round(token_f1(response["answer"], reference), 4)
+            plain = MARKER.sub("", response["answer"].replace(QUOTE_PREFIX, ""))
+            vectors = embedder.encode([plain, reference], kind="passage")
+            similarity = round(float(vectors[0] @ vectors[1]), 4)
         records.append({
             "id": q["id"],
             "type": q.get("type"),
@@ -105,8 +144,12 @@ def evaluate(answerer, questions: list[dict], k: int = 5, reviews: dict | None =
             "retrieved": [{"book_id": b, "page": p} for b, p in retrieved],
             "recall_at_k": _ratio(len(relevant & set(retrieved)), len(relevant)) if relevant else None,
             "hit_at_k": bool(relevant & set(retrieved)) if relevant else None,
+            "hit_at_k_pm1": bool(_near(relevant) & set(retrieved)) if relevant else None,
             "citations_traceable": not invalid,
             "cited_pages_expected": _ratio(sum(c in relevant for c in cited_keys), len(cited_keys)) if relevant and cited_keys else None,
+            "quote_fallback": answered_here and response["answer"].startswith(QUOTE_PREFIX),
+            "answer_f1_auto": f1,
+            "answer_similarity_auto": similarity,
             "latency_s": round(latency, 3),
             "review": reviews.get(q["id"]),
         })
@@ -119,6 +162,7 @@ def evaluate(answerer, questions: list[dict], k: int = 5, reviews: dict | None =
     reviewed = [r for r in records if r["review"] and r["review"].get("correct") is not None]
     grounded = [r for r in records if r["review"] and r["review"].get("grounded") is not None]
     latencies = sorted(r["latency_s"] for r in records)
+    scored = [r for r in records if r["answer_f1_auto"] is not None]
 
     metrics = {
         "questions": len(records),
@@ -127,24 +171,47 @@ def evaluate(answerer, questions: list[dict], k: int = 5, reviews: dict | None =
         "by_type": {t: sum(r["type"] == t for r in records) for t in sorted({r["type"] for r in records})},
         "retrieval_recall_at_k": round(statistics.mean(r["recall_at_k"] for r in with_recall), 4) if with_recall else None,
         "retrieval_hit_rate_at_k": _ratio(sum(r["hit_at_k"] for r in with_recall), len(with_recall)),
+        "retrieval_hit_rate_at_k_pm1_page": _ratio(sum(r["hit_at_k_pm1"] for r in with_recall), len(with_recall)),
         "citation_traceability": _ratio(sum(r["citations_traceable"] for r in answered), len(answered)),
         "cited_pages_match_expected_auto": round(statistics.mean(page_match), 4) if page_match else None,
         "abstention_on_no_answer": _ratio(sum(r["response"]["insufficient_evidence"] for r in no_answer), len(no_answer)),
         "false_abstention_on_answerable": _ratio(sum(r["response"]["insufficient_evidence"] for r in answerable), len(answerable)),
+        "quote_fallback_rate": _ratio(sum(r["quote_fallback"] for r in answered), len(answered)),
+        "answer_f1_auto": round(statistics.mean(r["answer_f1_auto"] for r in scored), 4) if scored else None,
+        "answer_similarity_auto": round(statistics.mean(r["answer_similarity_auto"] for r in scored), 4) if scored else None,
+        "answers_scored_auto": len(scored),
         "answer_correctness": _ratio(sum(bool(r["review"]["correct"]) for r in reviewed), len(reviewed)),
         "answers_human_reviewed": len(reviewed),
         "groundedness": _ratio(sum(bool(r["review"]["grounded"]) for r in grounded), len(grounded)),
         "latency_mean_s": round(statistics.mean(latencies), 3) if latencies else None,
         "latency_p95_s": latencies[min(len(latencies) - 1, int(0.95 * len(latencies)))] if latencies else None,
+        "by_type_results": by_type_results(records),
     }
     return metrics, records
+
+
+def by_type_results(records: list[dict]) -> dict:
+    """The main measures for each question type (factual, reasoning, cross_book, ...)."""
+    results = {}
+    for t in sorted({r["type"] for r in records}):
+        group = [r for r in records if r["type"] == t]
+        hits = [r["hit_at_k"] for r in group if r["hit_at_k"] is not None]
+        scored = [r["answer_f1_auto"] for r in group if r["answer_f1_auto"] is not None]
+        results[t] = {
+            "questions": len(group),
+            "hit_rate_at_k": _ratio(sum(hits), len(hits)),
+            "answered": _ratio(sum(not r["response"]["insufficient_evidence"] for r in group), len(group)),
+            "answer_f1_auto": round(statistics.mean(scored), 4) if scored else None,
+        }
+    return results
 
 
 def document_processing_summary(cfg: dict) -> dict:
     books = load_manifest(resolve(cfg["paths"]["manifest"]))
     ingest = read_json(resolve(cfg["paths"]["ingest_report"]), default={})
-    required = ("title", "author", "edition", "publisher", "year", "isbn", "permission_status")
-    complete = [b for b in books if all(str(b.get(f) or "").strip() for f in required)]
+    required = ("title", "author", "edition", "publisher", "year", "permission_status")
+    # A book without an ISBN (e.g. self-published) counts as complete with a stable identifier (its URL).
+    complete = [b for b in books if all(str(b.get(f) or "").strip() for f in required) and identifier(b)]
     return {
         "books_in_manifest": len(books),
         "books_processed": ingest.get("books_processed"),
@@ -155,6 +222,8 @@ def document_processing_summary(cfg: dict) -> dict:
         "failed_pages": {b["book_id"]: b["failed_pages"] for b in ingest.get("books", []) if b["failed_pages"]},
         "ocr_available": ingest.get("ocr_available"),
         "metadata_complete_books": len(complete),
+        "permission_confirmed_books": sum(permission_confirmed(b) for b in books),
+        "coordinator_approved_books": sum(b.get("coordinator_approval") == "approved" for b in books),
     }
 
 
@@ -164,13 +233,18 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--backend", choices=["hf", "ollama", "extractive"], help="override generation.backend")
     parser.add_argument("--name", help="save as evaluation/report_<name>.json instead of the main report")
     parser.add_argument("--ollama-model", help="override generation.ollama_model, e.g. qwen2.5:3b")
+    parser.add_argument("--lora-base", action="store_true",
+                        help="hf backend: answer with the LoRA experiment's base model (lora.base_model)")
+    parser.add_argument("--adapter", help="hf backend: LoRA adapter folder to load on the base model")
+    parser.add_argument("--dtype", choices=["float32", "bfloat16"], help="override generation.dtype")
     parser.add_argument("--summary", nargs="+", metavar="REPORT", help="print key results of saved reports and stop")
     args = parser.parse_args(argv)
     if args.summary:
         for path in args.summary:
             m = read_json(resolve(path), default={}).get("metrics", {})
             print(f"  {path}: hit rate {m.get('retrieval_hit_rate_at_k')}, correctness {m.get('answer_correctness')}, "
-                  f"groundedness {m.get('groundedness')}, answers reviewed {m.get('answers_human_reviewed')}")
+                  f"groundedness {m.get('groundedness')}, answers reviewed {m.get('answers_human_reviewed')}, "
+                  f"auto F1 {m.get('answer_f1_auto')}, auto similarity {m.get('answer_similarity_auto')}")
         return 0
 
     cfg = load_config()
@@ -178,6 +252,15 @@ def main(argv: list[str] | None = None) -> int:
         cfg["generation"]["backend"] = args.backend
     if args.ollama_model:
         cfg["generation"]["ollama_model"] = args.ollama_model
+    if (args.lora_base or args.adapter) and cfg["generation"]["backend"] != "hf":
+        parser.error("--lora-base and --adapter need --backend hf")
+    if args.lora_base:
+        cfg["generation"]["model_name"] = cfg["lora"]["base_model"]
+        cfg["generation"]["revision"] = cfg["lora"]["base_revision"]
+    if args.adapter:
+        cfg["generation"]["adapter"] = args.adapter
+    if args.dtype:
+        cfg["generation"]["dtype"] = args.dtype
     paths = cfg["paths"]
     questions = read_json(resolve(paths["eval_questions"]), default=[])
     problems = validate_questions(questions)
@@ -208,6 +291,7 @@ def main(argv: list[str] | None = None) -> int:
             "generation_model": {"hf": cfg["generation"]["model_name"],
                                  "ollama": cfg["generation"].get("ollama_model")}.get(cfg["generation"]["backend"]),
             "generation_revision": cfg["generation"]["revision"] if cfg["generation"]["backend"] == "hf" else None,
+            "generation_adapter": cfg["generation"].get("adapter") if cfg["generation"]["backend"] == "hf" else None,
             "generation_settings": {key: cfg["generation"].get(key) for key in
                                     ("dtype", "max_new_tokens", "max_passages", "min_support")}
                                    if cfg["generation"]["backend"] != "extractive" else None,
@@ -257,7 +341,7 @@ def main(argv: list[str] | None = None) -> int:
 
     print(f"Evaluated {len(records)} '{args.split}' questions.")
     for name, value in metrics.items():
-        if name != "by_type":
+        if name not in ("by_type", "by_type_results"):
             print(f"  {name}: {value}")
     print(f"Report: {report_path}")
     print(f"Review sheet: {sheet_path}")
