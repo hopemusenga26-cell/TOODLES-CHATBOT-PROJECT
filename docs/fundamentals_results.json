@@ -1,0 +1,307 @@
+{
+  "models": {
+    "embedding": "BAAI/bge-small-en-v1.5@5c38ec7c405ec4b44b94cc5a9bb96e735b38267a",
+    "generation": "Qwen/Qwen2.5-1.5B-Instruct@989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "lora_base": "Qwen/Qwen2.5-0.5B-Instruct@7ae557604adf67be50417f59c2c2f167def9a775"
+  },
+  "tokenization": {
+    "sentence": "Ridge regression shrinks the coefficients of a linear model towards zero.",
+    "embedding_model": {
+      "method": "WordPiece (BERT vocabulary, lower-cased)",
+      "vocab_size": 30522,
+      "tokens": [
+        "[CLS]",
+        "ridge",
+        "regression",
+        "shrink",
+        "##s",
+        "the",
+        "coefficients",
+        "of",
+        "a",
+        "linear",
+        "model",
+        "towards",
+        "zero",
+        ".",
+        "[SEP]"
+      ],
+      "ids": [
+        101,
+        5526,
+        26237,
+        22802,
+        2015,
+        1996,
+        21374,
+        1997,
+        1037,
+        7399,
+        2944,
+        2875,
+        5717,
+        1012,
+        102
+      ]
+    },
+    "answer_model": {
+      "method": "byte-level BPE (Qwen2 vocabulary)",
+      "vocab_size": 151665,
+      "tokens": [
+        "R",
+        "idge",
+        " regression",
+        " shr",
+        "inks",
+        " the",
+        " coefficients",
+        " of",
+        " a",
+        " linear",
+        " model",
+        " towards",
+        " zero",
+        "."
+      ],
+      "ids": [
+        49,
+        6478,
+        30549,
+        14035,
+        15504,
+        279,
+        36829,
+        315,
+        264,
+        13482,
+        1614,
+        6974,
+        7168,
+        13
+      ]
+    },
+    "passages_sampled": 866,
+    "words_per_passage_mean": 171.5,
+    "embedding_tokens_per_passage_mean": 261.5,
+    "answer_model_tokens_per_passage_mean": 269.0,
+    "share_of_passages_longer_than_embedding_limit": 0.51,
+    "embedding_limit_tokens": 256
+  },
+  "embeddings": {
+    "dimension": 384,
+    "vector_norm": 1.0,
+    "first_5_values_of_sentence_1": [
+      0.0089,
+      0.0122,
+      0.0156,
+      0.0342,
+      0.0499
+    ],
+    "questions": [
+      "How does ridge regression reduce overfitting?",
+      "What is the kernel trick in support vector machines?",
+      "Who won the football world cup in 1998?"
+    ],
+    "sentences": [
+      "Ridge regression adds a penalty on the squared size of the coefficients, which shrinks them and lowers variance.",
+      "A kernel computes inner products in a high-dimensional feature space without constructing the features.",
+      "Gradient descent updates the parameters in the direction of the negative gradient.",
+      "The final match was played at the Stade de France in Saint-Denis."
+    ],
+    "cosine_with_query_instruction": [
+      [
+        0.751,
+        0.587,
+        0.599,
+        0.324
+      ],
+      [
+        0.499,
+        0.721,
+        0.589,
+        0.263
+      ],
+      [
+        0.292,
+        0.332,
+        0.305,
+        0.564
+      ]
+    ],
+    "cosine_without_query_instruction": [
+      [
+        0.772,
+        0.638,
+        0.659,
+        0.364
+      ],
+      [
+        0.521,
+        0.766,
+        0.633,
+        0.298
+      ],
+      [
+        0.286,
+        0.323,
+        0.313,
+        0.598
+      ]
+    ],
+    "evidence_threshold_min_score": 0.67
+  },
+  "self_attention": {
+    "sentence": "The model overfits because it memorises the noise in the training data.",
+    "tokens": [
+      "[CLS]",
+      "the",
+      "model",
+      "over",
+      "##fi",
+      "##ts",
+      "because",
+      "it",
+      "memo",
+      "##rise",
+      "##s",
+      "the",
+      "noise",
+      "in",
+      "the",
+      "training",
+      "data",
+      ".",
+      "[SEP]"
+    ],
+    "layers": 12,
+    "heads_per_layer": 12,
+    "head_size": 32,
+    "formula": "softmax(Q K^T / sqrt(d)) V, with Q = h W_q, K = h W_k, V = h W_v",
+    "max_difference_manual_vs_library_layer1": 1.7881393432617188e-07,
+    "rows_sum_to_one": true,
+    "last_layer_top_attended_by_it": [
+      {
+        "token": "model",
+        "weight": 0.121
+      },
+      {
+        "token": "memo",
+        "weight": 0.111
+      },
+      {
+        "token": "[CLS]",
+        "weight": 0.085
+      },
+      {
+        "token": "[SEP]",
+        "weight": 0.085
+      }
+    ]
+  },
+  "architecture": {
+    "embedding_model": {
+      "model": "BAAI/bge-small-en-v1.5",
+      "architecture": "BertModel",
+      "layers": 12,
+      "hidden_size": 384,
+      "attention_heads": 12,
+      "feed_forward_size": 1536,
+      "vocab_size": 30522,
+      "max_positions": 512,
+      "parameters": 33360000,
+      "type": "encoder-only (BERT): bidirectional attention, CLS vector -> sentence embedding"
+    },
+    "answer_model": {
+      "model": "Qwen/Qwen2.5-1.5B-Instruct",
+      "architecture": "Qwen2ForCausalLM",
+      "layers": 28,
+      "hidden_size": 1536,
+      "attention_heads": 12,
+      "feed_forward_size": 8960,
+      "vocab_size": 151936,
+      "max_positions": 32768,
+      "key_value_heads": 2,
+      "type": "decoder-only (Qwen2): causal attention, RoPE positions, RMSNorm, SwiGLU feed-forward, grouped-query attention",
+      "parameters": 1543714304
+    },
+    "lora_base_model": {
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "architecture": "Qwen2ForCausalLM",
+      "layers": 24,
+      "hidden_size": 896,
+      "attention_heads": 14,
+      "feed_forward_size": 4864,
+      "vocab_size": 151936,
+      "max_positions": 32768,
+      "key_value_heads": 2
+    }
+  },
+  "inference": {
+    "prompt": "In linear regression, the coefficients are usually estimated by the method of least",
+    "prompt_tokens": 14,
+    "next_token_top5": [
+      {
+        "token": " squares",
+        "probability": 0.99
+      },
+      {
+        "token": " square",
+        "probability": 0.0036
+      },
+      {
+        "token": "-s",
+        "probability": 0.0019
+      },
+      {
+        "token": " absolute",
+        "probability": 0.0013
+      },
+      {
+        "token": " mean",
+        "probability": 0.0005
+      }
+    ],
+    "greedy_continuation": " squares. This means that we minimize the sum of the squared",
+    "forward_pass_s": 1.49,
+    "seconds_per_generated_token": 0.357,
+    "dtype": "bfloat16"
+  },
+  "embedding_vs_generative": {
+    "answer_model_attention_above_diagonal_max": 0.0,
+    "embedding_model_attention_above_diagonal_mean": 0.03709297999739647,
+    "embedding_model_output": "one 384-number vector per text",
+    "answer_model_output": "a probability for each of 151,936 tokens, one token at a time"
+  },
+  "lora": {
+    "r": 8,
+    "alpha": 16,
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ],
+    "formula": "W = W0 + (alpha / r) * B A, with A: r x inputs, B: outputs x r; only A and B train",
+    "models": [
+      {
+        "model": "Qwen/Qwen2.5-0.5B-Instruct",
+        "full_fine_tuning_parameters": 494032768,
+        "lora_parameters": 4399104,
+        "lora_share": 0.0089,
+        "lora_file_mb_float32": 16.8,
+        "full_model_file_mb_bfloat16": 942
+      },
+      {
+        "model": "Qwen/Qwen2.5-1.5B-Instruct",
+        "full_fine_tuning_parameters": 1543714304,
+        "lora_parameters": 9232384,
+        "lora_share": 0.00598,
+        "lora_file_mb_float32": 35.2,
+        "full_model_file_mb_bfloat16": 2944
+      }
+    ]
+  }
+}
